@@ -6,6 +6,7 @@ const morgan = require('morgan');
 /*const dotenv = require("dotenv");
 dotenv.config();*/
 require("dotenv").config();
+const path = require('path');
 
 
 //Server is listening
@@ -25,7 +26,7 @@ mongoose.connect(connection_string, {
 .catch((error) => {console.error("MongoDB connection failed:",error.message)})
 
 //Static files
-app.use(express.static('/Users/usuario/TFG/tfg/public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //Middlewares
 app.use(morgan('dev'));
