@@ -1,6 +1,6 @@
 const { trackSlotScopes } = require('@vue/compiler-core');
 const express = require('express');
-const router= express.Router();
+const router = express.Router();
 
 const Programa=require('../models/Programa');
 
@@ -31,5 +31,7 @@ router.delete('/:id',async(req,res) => {
         status: "Programa eliminado"
     })
 });
+
+
 
 module.exports = router; 
