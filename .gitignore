@@ -22,3 +22,5 @@ pnpm-debug.log*
 *.sln
 *.sw?
 backend/.env
+backend/index.js
+backend/index.js

@@ -36,4 +36,12 @@ app.use(cors());
 
 //Routes
 app.use('/programas', require('./routes/pelis'));
+app.use('/usuarios', require('./routes/usuarios'));
+
+//Token de autenticación
+process.env.CADUCIDAD_TOKEN = '48h';
+
+//Seed de autenticación
+
+process.env.SEED_AUTENTICACION = process.env.SEED_AUTENTICACION ||  'este-es-el-seed-desarrollo';
 
