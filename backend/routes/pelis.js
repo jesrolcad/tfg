@@ -5,7 +5,7 @@ const router= express.Router();
 const Programa=require('../models/Programa');
 
 router.get('/', async(req,res) => {
-    const programas= await Programa.find().select({ "titulo": 1, "tipo":1, "descripcion":1, "_id": 0}).limit(5);
+    const programas= await Programa.find().select({ "titulo": 1, "tipo":1, "fecha":1, "imagen":1, "_id": 0}).sort({fecha:'ascending'}).limit(20);
     //console.log(programas);
     res.json(programas);
 });
@@ -32,4 +32,4 @@ router.delete('/:id',async(req,res) => {
     })
 });
 
-module.exports = router; 
+module.exports = router;
