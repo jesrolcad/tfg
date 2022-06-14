@@ -1,5 +1,25 @@
 <template>
-<div>
+<router-link :to="{ name: 'Login' }" class="navbar-brand">
+        Login
+      </router-link>
+</template>
+
+<script>
+import Login from './Login.vue'
+export default {
+  name: 'App',
+  components: {
+    Login,
+  },
+  data: () => ({
+    //
+  }),
+};
+</script>
+
+
+<!-- <template> -->
+<!-- <div>
     <h1>Hello World</h1>
     <nav class="navbar navbar-light bg-light">
         <a href="/" class="navbar-brand">MEVN Stack</a>
@@ -28,8 +48,8 @@
                 </div>
             </div>
             <div class="col-md-7">
-                <!--<div><p>{{programas}}</p></div>-->
-                <table class="table table-bordered">
+                <div><p>{{programas}}</p></div>-->
+                <!-- <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Tipo</th>
@@ -49,10 +69,10 @@
             </div>
         </div>
     </div>
-</div>
-</template>
+</div> -->
+<!-- </template> -->
 
-<script>
+<!-- <script>
     class Programa{
         constructor(tipo,titulo,descripcion){
             this.tipo=tipo;
@@ -96,4 +116,4 @@
             }
         }
     }
-</script>
+</script> -->
