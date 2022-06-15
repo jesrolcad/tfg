@@ -4,6 +4,8 @@ const router = express.Router();
 
 const Programa=require('../models/Programa');
 
+const ProgramaService = require('../api/services/programa');
+
 router.get('/', async(req,res) => {
     const programas= await Programa.find().select({ "titulo": 1, "tipo":1, "descripcion":1, "_id": 0}).limit(5);
     //console.log(programas);
@@ -31,6 +33,10 @@ router.delete('/:id',async(req,res) => {
         status: "Programa eliminado"
     })
 });
+
+router.post('/buscar/', async(req,res) => {
+    ProgramaService.buscarPorTitulo(req,res);
+})
 
 
 
