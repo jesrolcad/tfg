@@ -42,5 +42,9 @@ router.post('/busquedagenero', async(req,res) => {
     ProgramaService.buscarPorGenero(req,res);
 })
 
+router.post('/busquedaplataforma',async(req,res) => {
+    ProgramaService.buscarPorPlataforma(req,res);
+}) 
+
 
 module.exports = router; 
