@@ -34,10 +34,13 @@ router.delete('/:id',async(req,res) => {
     })
 });
 
-router.post('/buscar/', async(req,res) => {
+router.post('/busquedatitulo', async(req,res) => {
     ProgramaService.buscarPorTitulo(req,res);
 })
 
+router.post('/busquedagenero', async(req,res) => {
+    ProgramaService.buscarPorGenero(req,res);
+})
 
 
 module.exports = router; 
