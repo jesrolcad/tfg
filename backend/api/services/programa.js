@@ -42,8 +42,6 @@ module.exports.buscarPorGenero = async function buscarPorGenero(req, res){
       module.exports.buscarPorPlataforma = async function buscarPorPlataforma(req, res){
 
         let body = req.body;
-
-        
        
       await Programa.find({"plataformas": {"$elemMatch":{$eq:`${body.plataforma}`}}}).then((result) => {
         if(result.length > 0) {
@@ -52,3 +50,18 @@ module.exports.buscarPorGenero = async function buscarPorGenero(req, res){
             res.status(200).json({"mensaje": "No se han encontrado programas con la plataforma especificado"});
         }
       }) }
+
+
+      module.exports.buscarPorTipo = async function buscarPorTipo(req, res){
+
+        let body = req.body;
+       
+       await Programa.find({"tipo": `${body.tipo}`}).then((result) => {
+        if(result.length > 0) {
+            res.status(200).json({result});
+        } else {
+            res.status(200).json({"mensaje": "No se han encontrado programas"});
+        }
+      }) }
+
+
