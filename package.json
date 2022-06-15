@@ -8,9 +8,22 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-regular-svg-icons": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/vue-fontawesome": "^2.0.6",
     "bootstrap": "^5.1.3",
-    "core-js": "^3.8.3",
-    "vue": "^3.2.13"
+    "bootstrap-icons-vue": "^1.8.1",
+    "core-js": "^3.23.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "error-stack-parser": "^2.1.4",
+    "express": "^4.18.1",
+    "moment": "^2.29.3",
+    "mongoose": "^6.3.6",
+    "morgan": "^1.10.0",
+    "vue": "^3.2.37",
+    "vue-router": "^4.0.16"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -18,8 +31,14 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "babel-loader": "^8.2.5",
+    "babel-preset-env": "^1.7.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3"
+    "eslint-plugin-vue": "^8.0.3",
+    "vue-loader": "^17.0.0",
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.9.2"
   },
   "eslintConfig": {
     "root": true,
@@ -33,7 +52,10 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {}
+    "rules": {
+      "vue/multi-word-component-names": 0,
+      "vue/require-v-for-key":0
+    }
   },
   "browserslist": [
     "> 1%",
