@@ -20,7 +20,10 @@
     "mongoose-unique-validator": "^3.1.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.16",
-    "vue": "^3.2.37"
+    "vue": "^3.2.37",
+    "error-stack-parser": "^2.1.4",
+    "moment": "^2.29.3",
+    "vue-router": "^4.0.16"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",
@@ -49,7 +52,10 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {}
+    "rules": {
+      "vue/multi-word-component-names": 0,
+      "vue/require-v-for-key":0
+    }
   },
   "browserslist": [
     "> 1%",
