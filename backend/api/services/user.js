@@ -3,6 +3,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Usuario = require('../../models/Usuario');
 const app = express();
+const {validationResult } = require('express-validator');
+const validateRequestSchema = require('../../middleware/ValidateRequestSchema');
+const registroSchema = require('../../validators/ValidadorRegistro');
+
+
+app.use(express.json());
 
 module.exports.login = async function login(req,res){
 
@@ -49,6 +55,25 @@ module.exports.login = async function login(req,res){
 
 };
 
+
+// module.exports.prueba = async function prueba(req,res){
+//   body('email').isEmail(),
+//   body('password').isLength({ min: 5 }),
+//   (req, res) => {
+//     console.log("Aquí entra");
+//     // Finds the validation errors in this request and wraps them in an object with handy functions
+//     const errors = validationResult(req);
+//     console.log(errors);
+//     if (!errors.isEmpty()) {
+//         console.log("Hay errores");
+//       return res.status(400).json({ errors: errors.array() });
+//     }
+//     console.log("No hay errores");
+//     return res.sendStatus(201);
+// }};
+
+
+
 module.exports.users = async function users(req, res){
    const usuarios= await Usuario.find().select({ "nombre": 1, "_id": 0}).limit(5);
    res.json(usuarios);
@@ -57,7 +82,19 @@ module.exports.users = async function users(req, res){
 
 module.exports.registro = async function registro(req, res){
 
-   let body = req.body;
+   registroSchema,
+   validateRequestSchema,
+
+   console.log(registroSchema);
+
+  (req, res) => {
+    // Finds the validation errors in this request and wraps them in an object with handy functions
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({errors: errors.array()});
+    }
+  
+  let body = req.body;
   let { nombre, nombreUsuario, email, password} = body;
   let usuario = new Usuario({
     nombre,
@@ -65,16 +102,17 @@ module.exports.registro = async function registro(req, res){
     email,
     password: bcrypt.hashSync(password, 10)
   });
-usuario.save((err, usuarioDB) => {
-    if (err) {
-      return res.status(400).json({
-         ok: false,
-         err,
-      });
-    }
+
+usuario.save((usuarioDB) => {
+    
     res.json({
+         status: 201,
           ok: true,
           usuario: usuarioDB
-       });
+       }
+       
+       );
     })
-};
+
+
+}};

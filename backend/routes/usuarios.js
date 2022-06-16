@@ -13,9 +13,19 @@ router.post('/login', (req, res) => {
     userService.login(req, res);
 });
 
+
+
 router.post('/registro', (req, res) => {
     userService.registro(req, res);
 
 })
+
+
+
+router.post('/user', (req, res) => {
+
+    userService.prueba(req,res);
+});
+
 
 module.exports = router; 
