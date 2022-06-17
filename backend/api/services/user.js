@@ -102,8 +102,6 @@ module.exports.getLista = async (req, res) => {
 //Necesario validar
 module.exports.createLista = async (req, res) => {
 
-  console.log(req.params.idUsuario);
-
    const lista = new Lista({nombre: req.body.nombre, programas: [], usuario: req.params.idUsuario});
    await lista.save();
 
@@ -111,5 +109,17 @@ module.exports.createLista = async (req, res) => {
       ok: true,
   })
 
+}
+
+
+module.exports.deleteLista = async (req, res) => {
+
+   await Lista.findByIdAndRemove(req.params.idLista);
+  res.json({
+    status: 200,
+    message: "Lista borrada"
+  });
 
 }
+
+

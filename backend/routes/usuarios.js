@@ -34,5 +34,10 @@ router.post('/:idUsuario/lista/crear', (req, res) =>{
     userService.createLista(req, res);
 })
 
+router.delete('/:idUsuario/lista/:idLista', (req,res) => {
+
+    userService.deleteLista(req, res);
+})
+
 
 module.exports = router; 
