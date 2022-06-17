@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Usuario = require('../../models/Usuario');
+const Lista = require('../../models/Lista');
 const app = express();
 
 module.exports.login = async function login(req,res){
@@ -78,3 +79,37 @@ usuario.save((err, usuarioDB) => {
        });
     })
 };
+
+
+//Listas del usuario
+//Validar que un usuario solo accede a sus listas
+module.exports.getMisListas = async (req, res) => {
+
+   console.log(req.params.idUsuario);
+   
+   const listas = await Lista.find({usuario: req.params.idUsuario});
+   
+   res.json(listas);
+
+}
+
+//Validar que un usuario solo accede a su lista
+module.exports.getLista = async (req, res) => {
+   const lista = await Lista.findById(req.params.idLista);
+   res.json(lista);
+}
+
+//Necesario validar
+module.exports.createLista = async (req, res) => {
+
+  console.log(req.params.idUsuario);
+
+   const lista = new Lista({nombre: req.body.nombre, programas: [], usuario: req.params.idUsuario});
+   await lista.save();
+
+   res.json({
+      ok: true,
+  })
+
+
+}
