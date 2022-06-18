@@ -23,10 +23,5 @@ router.post('/registro', [ValidadorRegistro.registroSchema], (req, res) => {
 
 })
 
-router.post('/user', (req, res) => {
-
-    userService.prueba(req,res);
-});
-
 
 module.exports = router; 

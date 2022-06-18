@@ -3,11 +3,11 @@ const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const router_programas =  require('./routes/router_programas');
 /*const dotenv = require("dotenv");
 dotenv.config();*/
 require("dotenv").config();
 const path = require('path');
-
 
 //Server is listening
 app.listen(5000, () => {
@@ -35,7 +35,7 @@ app.use(cors());
 
 
 //Routes
-app.use('/programas', require('./routes/pelis'));
+app.use('/programas', router_programas);
 app.use('/usuarios', require('./routes/usuarios'));
 
 //Token de autenticación

@@ -23,10 +23,9 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.16",
     "vue": "^3.2.37",
-    "vue-axios": "^3.4.1",
-    "vue-router": "^4.0.16",
-    "vuetify": "^2.6.0",
-    "vuex": "^4.0.2"
+    "error-stack-parser": "^2.1.4",
+    "moment": "^2.29.3",
+    "vue-router": "^4.0.16"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",
@@ -55,7 +54,10 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {}
+    "rules": {
+      "vue/multi-word-component-names": 0,
+      "vue/require-v-for-key":0
+    }
   },
   "browserslist": [
     "> 1%",

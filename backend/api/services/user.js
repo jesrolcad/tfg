@@ -61,13 +61,6 @@ module.exports.login = async function login(req, res) {
 };
 
 
-
-module.exports.users = async function users(req, res) {
-   const usuarios = await Usuario.find().select({ "nombre": 1, "_id": 0 }).limit(5);
-   res.json(usuarios);
-};
-
-
 module.exports.registro = async function registro(req, res) {
 
       const errors = validationResult(req);
@@ -86,6 +79,7 @@ module.exports.registro = async function registro(req, res) {
          });
 
          usuario.save();
+         
          return res.sendStatus(200);
       
 
