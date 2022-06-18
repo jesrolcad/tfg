@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Usuario = require('../../models/Usuario');
+const Lista = require('../../models/Lista');
 const app = express();
 const { validationResult } = require('express-validator');
 
@@ -79,6 +80,8 @@ module.exports.registro = async function registro(req, res) {
          });
 
          usuario.save();
+         Lista.create({nombre: "Programas vistos", usuario: usuario._id, programas: []})
+         Lista.create({nombre: "En seguimiento", usuario: usuario._id, programas: []})
          
          return res.sendStatus(200);
       
