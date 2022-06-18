@@ -1,17 +1,20 @@
-const {body, validationResult} = require('express-validator');
+const {body} = require('express-validator');
+const Usuario = require('../models/Usuario');
 
 module.exports.registroSchema = [
     
 body('nombre').exists({checkFalsy: true}).withMessage("El nombre es obligatorio"),
-body('nombreUsuario').exists({checkFalsy: true}).withMessage("El nombre de usuario es obligatorio"),
-body('email').isEmail().withMessage("No sigue el formato adecuado"),
-body('password').isLength({ min: 8 }).withMessage("La contraseña debe tener como mínimo 8 caracteres"),
-
-(req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty())
-      return res.status(422).json({errors: errors.array()});
-    next();
-}
-
+body('nombreUsuario').exists({checkFalsy: true}).withMessage("El nombre de usuario es obligatorio").custom(async value => {
+  return Usuario.findOne({nombreUsuario: value}).then(user => {
+    if(user){
+      return Promise.reject("Nombre de usuario en uso");
+    }
+  })
+}),
+body('email').isEmail().withMessage("No sigue el formato adecuado").custom(async value => {
+  return Usuario.findOne({email: value}).then(user => {
+    if(user){
+      return Promise.reject('Correo electrónico en uso');
+    }})}),
+body('password').isLength({ min: 8 }).withMessage("La contraseña debe tener como mínimo 8 caracteres")
 ]
