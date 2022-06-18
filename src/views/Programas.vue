@@ -1,15 +1,15 @@
 
 <template>
     <div class="Programas">
-        <h1>Programas</h1>
+        <h1 style="font-family:montserratbold;">Programas</h1>
     </div>
     <div class="card-group" >
-        <div class="col-3" style="margin: 20px;font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,
-        Helvetica Neue,sans-serif;border-radius: 20px;box-shadow: 0px 0px 5px var(--bs-gray-400);border-style: none;"  v-for="programa of programas">
-            <img class="card-img-top w-100 d-block" style="border-radius: 20px;border-bottom-right-radius: 0px;border-bottom-left-radius: 0px;" :src="programa.imagen || 'placeholder.png'"> 
+        <div class="col-3" v-for="programa of programas" :key="programa._id">
+            <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
+                        :src="programa.imagen || 'placeholder.png'"> </router-link>
             <div class="card-body" style="margin: 10px">
                 <h4 class="card-title">{{programa.titulo}}</h4>
-                <small>{{moment(programa.fecha).locale('es').format("D MMM YYYY")}}</small>
+                <small style="font-family:abeezeeregular;">{{moment(programa.fecha).locale('es').format("D MMM YYYY")}}</small>
             </div>
         </div>
     </div>
@@ -17,7 +17,8 @@
 <script>
     import moment from 'moment'
     class Programa{
-        constructor(tipo,titulo,fecha,imagen){
+        constructor(_id,tipo,titulo,fecha,imagen){
+            this._id=_id;
             this.tipo=tipo;
             this.titulo=titulo;
             this.fecha=fecha;
@@ -52,3 +53,17 @@
         }
     }
 </script>
+<style >
+.col-3{
+    margin: 20px;
+    font-family: montserratbold;
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px var(--bs-gray-400);
+    border-style: none;
+}
+.card-img-top{
+    border-radius: 20px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+</style>
