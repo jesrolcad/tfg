@@ -40,4 +40,13 @@ router.delete('/:idUsuario/lista/:idLista', (req,res) => {
 })
 
 
+router.put('/:idUsuario/lista/:idLista/borrar/:idPrograma', (req, res) => {
+    userService.deleteProgramaLista(req,res);
+})
+
+router.put('/:idUsuario/lista/:idLista/agregar/:idPrograma', (req, res) => {
+    userService.addProgramaLista(req,res);
+})
+
+
 module.exports = router; 

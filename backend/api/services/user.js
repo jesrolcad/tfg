@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Usuario = require('../../models/Usuario');
 const Lista = require('../../models/Lista');
+const Programa = require('../../models/Programa');
 const app = express();
 
 module.exports.login = async function login(req,res){
@@ -111,7 +112,6 @@ module.exports.createLista = async (req, res) => {
 
 }
 
-
 module.exports.deleteLista = async (req, res) => {
 
    await Lista.findByIdAndRemove(req.params.idLista);
@@ -122,4 +122,47 @@ module.exports.deleteLista = async (req, res) => {
 
 }
 
+//Validar que es el usuario que ha iniciado sesión
+module.exports.deleteProgramaLista = async (req, res) => {
+
+  // console.log(req.params.idLista);
+   
+   Lista.findById(req.params.idLista, function(err, lista) {
+
+      let programas = lista.programas;
+      console.log(programas);
+      let index = programas.indexOf(req.params.idPrograma);
+      if(index > -1) {
+         programas.splice(index, 1);
+         lista.save();
+         return res.sendStatus(204);
+   
+      } else {
+         return res.sendStatus(400);
+      }
+   });
+
+}
+
+//Validar que es el usuario que ha iniciado sesión
+module.exports.addProgramaLista = async (req, res) => {
+
+   Lista.findById(req.params.idLista, function(err, lista) { 
+   let programa = Programa.findById(req.params.idPrograma);
+   if(!programa){ // Si no existe el programa, entonces no lo añado
+      return res.sendStatus(400); 
+   } else if(lista.programas.includes(req.params.idPrograma)) {
+      return res.sendStatus(400);
+      
+   } else {
+
+      lista.programas.push(req.params.idPrograma);
+      lista.save();
+      res.sendStatus(204);
+   }
+
+
+   })
+
+}
 
