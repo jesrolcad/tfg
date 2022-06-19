@@ -106,4 +106,43 @@ module.exports.registro = async function registro(req, res) {
 };
 
 
+//Listas del usuario
+//Validar que un usuario solo accede a sus listas
+module.exports.getMisListas = async (req, res) => {
+   
+   const listas = await Lista.find({usuario: req.user.usuario._id});
+   
+   res.json(listas);
 
+}
+
+//Validar que un usuario solo accede a su lista
+module.exports.getLista = async (req, res) => {
+
+
+   const lista = await Lista.findById(req.params.idLista);
+   console.log(lista.usuario);
+   console.log(req.user.usuario._id);
+
+   if(lista.usuario == req.user.usuario._id){
+      res.json(lista);
+   } else {
+      res.sendStatus(401);
+   }
+   
+}
+
+
+module.exports.createLista = async (req, res) => {
+
+   console.log(req.user);
+
+   const lista = new Lista({nombre: req.body.nombre, programas: [], usuario: req.user.usuario._id});
+   await lista.save();
+
+   res.json({
+      ok: true,
+  })
+
+
+}

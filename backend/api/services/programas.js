@@ -8,4 +8,7 @@ module.exports.getAllProgramas = async (req,res) => {
 
         
     res.json(programas);
+
 }
+
+
