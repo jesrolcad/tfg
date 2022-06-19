@@ -33,7 +33,7 @@ module.exports.login = async function login(req, res) {
          return res.status(400).json({
             ok: false,
             err: {
-               message: "Usuario o contraseña incorrectos"
+               message: "Usuario incorrecto"
             }
          })
       }
@@ -42,16 +42,25 @@ module.exports.login = async function login(req, res) {
          return res.status(400).json({
             ok: false,
             err: {
-               message: "Usuario o contraseña incorrectos"
+               message: "Contraseña incorrecta"
             }
          });
       }
       // Genera el token de autenticación
       let token = jwt.sign({
-         usuario: usuarioDB,
-      }, process.env.SEED_AUTENTICACION, {
+         usuario: usuarioDB
+      }, 
+       process.env.SEED_AUTENTICACION, //Este es nuestro token de autenticación
+        {
          expiresIn: process.env.CADUCIDAD_TOKEN
       })
+      
+      console.log(token);
+
+      
+      // let session = req.session;
+      // console.log(session);
+
       res.json({
          ok: true,
          usuario: usuarioDB,
@@ -60,6 +69,14 @@ module.exports.login = async function login(req, res) {
    })
 
 };
+
+module.exports.logout = async function logout(req, res) {
+
+   req.session.destroy();
+   res.redirect('/login');
+
+
+}
 
 
 module.exports.registro = async function registro(req, res) {
@@ -87,4 +104,6 @@ module.exports.registro = async function registro(req, res) {
       
 
 };
+
+
 
