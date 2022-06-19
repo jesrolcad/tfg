@@ -9,7 +9,7 @@ const ListaSchema = new Schema({
     },
 
     programas: {
-        type: [mongoose.Types.ObjectId]
+        type: Array
     },
 
     
