@@ -4,90 +4,113 @@ const jwt = require('jsonwebtoken');
 const Usuario = require('../../models/Usuario');
 const Lista = require('../../models/Lista');
 const app = express();
+const { validationResult } = require('express-validator');
 
-module.exports.login = async function login(req,res){
 
-    //Obtenemos los datos del frontend
-    let body = req.body;
+app.use(express.json());
 
-    Usuario.findOne({ nombreUsuario: body.nombreUsuario }, (erro, usuarioDB)=>{
-        if (erro) {
-          return res.status(500).json({
-             ok: false,
-             err: erro
-          })
-       }
-   // Verifica que exista un usuario con el nombre de usuario escrito por el usuario.
-      if (!usuarioDB) {
-         return res.status(400).json({
-           ok: false,
-           err: {
-               message: "Usuario o contraseña incorrectos"
-           }
-        })
+module.exports.login = async function login(req, res) {
+
+   const errors = validationResult(req);
+
+   if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+
+   } 
+
+   //Obtenemos los datos del frontend
+   let body = req.body;
+
+   Usuario.findOne({ nombreUsuario: body.nombreUsuario }, (erro, usuarioDB) => {
+      if (erro) {
+         return res.status(500).json({
+            ok: false,
+            err: erro
+         })
       }
-   // Valida que la contraseña escrita por el usuario, sea la almacenada en la db
-      if (! bcrypt.compareSync(body.password, usuarioDB.password)){
+      // Verifica que exista un usuario con el nombre de usuario escrito por el usuario.
+      if (!usuarioDB) {
          return res.status(400).json({
             ok: false,
             err: {
-              message: "Usuario o contraseña incorrectos"
+               message: "Usuario incorrecto"
+            }
+         })
+      }
+      // Valida que la contraseña escrita por el usuario, sea la almacenada en la db
+      if (!bcrypt.compareSync(body.password, usuarioDB.password)) {
+         return res.status(400).json({
+            ok: false,
+            err: {
+               message: "Contraseña incorrecta"
             }
          });
       }
-   // Genera el token de autenticación
-       let token = jwt.sign({
-              usuario: usuarioDB,
-           }, process.env.SEED_AUTENTICACION, {
-           expiresIn: process.env.CADUCIDAD_TOKEN
-       })
-       res.json({
-           ok: true,
-           usuario: usuarioDB,
-           token,
-       })
+      // Genera el token de autenticación
+      let token = jwt.sign({
+         usuario: usuarioDB
+      }, 
+       process.env.SEED_AUTENTICACION, //Este es nuestro token de autenticación
+        {
+         expiresIn: process.env.CADUCIDAD_TOKEN
+      })
+      
+      console.log(token);
+
+      
+      // let session = req.session;
+      // console.log(session);
+
+      res.json({
+         ok: true,
+         usuario: usuarioDB,
+         token,
+      })
    })
 
 };
 
-module.exports.users = async function users(req, res){
-   const usuarios= await Usuario.find().select({ "nombre": 1, "_id": 0}).limit(5);
-   res.json(usuarios);
-  };
+module.exports.logout = async function logout(req, res) {
+
+   req.session.destroy();
+   res.redirect('/login');
 
 
-module.exports.registro = async function registro(req, res){
+}
 
-   let body = req.body;
-  let { nombre, nombreUsuario, email, password} = body;
-  let usuario = new Usuario({
-    nombre,
-    nombreUsuario,
-    email,
-    password: bcrypt.hashSync(password, 10)
-  });
-usuario.save((err, usuarioDB) => {
-    if (err) {
-      return res.status(400).json({
-         ok: false,
-         err,
-      });
-    }
-    res.json({
-          ok: true,
-          usuario: usuarioDB
-       });
-    })
+
+module.exports.registro = async function registro(req, res) {
+
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+         return res.status(400).json({ errors: errors.array() });
+
+      } 
+         let body = req.body;
+         let { nombre, nombreUsuario, email, password } = body;
+         let usuario = new Usuario({
+            nombre,
+            nombreUsuario,
+            email,
+            password: bcrypt.hashSync(password, 10)
+         });
+
+         usuario.save();
+         Lista.create({nombre: "Programas vistos", usuario: usuario._id, programas: []})
+         Lista.create({nombre: "En seguimiento", usuario: usuario._id, programas: []})
+         
+         return res.sendStatus(200);
+      
+
 };
 
 
 //Listas del usuario
 //Validar que un usuario solo accede a sus listas
 module.exports.getMisListas = async (req, res) => {
-
-   console.log(req.params.idUsuario);
    
-   const listas = await Lista.find({usuario: req.params.idUsuario});
+   const listas = await Lista.find({usuario: req.user.usuario._id});
    
    res.json(listas);
 
@@ -95,16 +118,26 @@ module.exports.getMisListas = async (req, res) => {
 
 //Validar que un usuario solo accede a su lista
 module.exports.getLista = async (req, res) => {
+
+
    const lista = await Lista.findById(req.params.idLista);
-   res.json(lista);
+   console.log(lista.usuario);
+   console.log(req.user.usuario._id);
+
+   if(lista.usuario == req.user.usuario._id){
+      res.json(lista);
+   } else {
+      res.sendStatus(401);
+   }
+   
 }
 
-//Necesario validar
+
 module.exports.createLista = async (req, res) => {
 
-  console.log(req.params.idUsuario);
+   console.log(req.user);
 
-   const lista = new Lista({nombre: req.body.nombre, programas: [], usuario: req.params.idUsuario});
+   const lista = new Lista({nombre: req.body.nombre, programas: [], usuario: req.user.usuario._id});
    await lista.save();
 
    res.json({
