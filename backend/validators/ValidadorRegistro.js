@@ -4,7 +4,10 @@ const Usuario = require('../models/Usuario');
 module.exports.registroSchema = [
     
 body('nombre').exists({checkFalsy: true}).withMessage("El nombre es obligatorio"),
-body('nombreUsuario').exists({checkFalsy: true}).withMessage("El nombre de usuario es obligatorio").custom(async value => {
+body('nombreUsuario').exists({checkFalsy: true}).withMessage("El nombre de usuario es obligatorio")
+.isAlphanumeric().withMessage("El nombre de usuario solo puede contener letras y números")
+.isLength({min: 5, max: 30}).withMessage("El nombre de usuario debe contener entre 5 y 30 caracteres")
+.custom(async value => {
   return Usuario.findOne({nombreUsuario: value}).then(user => {
     if(user){
       return Promise.reject("Nombre de usuario en uso");

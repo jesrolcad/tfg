@@ -4,6 +4,7 @@ const router = express.Router();
 const userService = require('../api/services/user');
 const ValidadorLogin = require("../validators/ValidadorLogin");
 const ValidadorRegistro = require("../validators/ValidadorRegistro");
+const ValidadorLista = require("../validators/ValidadorLista");
 const verifyLoggedInUser = require("../api/middlewares/verifyLoggedInUser");
 
 
@@ -34,22 +35,22 @@ router.get('/lista/:idLista', verifyLoggedInUser.authenticateToken, (req, res) =
     userService.getLista(req, res);
 })
 
-router.post('/lista/crear', verifyLoggedInUser.authenticateToken, (req, res) =>{
+router.post('/lista/crear', [ValidadorLista.ListaSchema], verifyLoggedInUser.authenticateToken, (req, res) =>{
 
     userService.createLista(req, res);
 })
 
-router.delete('/:idUsuario/lista/:idLista', (req,res) => {
+router.delete('/lista/:idLista', verifyLoggedInUser.authenticateToken, (req,res) => {
 
     userService.deleteLista(req, res);
 })
 
 
-router.put('/:idUsuario/lista/:idLista/borrar/:idPrograma', (req, res) => {
+router.put('/lista/:idLista/borrar/:idPrograma', verifyLoggedInUser.authenticateToken, (req, res) => {
     userService.deleteProgramaLista(req,res);
 })
 
-router.put('/:idUsuario/lista/:idLista/agregar/:idPrograma', (req, res) => {
+router.put('/lista/:idLista/agregar/:idPrograma', verifyLoggedInUser.authenticateToken, (req, res) => {
     userService.addProgramaLista(req,res);
 })
 
