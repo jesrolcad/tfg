@@ -23,12 +23,6 @@
             this.titulo=titulo;
             this.fecha=fecha;
             this.imagen= imagen;
-            /*if(tipo=="Película"){
-                booleano=true;
-            }else{
-                booleano=false;
-            }
-            this.booleano=booleano;*/
         }
     }
     export default {
@@ -53,7 +47,7 @@
         }
     }
 </script>
-<style >
+<style>
 .col-3{
     margin: 20px;
     font-family: montserratbold;

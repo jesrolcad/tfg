@@ -47,6 +47,22 @@
                     </div>
                 </div>
             </div>
+            <div v-if="actoresR.length!==0" class="row" style="margin-top:80px">
+            <h1 style="width: 87px;">Reparto:</h1>
+            <div class="card-group" >
+                <div class="col-3" v-for="actor of actoresR" :key="actor._id">
+                    <img v-if="actor.imagen_actor" class="card-img-top" :src="actor.imagen_actor">
+                    <img class="card-img-top" v-if="!actor.imagen_actor" src='..\..\public\placeholder_actor.png'>
+                    <div class="card-body" style="margin: 10px; height: max-content;">
+                        <h4 class="card-title">{{actor.nombre}}</h4>
+                        <small style="font-family:abeezeeregular;">{{actor.personaje}}</small>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div v-if="actoresR.length===0" class="row" style="margin-top:100px">
+            <h1 style="font-family:montserratbold; font-size: 30px;">Reparto no disponible</h1>
+            </div>
         </div>
     </body>
     </div>
@@ -54,7 +70,7 @@
 <script>
 import moment from 'moment'
 class Programa{
-        constructor(_id,tipo,titulo,fecha,imagen,generos,duracion,clasificacion_edad){
+        constructor(_id,tipo,titulo,fecha,imagen,generos,duracion,clasificacion_edad,actoresIds){
             this._id=_id;
             this.tipo=tipo;
             this.titulo=titulo;
@@ -63,33 +79,46 @@ class Programa{
             this.generos=generos;
             this.duracion=duracion;
             this.clasificacion_edad=clasificacion_edad;
+            this.actoresIds=actoresIds;
         }
     }
+
 export default {
     data(){
         return{
             programa: new Programa(),
             programas:[],
+            actores:[],
+            actoresR:[],
             id: this.$route.params.id,
         }
     },
     created(){
-        this.getProgramas()
-    },/*computed:{
-        programaId(){
-            return parseInt(this.$route.params.id)
-        }
-    },*/
+        this.getPrograma()
+    },
     methods:{
-        getProgramas(){
+        getPrograma(){
             fetch('http://localhost:5000/programas/'+ this.id)
                 .then(res=> res.json())
                 .then(data => {
                     this.programa=data;
-                    console.log(this.programa.boolEdad);
-                });
+                    this.actores=this.programa.actoresIds;
+                }).then(()=>{this.getActores()});
         },
-        moment
+        moment,
+        getActores(){
+            console.log(this.programa)
+            console.log(this.actores)
+            fetch('http://localhost:5000/actores/programa',
+                {   method: 'POST',
+                    headers: {'Accept': 'application/json','Content-type':'application/json'},
+                    body: JSON.stringify(this.actores)
+                })
+                .then(res=> res.json())
+                .then(data => {
+                    this.actoresR=data;
+                });
+        }
     }
 }
 </script>
@@ -100,7 +129,9 @@ export default {
     font-family: 'montserratbold';
     border-radius: 20px;
     box-shadow: 0px 0px 5px var(--bs-gray-400);
-    border-style: none;width: 280px;margin-top: 12.5px;
+    border-style: none;
+    width: 280px;
+    margin-top: 12.5px;
     margin-bottom: 0px;
     margin-right: 0px;margin-left: 0px;
 }
@@ -121,6 +152,16 @@ export default {
 .col-md-4{
     width: 790px;
     height: 550px;
+}
+.col-3{
+    margin: 20px;
+    margin-block-end: 20px;
+    width: 150px;
+    height: auto;
+    font-family: montserratbold;
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px var(--bs-gray-400);
+    border-style:none;
 }
 
 
