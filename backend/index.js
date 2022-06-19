@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const router_programas =  require('./routes/router_programas');
+const router_actores =  require('./routes/router_actores');
 /*const dotenv = require("dotenv");
 dotenv.config();*/
 require("dotenv").config();
@@ -53,6 +54,7 @@ app.use(cors());
 
 //Routes
 app.use('/programas', router_programas);
+app.use('/actores', router_actores);
 app.use('/usuarios', require('./routes/usuarios'));
 
 //Token de autenticación
