@@ -2,7 +2,10 @@ const { trackSlotScopes } = require('@vue/compiler-core');
 const express = require('express');
 const router = express.Router();
 const userService = require('../api/services/user');
-const { route } = require('./router_programas');
+const ValidadorLogin = require("../validators/ValidadorLogin");
+const ValidadorRegistro = require("../validators/ValidadorRegistro");
+const verifyLoggedInUser = require("../api/middlewares/verifyLoggedInUser");
+
 
 
 
@@ -10,26 +13,28 @@ router.get('/', (req, res) => {
     userService.users(req,res);
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', [ValidadorLogin.LoginSchema], (req, res) => {
     userService.login(req, res);
 });
 
-router.post('/registro', (req, res) => {
+
+
+router.post('/registro', [ValidadorRegistro.registroSchema], (req, res) => {
     userService.registro(req, res);
 
 })
 
-router.get('/:idUsuario/listas', (req, res) => {
+router.get('/listas', verifyLoggedInUser.authenticateToken, (req, res) => {
 
     userService.getMisListas(req, res);
 })
 
-router.get('/:idUsuario/lista/:idLista', (req, res) =>{
+router.get('/lista/:idLista', verifyLoggedInUser.authenticateToken, (req, res) =>{
 
     userService.getLista(req, res);
 })
 
-router.post('/:idUsuario/lista/crear', (req, res) =>{
+router.post('/lista/crear', verifyLoggedInUser.authenticateToken, (req, res) =>{
 
     userService.createLista(req, res);
 })
