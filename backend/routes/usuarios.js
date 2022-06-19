@@ -54,5 +54,8 @@ router.put('/lista/:idLista/agregar/:idPrograma', verifyLoggedInUser.authenticat
     userService.addProgramaLista(req,res);
 })
 
+router.get('/perfil', verifyLoggedInUser.authenticateToken, (req, res) => {
+    userService.perfil(req,res);
+})
 
 module.exports = router; 

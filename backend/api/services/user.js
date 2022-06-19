@@ -229,3 +229,11 @@ module.exports.addProgramaLista = async (req, res) => {
    })
 
 }
+
+module.exports.perfil = async (req, res) => {
+
+   const usuario = await Usuario.findById(req.user.usuario._id);
+   const listasUsuario = await Lista.find({usuario: req.user.usuario._id});
+   res.status(200).json({usuario, listasUsuario});
+
+}
