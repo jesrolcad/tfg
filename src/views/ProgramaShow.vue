@@ -1,6 +1,7 @@
 <template>
+<Navbar />
     <div class="Programa">
-    <body style="margin: 0px;width: 1140px;height: 600px;">
+    <body style="margin-top: 80px;width: 1140px;height: 600px;">
         <div class="container">
             <div class="row">
                 <div class="col-md-8" >
@@ -70,6 +71,7 @@
     </div>
 </template>
 <script>
+import Navbar from './Navbar.vue'
 import moment from 'moment'
 class Programa{
         constructor(_id,tipo,titulo,fecha,imagen,generos,duracion,clasificacion_edad,actoresIds){
@@ -121,6 +123,8 @@ export default {
                     this.actoresR=data;
                 });
         }
+    },components: {
+            Navbar
     }
 }
 </script>

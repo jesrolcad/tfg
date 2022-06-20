@@ -1,4 +1,5 @@
 <template>
+<Navbar />
 <div class="Actor">
     <h1>{{id}}</h1>
     <div style="margin: 35px;">
@@ -42,9 +43,11 @@
         </div>
     </div>
 </div>
+<Footer />
 </template>
 <script>
-
+import Navbar from './Navbar.vue'
+import Footer from './Footer.vue'
 export default {
     data() {
         return{
@@ -63,6 +66,9 @@ export default {
                     this.personajes=data;
                 });
         }
+    },components: {
+        Navbar,
+        Footer
     }
 }
 </script>

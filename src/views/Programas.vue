@@ -1,5 +1,5 @@
-
 <template>
+<Navbar />
     <div class="Programas">
         <h1 style="font-family:montserratbold;">Programas</h1>
     </div>
@@ -13,8 +13,11 @@
             </div>
         </div>
     </div>
+<Footer />
 </template>
 <script>
+    import Navbar from './Navbar.vue'
+    import Footer from './Footer.vue'
     import moment from 'moment'
     class Programa{
         constructor(_id,tipo,titulo,fecha,imagen){
@@ -44,6 +47,9 @@
                     });
             },
             moment
+        },components: {
+            Navbar,
+            Footer
         }
     }
 </script>
