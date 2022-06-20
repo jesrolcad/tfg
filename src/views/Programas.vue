@@ -4,7 +4,7 @@
         <h1 style="font-family:montserratbold;">Programas</h1>
     </div>
     <div class="card-group" >
-        <div class="col-3" v-for="programa of programas" :key="programa._id">
+        <div class="col-3" v-for="programa of displayedProgramas" :key="programa._id">
             <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
                         :src="programa.imagen || 'placeholder.png'"> </router-link>
             <div class="card-body" style="margin: 10px">
@@ -19,7 +19,7 @@
           class="btn btn-sm btn-outline-secondary"
           v-if="page != 1"
           @click="page--"
-        >&lt;&lt;</button>
+        >Anterior</button>
         <button
           type="button"
           class="btn btn-sm btn-outline-secondary"
@@ -32,7 +32,7 @@
           @click="page++"
           v-if="page < pages.length"
           class="btn btn-sm btn-outline-secondary"
-        ></button>
+        >Siguiente</button>
       </div>
       <Footer />
 </template>
