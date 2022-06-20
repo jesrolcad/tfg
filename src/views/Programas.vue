@@ -13,7 +13,28 @@
             </div>
         </div>
     </div>
-<Footer />
+    <div class="btn-group col-md-2 offset-md-5">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary"
+          v-if="page != 1"
+          @click="page--"
+        >&lt;&lt;</button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary"
+          v-for="pageNumber in pages.slice(page-1, page+5)"
+          @click="page = pageNumber"
+          :key="pageNumber"
+        >{{pageNumber}}</button>
+        <button
+          type="button"
+          @click="page++"
+          v-if="page < pages.length"
+          class="btn btn-sm btn-outline-secondary"
+        ></button>
+      </div>
+      <Footer />
 </template>
 <script>
     import Navbar from './Navbar.vue'
@@ -32,7 +53,11 @@
         data(){
             return{
                 programa: new Programa(),
-                programas:[]
+                programas:[],
+                baseURL: "http://localhost:5000",
+                page: 1,
+                perPage: 21,
+                pages: []
             }
         },
         created(){
@@ -40,16 +65,39 @@
         },
         methods:{
             getProgramas(){
-                fetch('http://localhost:5000/programas/all')
+                fetch(this.baseURL+'/programas/all')
                     .then(res=> res.json())
                     .then(data => {
                         this.programas=data;
                     });
             },
-            moment
-        },components: {
+            moment,
+            setProgramas() {
+                let numberOfPages = Math.ceil(this.programas.length / this.perPage);
+                for (let i = 1; i <= numberOfPages; i++) {
+                    this.pages.push(i);
+            }
+            },
+            paginate(programas) {
+                let page = this.page;
+                let perPage = this.perPage;
+                let from = (page * perPage) - perPage;
+                let to = (page * perPage);
+                return programas.slice(from, to);
+            }
+        },
+        components: {
             Navbar,
             Footer
+        },watch: {
+            programas(){
+                this.setProgramas();
+            }
+        },
+        computed: {
+            displayedProgramas: function () {
+            return this.paginate(this.programas);
+            }
         }
     }
 </script>
