@@ -113,7 +113,7 @@ export default {
         })
         .then(data => {
           this.user = data;
-          this.$router.push({ name: 'Success' });
+          this.$router.push({ name: 'Programas' });
           
         });
     },
@@ -135,10 +135,6 @@ export default {
         password: { required: helpers.withMessage("La contraseña es obligatoria", required), $autoDirty: true}
       }
     }
-
-
-
-
   }
 }
 
