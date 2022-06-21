@@ -29,12 +29,26 @@ module.exports.buscarPorGenero = async function buscarPorGenero(req, res){
 
         let body = req.body;
 
-        console.log(body.genero);
-       
+      
       await Programa.find({"generos": {"$elemMatch":{$eq:`${body.genero}`}}}).then((result) => {
         if(result.length > 0) {
             res.status(200).json({result});
         } else {
             res.status(200).json({"mensaje": "No se han encontrado programas con el género especificado"});
+        }
+      }) }
+
+
+      module.exports.buscarPorPlataforma = async function buscarPorPlataforma(req, res){
+
+        let body = req.body;
+
+        
+       
+      await Programa.find({"plataformas": {"$elemMatch":{$eq:`${body.plataforma}`}}}).then((result) => {
+        if(result.length > 0) {
+            res.status(200).json({result});
+        } else {
+            res.status(200).json({"mensaje": "No se han encontrado programas con la plataforma especificado"});
         }
       }) }
