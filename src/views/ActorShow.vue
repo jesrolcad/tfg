@@ -1,42 +1,46 @@
 <template>
-<Navbar />
+<Navbar style="margin-bottom: 100px" />
 <div class="Actor">
-    <h1>{{id}}</h1>
-    <div style="margin: 35px;">
-        <h1>Series</h1>
-        <div class="table-responsive text-start border rounded border-light shadow">
+    <h1><img class="rounded shadow mb-5" style="margin-right:5px;width:100px;height:100px" :src="personajes[0].imagen_actor"> {{id}}</h1>
+    <div style="margin-top: 35px;">
+        <h1>Películas</h1>
+        <div class="table-responsive">
             <table class="table table-borderless">
-                <thead class="shadow-sm">
-                    <tr class="shadow-sm">
-                        <th class="shadow-sm" style="text-align: center;">Título</th>
-                        <th class="shadow-sm" style="text-align: center;">Personaje</th>
-                        <th class="shadow-sm" style="text-align: center;">Número Episodios</th>
+                <thead class="thead">
+                    <tr>
+                        <th></th>
+                        <th><button type="button" class="btn btn-lg btn-primary" disabled>Título</button></th>
+                        <th><button type="button" class="btn btn-lg btn-primary" disabled>Personaje</button></th>
                     </tr>
                 </thead>
-                <tbody v-for="personaje of personajes" :key="personaje.titulo_url">
-                    <tr v-if="personaje.titulo_url.indexOf('/tv/')!== -1">
-                        <td style="margin: 0;">{{personaje.titulo}}</td>
-                        <td style="margin: 0;">{{personaje.personaje}}</td>
-                        <td>{{personaje.num_episodios}}</td>
+                <tbody class="tbody" v-for="personaje of personajes" :key="personaje.titulo_url">
+                    <tr v-if="personaje.titulo_url.indexOf('/movie/')!== -1">
+                        <td><img class="rounded shadow mb-4" style="height:195px; width:125px" :src="personaje.programas_actores[0].imagen"></td>
+                        <td>{{personaje.titulo}} ({{moment(personaje.programas_actores[0].fecha).locale('es').format("YYYY")}})</td>
+                        <td>{{personaje.personaje}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <div style="margin: 35px;">
-        <h1>Películas</h1>
-        <div class="table-responsive text-start border rounded border-light shadow">
+    <div>
+        <h1>Series</h1>
+        <div class="table-responsive">
             <table class="table table-borderless">
-                <thead class="shadow-sm">
-                    <tr class="shadow-sm">
-                        <th class="shadow-sm" style="text-align: center;">Título</th>
-                        <th class="shadow-sm" style="text-align: center;">Personaje</th>
+                <thead class="thead">
+                    <tr >
+                        <th></th>
+                        <th><button type="button" class="btn btn-lg btn-primary" disabled>Título</button></th>
+                        <th><button type="button" class="btn btn-lg btn-primary" disabled>Personaje</button></th>
+                        <th><button type="button" class="btn btn-lg btn-primary" disabled>Número Episodios</button></th>
                     </tr>
                 </thead>
-                <tbody v-for="personaje of personajes" :key="personaje.titulo_url">
-                    <tr v-if="personaje.titulo_url.indexOf('/movie/')!== -1">
-                        <td style="margin: 0;">{{personaje.titulo}}</td>
-                        <td style="margin: 0;">{{personaje.personaje}}</td>
+                <tbody class="tbody" v-for="personaje of personajes" :key="personaje.titulo_url">
+                    <tr v-if="personaje.titulo_url.indexOf('/tv/')!== -1">
+                        <td><img class="rounded shadow mb-4" style="height:195px; width:125px" :src="personaje.programas_actores[0].imagen"></td>
+                        <td>{{personaje.titulo}} ({{moment(personaje.programas_actores[0].fecha).locale('es').format("YYYY")}})</td>
+                        <td>{{personaje.personaje}}</td>
+                        <td>{{personaje.num_episodios}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -48,6 +52,7 @@
 <script>
 import Navbar from './Navbar.vue'
 import Footer from './Footer.vue'
+import moment from 'moment'
 export default {
     data() {
         return{
@@ -65,10 +70,23 @@ export default {
                 .then(data => {
                     this.personajes=data;
                 });
-        }
+        },
+        moment
     },components: {
         Navbar,
         Footer
     }
 }
 </script>
+<style>
+.table{
+    vertical-align: middle; text-align: center;
+}
+.tbody{
+    font-family: abeezeeregular;
+    font-size:18px;
+}
+.thead{
+    font-family: montserratbold;font-size:25px;
+}
+</style>
