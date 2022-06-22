@@ -51,7 +51,7 @@
                     </div>
 
                   </div>
-                  <div class="mb-3"><button class="btn btn-primary link-light d-block w-100" v-on:click="submit();"
+                  <div class="mb-3 text-center"><button class="btn btn-primary link-light" v-on:click="submit();"
                       style="background: var(--bs-blue);">Iniciar sesión</button></div>
                   <p class="text-muted"><span style="color: rgb(3, 3, 3);">¿No tienes cuenta? Regístrate
                       aquí&nbsp;</span></p>

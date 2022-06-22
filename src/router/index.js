@@ -8,7 +8,7 @@ const routes = [
     //{path:'/programa', name:'Programa',component: () => import(/* webpackChunkName: "Programa" */'../views/ProgramaShow.vue')}
     {path:'/programa/:id', name:'Programa',component: () => import(/* webpackChunkName: "Programa" */'../views/ProgramaShow.vue')},
     {path: '/login', name:'Login', component: () => import(/* webpackChunkName: "Programa" */'../views/Login.vue')},
-    {path: '/success', name:'Success', component: () => import('../views/Success.vue')}
+    {path: '/registro', name:'Registro', component: () => import('../views/Registro.vue')}
 ]
 
 const router = createRouter({
