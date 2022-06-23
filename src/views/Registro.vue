@@ -35,7 +35,8 @@
 
                                     <div class="form-outline form-control-sm p-2">
                                         <input type="email" class="form-control form-control-lg"
-                                            v-model="v$.user.email.$model" placeholder="Email. Ej: correo@mail.com" v-on:change="deleteValidation('email');"/>
+                                            v-model="v$.user.email.$model" placeholder="Email. Ej: correo@mail.com"
+                                            v-on:change="deleteValidation('email');" />
                                         <div v-if="v$.user.email.$dirty">
                                             <div v-for="error of v$.user.email.$silentErrors" :key="error.$message">
                                                 <div>
@@ -54,7 +55,8 @@
 
                                     <div class="form-outline form-control-sm p-2">
                                         <input type="text" class="form-control form-control-lg"
-                                            v-model="v$.user.nombreUsuario.$model" placeholder="Nombre de usuario" v-on:change="deleteValidation('nombreUsuario');" />
+                                            v-model="v$.user.nombreUsuario.$model" placeholder="Nombre de usuario"
+                                            v-on:change="deleteValidation('nombreUsuario');" />
                                         <div v-if="v$.user.nombreUsuario.$dirty">
                                             <div v-for="error of v$.user.nombreUsuario.$silentErrors"
                                                 :key="error.$message">
@@ -166,14 +168,14 @@ export default {
             if (isFormCorrect) {
                 this.register();
             }
-           
+
         },
 
-        deleteValidation(field){
-             if(this.errors.length > 0){
-                for(let i=0; i<this.errors.length;i++){
-                    if(this.errors[i].param==field){
-                        this.errors.splice(i,1);
+        deleteValidation(field) {
+            if (this.errors.length > 0) {
+                for (let i = 0; i < this.errors.length; i++) {
+                    if (this.errors[i].param == field) {
+                        this.errors.splice(i, 1);
                     }
                 }
             }
@@ -217,10 +219,9 @@ export default {
 </script>
 
 <style>
-
 .card {
-  width: 25em;
-  
-  
+    width: 25em;
+
+
 }
 </style>

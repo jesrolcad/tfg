@@ -1,6 +1,6 @@
 <template>
 
-  <body>
+   <body>
     <section class="position-relative py-4 py-xl-5">
       <div class="container">
         <div class="row mb-5"></div>
@@ -79,8 +79,8 @@ export default {
   },
   data() {
     return {
-      usuarioIncorrecto : false,
-      mensaje : '',
+      usuarioIncorrecto: false,
+      mensaje: '',
       user: {
 
         nombreUsuario: '',
@@ -96,25 +96,29 @@ export default {
         method: 'POST',
         body: JSON.stringify({ nombreUsuario: this.user.nombreUsuario, password: this.user.password }),
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         }
-      }).then(res => {
-        
-        res.json()
-        console.log(res.status);
-        if(res.status == 400){
+      }).then(res => res.json()).then(json =>{
+
+        console.log(json);
+        if (json.status == 400) {
           this.usuarioIncorrecto = true;
           this.mensaje = "Usuario y/o contraseña incorrectos";
           //alert(this.mensaje);
           return Promise.reject(this.mensaje);
-          
+
         }
-        
-        })
+
+        else if(json.status == 200){
+          sessionStorage.setItem("token",json.token);
+        }
+
+      })
         .then(data => {
+
           this.user = data;
           this.$router.push({ name: 'Programas' });
-          
+
         });
     },
 
@@ -127,7 +131,7 @@ export default {
     },
 
     deleteValidation() {
-      if(this.usuarioIncorrecto){
+      if (this.usuarioIncorrecto) {
         this.usuarioIncorrecto = false;
         this.mensaje = ''
       }
@@ -141,7 +145,7 @@ export default {
     return {
       user: {
         nombreUsuario: { required: helpers.withMessage("El nombre de usuario es obligatorio", required), $autoDirty: true },
-        password: { required: helpers.withMessage("La contraseña es obligatoria", required), $autoDirty: true}
+        password: { required: helpers.withMessage("La contraseña es obligatoria", required), $autoDirty: true }
       }
     }
   }
@@ -206,8 +210,4 @@ export default {
 .bs-icon.bs-icon-circle {
   border-radius: 50%;
 }
-
-
-
-
 </style>

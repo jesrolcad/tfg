@@ -15,7 +15,7 @@ module.exports.login = async function login(req, res) {
    const errors = validationResult(req);
 
    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.json({ status:400, errors: errors.array() });
 
    }
 
@@ -56,20 +56,9 @@ module.exports.login = async function login(req, res) {
             expiresIn: process.env.CADUCIDAD_TOKEN
          })
 
-      console.log(token);
+      res.json({status: 200, token: token});
 
-
-      // let session = req.session;
-      // console.log(session);
-
-      res.json({
-         ok: true,
-         usuario: usuarioDB,
-         token,
-      })
-   })
-
-};
+   })};
 
 
 module.exports.registro = async function registro(req, res) {

@@ -62,7 +62,15 @@
         },
         methods:{
             getProgramas(){
-                fetch(this.baseURL+'/programas/all')
+                fetch(this.baseURL+'/programas/all', {
+                    
+                    headers:{
+                        
+                            'Authorization':sessionStorage.getItem("token")
+                        
+                    }
+                    
+                })
                     .then(res=> res.json())
                     .then(data => {
                         this.programas=data;

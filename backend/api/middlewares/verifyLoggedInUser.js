@@ -1,12 +1,21 @@
 const jwt = require('jsonwebtoken');
 
 module.exports.authenticateToken = (req, res, next) => {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
-    if (token === null) return res.status(401).json({ msg: "Not Authorized" });
-    jwt.verify(token, process.env.SEED_AUTENTICACION, (err, user) => {
-      if (err) return res.status(401).json({ msg: err });
-      req.user = user;
-      next();
-    });
-  };
+  const authHeader = req.header('authorization');
+
+  //check token
+  if (authHeader == null) {
+    return res.status(401).json({ error: "Access-denied" });
+  }
+
+  //check validity
+  try {
+    const verified = jwt.verify(authHeader, process.env.SEED_AUTENTICACION);
+    req.user = { username: verified.username }; //if verified the token will be decoded and the username of the user will be extracted and passed.
+    next();
+
+  } catch (e) {
+    res.status(401).json({ error: "Invalid-token" });
+  }
+
+};
