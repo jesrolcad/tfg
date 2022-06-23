@@ -1,6 +1,5 @@
 <template>
-
-   <body>
+  <body>
     <section class="position-relative py-4 py-xl-5">
       <div class="container">
         <div class="row mb-5"></div>
@@ -23,16 +22,16 @@
 
                   <div v-if="this.usuarioIncorrecto">
 
-                    <p class="alert alert-danger">{{this.mensaje}}</p>
-                    
+                    <p class="alert alert-danger">{{ this.mensaje }}</p>
+
                   </div>
                   <div class="mb-3"><input class="form-control" type="text" v-model="v$.user.nombreUsuario.$model"
                       placeholder="Nombre de usuario" v-on:change="deleteValidation();" style="width: 1;">
-                    
+
                     <div v-if="v$.user.nombreUsuario.$dirty">
                       <div v-for="error of v$.user.nombreUsuario.$silentErrors" :key="error.$message">
                         <div>
-                          <p  class="text-danger">{{ error.$message }}</p>
+                          <p class="text-danger">{{ error.$message }}</p>
                         </div>
                       </div>
                     </div>
@@ -67,7 +66,6 @@
 
 
 <script>
-//import toastr from 'toastr';
 import useVuelidate from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 
@@ -98,7 +96,7 @@ export default {
         headers: {
           'Content-Type': 'application/json',
         }
-      }).then(res => res.json()).then(json =>{
+      }).then(res => res.json()).then(json => {
 
         console.log(json);
         if (json.status == 400) {
@@ -109,8 +107,8 @@ export default {
 
         }
 
-        else if(json.status == 200){
-          sessionStorage.setItem("token",json.token);
+        else if (json.status == 200) {
+          sessionStorage.setItem("token", json.token);
         }
 
       })

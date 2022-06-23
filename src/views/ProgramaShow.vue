@@ -1,6 +1,7 @@
 <template>
+<Navbar />
     <div class="Programa">
-    <body style="margin: 0px;width: 1140px;height: 600px;">
+    <body style="margin-top: 80px;width: 1140px;height: 600px;">
         <div class="container">
             <div class="row">
                 <div class="col-md-8" >
@@ -51,8 +52,10 @@
             <h1 style="width: 87px;">Reparto:</h1>
             <div class="card-group" >
                 <div class="col-3" v-for="actor of actoresR" :key="actor._id">
-                    <img v-if="actor.imagen_actor" class="card-img-top" :src="actor.imagen_actor">
-                    <img class="card-img-top" v-if="!actor.imagen_actor" src='..\..\public\placeholder_actor.png'>
+                    <router-link :to="`/actor/${actor.nombre}`">
+                    <img v-if="actor.imagen_actor" class="card-img-top" :src="actor.imagen_actor"></router-link>
+                    <router-link :to="`/programa/${programa._id}`">
+                    <img class="card-img-top" v-if="!actor.imagen_actor" src='..\..\public\placeholder_actor.png'></router-link>
                     <div class="card-body" style="margin: 10px; height: max-content;">
                         <h4 class="card-title">{{actor.nombre}}</h4>
                         <small style="font-family:abeezeeregular;">{{actor.personaje}}</small>
@@ -68,6 +71,7 @@
     </div>
 </template>
 <script>
+import Navbar from './Navbar.vue'
 import moment from 'moment'
 class Programa{
         constructor(_id,tipo,titulo,fecha,imagen,generos,duracion,clasificacion_edad,actoresIds){
@@ -119,6 +123,8 @@ export default {
                     this.actoresR=data;
                 });
         }
+    },components: {
+            Navbar
     }
 }
 </script>
