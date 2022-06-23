@@ -10,7 +10,7 @@
                             <p class="text-center mb-4">Regístrate en What To Watch y disfruta de todas las
                                 características de la aplicación</p>
                         </div>
-                        <div class="card">
+                        <div class="card mx-auto">
                             <div class="card-body">
 
                                 <form v-on:submit.prevent>
@@ -93,7 +93,7 @@
                                             v-on:click="submit();">Registrarme</button>
                                     </div>
 
-                                    <p class="text-center text-muted mt-1 mb-0">¿Ya tienes cuenta?<a href="#!"
+                                    <p class="text-center text-muted mt-1 mb-0">¿Ya tienes cuenta?<a href="/login"
                                             class="fw-bold text-body"><br><u>Inicia sesión</u></a></p>
 
                                 </form>
@@ -217,4 +217,10 @@ export default {
 </script>
 
 <style>
+
+.card {
+  width: 25em;
+  
+  
+}
 </style>

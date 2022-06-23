@@ -8,7 +8,7 @@
           <h2 class="text-center" data-bs-toggle="tooltip" data-bss-tooltip="">Iniciar sesión</h2>
           <p class="w-lg-50"></p>
         </div>
-        <div class="row d-flex justify-content-center" style="background: var(--bs-body-bg);">
+        <div class="row d-flex justify-content-center">
           <div class="col-md-6 col-xl-4">
             <div class="card mb-5">
               <div class="card-body d-flex flex-column align-items-center">
@@ -27,7 +27,7 @@
                     
                   </div>
                   <div class="mb-3"><input class="form-control" type="text" v-model="v$.user.nombreUsuario.$model"
-                      placeholder="Nombre de usuario" style="width: 1;">
+                      placeholder="Nombre de usuario" v-on:change="deleteValidation();" style="width: 1;">
                     
                     <div v-if="v$.user.nombreUsuario.$dirty">
                       <div v-for="error of v$.user.nombreUsuario.$silentErrors" :key="error.$message">
@@ -40,7 +40,7 @@
                   </div>
 
                   <div class="mb-3"><input class="form-control" type="password" v-model="v$.user.password.$model"
-                      placeholder="Contraseña">
+                      placeholder="Contraseña" v-on:change="deleteValidation();">
 
                     <div v-if="v$.user.password.$dirty">
                       <div v-for="error of v$.user.password.$silentErrors" :key="error.$message">
@@ -54,7 +54,7 @@
                   <div class="mb-3 text-center"><button class="btn btn-primary link-light" v-on:click="submit();"
                       style="background: var(--bs-blue);">Iniciar sesión</button></div>
                   <p class="text-muted"><span style="color: rgb(3, 3, 3);">¿No tienes cuenta? Regístrate
-                      aquí&nbsp;</span></p>
+                      <a class="fw-bold text-body" href="/registro">aquí</a>&nbsp;</span></p>
                 </form>
               </div>
             </div>
@@ -124,6 +124,15 @@ export default {
         this.login();
 
       }
+    },
+
+    deleteValidation() {
+      if(this.usuarioIncorrecto){
+        this.usuarioIncorrecto = false;
+        this.mensaje = ''
+      }
+
+
     }
 
   },
@@ -197,6 +206,8 @@ export default {
 .bs-icon.bs-icon-circle {
   border-radius: 50%;
 }
+
+
 
 
 </style>
