@@ -90,6 +90,7 @@ class Programa{
 export default {
     data(){
         return{
+            baseURL: "http://localhost:5000",
             programa: new Programa(),
             programas:[],
             actores:[],
@@ -102,7 +103,7 @@ export default {
     },
     methods:{
         getPrograma(){
-            fetch('http://localhost:5000/programas/'+ this.id)
+            fetch(this.baseURL+'/programas/'+ this.id)
                 .then(res=> res.json())
                 .then(data => {
                     this.programa=data;
@@ -113,7 +114,7 @@ export default {
         getActores(){
             console.log(this.programa)
             console.log(this.actores)
-            fetch('http://localhost:5000/actores/programa',
+            fetch(this.baseURL+'/actores/programa',
                 {   method: 'POST',
                     headers: {'Accept': 'application/json','Content-type':'application/json'},
                     body: JSON.stringify(this.actores)
