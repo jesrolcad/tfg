@@ -9,4 +9,10 @@ router.post('/:idPrograma', verifyLoggedInUser.authenticateToken, [ValidadorPunt
     puntuacionService.createOrUpdatePuntuacion(req,res);
 })
 
+router.get('/:idPrograma', verifyLoggedInUser.authenticateToken, (req, res) => {
+    
+    puntuacionService.getPuntuacionMediaPrograma(req,res);
+
+})
+
 module.exports = router;
