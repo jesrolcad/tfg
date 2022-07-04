@@ -5,7 +5,9 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const router_programas =  require('./routes/router_programas');
 const router_actores =  require('./routes/router_actores');
-const router_usuarios = require('./routes/usuarios');
+const router_usuarios = require('./routes/router_usuarios');
+const router_listas = require('./routes/router_listas');
+const router_puntuaciones = require('./routes/router_puntuaciones');
 require("dotenv").config();
 const path = require('path');
 
@@ -42,7 +44,8 @@ app.use(cors());
 app.use('/programas', router_programas);
 app.use('/actores', router_actores);
 app.use('/usuarios', router_usuarios);
-
+app.use('/listas', router_listas);
+app.use('/puntuaciones', router_puntuaciones);
 
 
 
