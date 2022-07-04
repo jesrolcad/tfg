@@ -9,7 +9,7 @@
                         :src="programa.imagen || 'placeholder.png'"> </router-link>
             <div class="card-body" style="margin: 10px">
                 <h4 class="card-title">{{programa.titulo}}</h4>
-                <small style="font-family:abeezeeregular;">{{moment(programa.fecha).locale('es').format("D MMM YYYY")}}</small>
+                <small>{{moment(programa.fecha).locale('es').format("D MMM YYYY")}}</small>
             </div>
         </div>
     </div>
@@ -65,7 +65,15 @@
         },
         methods:{
             getProgramas(){
-                fetch(this.baseURL+'/programas/all')
+                fetch(this.baseURL+'/programas/all', {
+                    
+                    headers:{
+                        
+                            'Authorization':sessionStorage.getItem("token")
+                        
+                    }
+                    
+                })
                     .then(res=> res.json())
                     .then(data => {
                         this.programas=data;
