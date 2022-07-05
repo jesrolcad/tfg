@@ -4,12 +4,10 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const router_programas =  require('./routes/router_programas');
-/*const dotenv = require("dotenv");
-dotenv.config();*/
+const router_actores =  require('./routes/router_actores');
+const router_usuarios = require('./routes/usuarios');
 require("dotenv").config();
 const path = require('path');
-// const cookieParser = require("cookie-parser");
-// const sessions = require('express-session');
 
 //Server is listening
 app.listen(5000, () => {
@@ -28,18 +26,7 @@ mongoose.connect(connection_string, {
 .catch((error) => {console.error("MongoDB connection failed:",error.message)})
 
 
-
-//Configuración de sesiones
-// const oneDay = 1000 * 60 * 60 * 24;
-// app.use(sessions({
-//     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-//     saveUninitialized:true,
-//     cookie: { maxAge: oneDay },
-//     resave: false 
-// }));
-
 app.use(express.urlencoded({ extended: true }));
-// app.use(cookieParser());
 
 //Static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -53,14 +40,8 @@ app.use(cors());
 
 //Routes
 app.use('/programas', router_programas);
-app.use('/usuarios', require('./routes/usuarios'));
-
-//Token de autenticación
-process.env.CADUCIDAD_TOKEN = '48h';
-
-//Seed de autenticación
-
-process.env.SEED_AUTENTICACION = process.env.SEED_AUTENTICACION ||  'este-es-el-seed-desarrollo';
+app.use('/actores', router_actores);
+app.use('/usuarios', router_usuarios);
 
 
 
