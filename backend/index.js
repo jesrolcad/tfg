@@ -44,7 +44,7 @@ app.use(cors());
 app.use('/programas', router_programas);
 app.use('/actores', router_actores);
 app.use('/usuarios', router_usuarios);
-app.use('/listas', router_listas);
+app.use('/', router_listas);
 app.use('/puntuaciones', router_puntuaciones);
 
 
