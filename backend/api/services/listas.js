@@ -1,5 +1,6 @@
 const Lista = require('../../models/Lista');
 const Programa = require('../../models/Programa');
+const mongoose = require('mongoose');
 const { validationResult } = require('express-validator');
 
 //Listas del usuario
@@ -7,10 +8,45 @@ const { validationResult } = require('express-validator');
 module.exports.getMisListas = async (req, res) => {
 
     const listas = await Lista.find({ usuario: req.user._id });
- 
-    res.json(listas);
+   //array of json with Listas and its generos
+   let listasJson = [];
+   for (let i = 0; i < listas.length; i++) {
+      let lista = listas[i];
+      let listaJson = {
+         "lista": lista,
+         "generos": await this.getGenerosLista(lista)
+      }
+      listasJson.push(listaJson);
+   }
+   res.json(listasJson);
  
  }
+
+module.exports.getGenerosLista = async (lista) => {
+   let generos = [];
+   for (let i = 0; i < lista.programas.length; i++) {
+      const programa = await Programa.findById(lista.programas[i]);
+      for (let j = 0; j < programa.generos.length; j++) {
+         const genero = programa.generos[j];
+         if (!generos.includes(genero)) {
+            generos.push(genero);
+
+         }
+      }
+
+      if (generos.length > 3) {
+         let generosString = "";
+         for (let k = 0; k < 3; k++) {
+            generosString += generos[k] + ", ";
+         }
+         generosString += "...";
+
+         return generosString;
+   }
+  
+}
+
+}
  
  //Validar que un usuario solo accede a su lista
  module.exports.getLista = async (req, res) => {
@@ -25,6 +61,7 @@ module.exports.getMisListas = async (req, res) => {
     }
  
  }
+
  
  
  module.exports.createLista = async (req, res) => {
@@ -70,7 +107,7 @@ module.exports.getMisListas = async (req, res) => {
     Lista.findById(req.params.idLista, function (err, lista) {
        if (lista) {
  
-          if (lista.usuario == req.user.usuario._id) {
+          if (lista.usuario == req.user._id) {
              let programas = lista.programas;
              let index = programas.indexOf(req.params.idPrograma);
              if (index > -1) {
@@ -97,34 +134,28 @@ module.exports.getMisListas = async (req, res) => {
  //Validar que es el usuario que ha iniciado sesión
  module.exports.addProgramaLista = async (req, res) => {
  
-    Lista.findById(req.params.idLista, function (err, lista) {
+    Lista.findById(req.params.idLista, function (lista) {
        if (lista) {
-          console.log("Existe la lista");
  
-          if (lista.usuario == req.user.usuario._id) {
-             console.log("La lista es del usuario loggeado");
+          if (lista.usuario == req.user._id) {
              let programa = Programa.findById(req.params.idPrograma);
  
              if (!programa) { 
-                console.log("No existe el programa");
-                return res.sendStatus(400);
+                return res.status(400).json({message: "El programa no existe"});
  
              } else if (lista.programas.includes(req.params.idPrograma)) {
                 console.log("El programa ya estaba en la lista");
-                return res.sendStatus(400);
+                return res.status(400).json({msg: "El programa ya estaba en la lista"});
              } else { 
-                console.log("Añadimos el programa");
                 lista.programas.push(req.params.idPrograma);
                 lista.save();
-                res.sendStatus(204);
+                res.status(204).json({msg: "Programa añadido correctamente"});
              }
           }  else {
-             console.log("Los usuarios no coinciden");
-             res.sendStatus(401);
+             res.status(401).json({"msg": "No eres propietario de esta lista"});
        }
        } else {
-          console.log("La lista no existe");
-          res.sendStatus(400);
+          res.status(400).json({msg: "La lista no existe"});
        }
  
     })
