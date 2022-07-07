@@ -5,7 +5,7 @@ module.exports.authenticateToken = (req, res, next) => {
 
   //check token
   if (authHeader == null) {
-    return res.status(401).json({ error: "Access-denied" });
+    return res.status(401).json({ error: "Debes iniciar sesión en el sistema" });
   }
 
   //check validity
@@ -15,7 +15,7 @@ module.exports.authenticateToken = (req, res, next) => {
     next();
 
   } catch (e) {
-    res.status(401).json({ error: "Invalid-token" });
+    res.status(401).json({ error: "Token no válido" });
   }
 
 };
