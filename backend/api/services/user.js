@@ -86,14 +86,13 @@ module.exports.registro = async function registro(req, res) {
 };
 
 //get my profile
-module.exports.perfil = async function perfil(req, res) {
+module.exports.perfil = function perfil(req, res) {
    
       let usuario = req.user;
-      let listas = await Lista.find({ usuario: usuario._id });
+      console.log(usuario);
    
       return res.status(200).json({
-         usuario: usuario,
-         listas: listas });
+         usuario: usuario });
    
    }
 
