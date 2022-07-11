@@ -1,7 +1,8 @@
 <template>
+  <Navbar class="nav" />
   <div class="container">
     <div class="text-center mb-5">
-      <h3>Bienvenido, {{this.perfil.usuario.nombreUsuario}}</h3>
+      <h3 class="mt-5">Bienvenido, {{this.perfil.usuario.nombreUsuario}}</h3>
     </div>
     <div class="row d-flex justify-content-center">
       <div class="col-lg-4">
@@ -43,6 +44,7 @@
 
 
 <script>
+import Navbar from './Navbar.vue'
 
 
 export default {
@@ -81,6 +83,9 @@ export default {
     }
 
   },
+  components: {
+    Navbar
+  }
 
 
 }
@@ -158,6 +163,10 @@ body {
   margin: auto;
   /* set the width to 100% */
 
+}
+
+.nav {
+  margin-bottom: 5%
 }
 </style>
 

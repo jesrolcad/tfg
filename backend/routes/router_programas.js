@@ -7,7 +7,7 @@ router_programas.get('/all', verifyLoggedInUser.authenticateToken, (req,res) => 
     programaService.getAllProgramas(req, res);
 });
 
-router_programas.get('/:id', (req,res) =>{
+router_programas.get('/:id', verifyLoggedInUser.authenticateToken, (req,res) =>{
     programaService.getProgramaById(req,res);
 });
 
