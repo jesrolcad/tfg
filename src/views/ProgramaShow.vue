@@ -130,7 +130,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .card{
     margin: 20px;
     font-family: 'montserratbold';

@@ -61,24 +61,28 @@ module.exports.getProgramasFiltados= async (req,res)=> {
     let plataformas=req.body.plataformas;
     let generos= req.body.generos;
     let tipo= req.body.tipo;
-    if(tipo==null){
-        tipo=["Película","Serie"]
+    if(tipo.length==0){
+        tipo=['Película','Serie']
     }
     let filtrados;
 
-    if(plataformas==null & generos!=null){
+    if(plataformas.length==0 & generos.length!=0){
         filtrados=await Programa.find({
             generos:{$all:generos},tipo:{$in:tipo}}).select({ "titulo": 1, "tipo":1, "fecha":1, "imagen":1, "_id": 1});
-    }else if(plataformas!=null &  generos==null){
+    }else if(plataformas.length!=0 &  generos.length==0){
         filtrados=await Programa.find({
             plataformas:{$all:plataformas},tipo:{$in:tipo}}).select({ "titulo": 1, "tipo":1, "fecha":1, "imagen":1, "_id": 1});
-    }else if(plataformas!=null & generos!=null){
+    }else if(plataformas.length!=0 & generos.length!=0){
         filtrados=await Programa.find({ generos:{$all:generos},
             plataformas:{$all:plataformas},tipo:{$in:tipo}}).select({ "titulo": 1, "tipo":1, "fecha":1, "imagen":1, "_id": 1});
     }else{
         filtrados=await Programa.find({tipo:{$in:tipo}}).select({ "titulo": 1, "tipo":1, "fecha":1, "imagen":1, "_id": 1});
     }
-    res.json(filtrados);
+    if(filtrados.length > 0) {
+        res.status(200).json(filtrados);
+    }else {
+        res.status(200).json({"mensaje": "No se han encontrado programas"});
+    }
 }
 
 /*module.exports.getProgramaByURL = async (req,res) => {

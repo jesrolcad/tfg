@@ -13,6 +13,9 @@
             </div>
         </div>
     </div>
+    <div v-else-if="programasFiltrados.mensaje" class="card-group" >
+        {{programasFiltrados.mensaje}}
+    </div>
     <div v-else class="card-group" >
         <div class="col-3" v-for="programa of displayedProgramasF" :key="programa._id">
             <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
@@ -100,6 +103,7 @@
             },
             filtrados(value){
                 this.programasFiltrados = value;
+                console.log(JSON.stringify(this.programasFiltrados))
             },
         },
         components: {
@@ -124,7 +128,7 @@
         }
     }
 </script>
-<style>
+<style scoped>
 .col-3{
     margin: 20px;
     font-family: montserratbold;
