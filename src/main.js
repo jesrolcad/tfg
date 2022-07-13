@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue';
 import router from "./router/index";
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
 
 
@@ -17,6 +19,14 @@ import { faUserSecret, faList, faUser, faEye, faBookmark } from '@fortawesome/fr
 library.add(faUserSecret, faList, faUser, faEye, faBookmark)
 
 
-createApp(App).component('font-awesome-icon', FontAwesomeIcon, ).use(router).mount('#app')
+const options = {
+    transition: "Vue-Toastification__fade",
+    maxToasts: 20,
+    newestOnTop: true
+
+}
+
+
+createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(router).use(Toast, options).mount('#app')
 
 
