@@ -97,12 +97,9 @@ export default {
           'Content-Type': 'application/json',
         }
       }).then(res => res.json()).then(json => {
-
-        console.log(json);
         if (json.status == 400) {
           this.usuarioIncorrecto = true;
           this.mensaje = "Usuario y/o contraseña incorrectos";
-          //alert(this.mensaje);
           return Promise.reject(this.mensaje);
 
         }
@@ -113,16 +110,17 @@ export default {
 
       })
         .then(data => {
-
           this.user = data;
+          this.v$.$reset();
           this.$router.push({ name: 'Programas' });
 
         });
     },
 
-    async submit() {
-      const isFormCorrect = await this.v$.$validate();
+     async submit() {
+      const isFormCorrect =  await this.v$.$validate();
       if (isFormCorrect) {
+        //reset validations
         this.login();
 
       }
