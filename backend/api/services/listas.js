@@ -134,7 +134,7 @@ module.exports.getGenerosLista = async (lista) => {
  //Validar que es el usuario que ha iniciado sesión
  module.exports.addProgramaLista = async (req, res) => {
  
-    Lista.findById(req.params.idLista, function (lista) {
+    Lista.findById(req.params.idLista, function (err, lista) {
        if (lista) {
  
           if (lista.usuario == req.user._id) {
@@ -144,7 +144,6 @@ module.exports.getGenerosLista = async (lista) => {
                 return res.status(400).json({message: "El programa no existe"});
  
              } else if (lista.programas.includes(req.params.idPrograma)) {
-                console.log("El programa ya estaba en la lista");
                 return res.status(400).json({msg: "El programa ya estaba en la lista"});
              } else { 
                 lista.programas.push(req.params.idPrograma);
