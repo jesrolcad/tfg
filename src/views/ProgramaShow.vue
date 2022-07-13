@@ -32,35 +32,57 @@
                                 <h1 class="text-start"
                                     style="font-size: 40px;margin-bottom: 25px;text-align: center;margin-top: 20px;">
                                     <strong>{{ programa.titulo }}
-                                        ({{ moment(programa.fecha).locale('es').format("YYYY") }})</strong></h1>
+                                        ({{ moment(programa.fecha).locale('es').format("YYYY") }})</strong>
+                                </h1>
                             </div>
                             <div class="card-body" style="width:auto;height: auto;">
                                 <section>
                                     <div class="btn-group btn-group-lg" role="group"
                                         style="border-radius: 0px;margin-left: 4px;">
-                                        <!-- check that programa visto -->
 
-                                        <button type="button" v-if="!this.programaVisto" v-on:click="setProgramaVisto();" title="Añadir a programas vistos" 
-                                        style="border-radius: 112px;"><font-awesome-icon icon="fa-solid fa-eye" />
-                                        </button>
-
-                                        <button type="button" v-if="this.programaVisto" v-on:click="deleteProgramaVisto();" title="Eliminar de programas vistos" 
-                                        style="border-radius: 112px;"><font-awesome-icon icon="fa-solid fa-eye-slash" />
-                                        </button>
                                         
-                                        <button class="btn btn-primary"
-                                            type="button" style="border-radius: 112px;margin-left: 10px;"><i
+                                            <button v-if="!programaEstaVisto"
+                                                v-on:click="setProgramaVisto();" title="Añadir a programas vistos"
+                                                style="border-radius: 112px;margin-right: 10px;">
+                                                <font-awesome-icon icon="fa-solid fa-eye" class="fa-xl" />
+                                            </button>
+
+                                            <button v-if="programaEstaVisto"
+                                                v-on:click="deleteProgramaVisto();" title="Eliminar de programas vistos"
+                                                style="border-radius: 112px;margin-right: 10px;">
+                                                <font-awesome-icon icon="fa-solid fa-eye" class="fa-xl added-to-list" />
+                                            </button>
+
+                                        <button v-if="!programaEstaEnSeguimiento"
+                                            v-on:click="setProgramaSeguimiento();" title="Añadir a programas en seguimiento"
+                                            style="border-radius: 112px;">
+                                            <font-awesome-icon icon="fa-solid fa-bookmark" class="fa-xl" />
+                                        </button>
+
+                                        <button v-if="programaEstaEnSeguimiento"
+                                            v-on:click="deleteProgramaSeguimiento();"
+                                            title="Eliminar de programas en seguimiento" style="border-radius: 112px;">
+                                            <font-awesome-icon icon="fa-solid fa-bookmark"
+                                                class="fa-xl added-to-list" />
+                                        </button>
+
+
+                                        <button class="btn btn-primary" type="button"
+                                            style="border-radius: 112px;margin-left: 10px;"><i
                                                 class="far fa-star"></i></button><button class="btn btn-primary"
                                             type="button" style="border-radius: 112px;margin-left: 10px;"><i
                                                 class="far fa-star"></i></button><button class="btn btn-primary"
                                             type="button" style="border-radius: 112px;margin-left: 10px;"><i
-                                                class="far fa-star"></i></button></div>
+                                                class="far fa-star"></i></button>
+                                    </div>
                                 </section>
                                 <section style="margin: 0px;margin-top: 15px;">
                                     <div class="row" style="margin: 0px;">
                                         <div class="col-xl-2"><button class="btn disabled" type="button" disabled=""
                                                 style="font-family: abeezeeregular;font-weight: bolder;color: rgb(0,0,0);border-width: 3px;border-color: var(--bs-teal);"
-                                                v-if="programa.clasificacion_edad"><strong>{{ programa.clasificacion_edad }}</strong></button>
+                                                v-if="programa.clasificacion_edad"><strong>{{
+                                                        programa.clasificacion_edad
+                                                }}</strong></button>
                                             <button class="btn disabled" type="button" disabled=""
                                                 style="font-family: abeezeeregular;font-weight:bolder;color: rgb(0,0,0);border-width: 3px;border-color: var(--bs-teal);"
                                                 v-if="!programa.clasificacion_edad"><strong>ND</strong></button>
@@ -68,9 +90,10 @@
                                         <div class="col" style="padding-top: 12px;">
                                             <p
                                                 style="height: auto;font-family: abeezeeregular;margin-top: 5px;padding-left: 5px;font-size: 20px;width: auto;">
-                                                <span v-for="(genero, index) of programa.generos"
-                                                    :key="genero">{{ genero }}<span
-                                                        v-if="index !== programa.generos.length - 1">, </span></span>
+                                                <span v-for="(genero, index) of programa.generos" :key="genero">{{
+                                                        genero
+                                                }}<span v-if="index !== programa.generos.length - 1">,
+                                                    </span></span>
                                                 <strong v-if="(programa.generos).length !== 0 && programa.duracion"> ·
                                                 </strong>
                                                 {{ programa.duracion }}
@@ -81,7 +104,8 @@
                                 <section style="font-size: 23px;margin-top: 10x;">
                                     <h3 class="text-start"
                                         style="font-family: montserratbold; font-size: 30px;margin: 0px;padding: 5px;text-align: center;margin-top: 5px;">
-                                        <strong>Descripción:</strong></h3>
+                                        <strong>Descripción:</strong>
+                                    </h3>
                                     <p
                                         style="width: 680px;height: auto;font-family: abeezeeregular;margin-top: 5px;padding-left: 5px;font-size: 20px;">
                                         {{ programa.descripcion }}</p>
@@ -118,6 +142,7 @@
 <script>
 import Navbar from './Navbar.vue'
 import moment from 'moment'
+
 class Programa {
     constructor(_id, tipo, titulo, fecha, imagen, generos, duracion, clasificacion_edad, actoresIds) {
         this._id = _id;
@@ -140,7 +165,9 @@ export default {
             actores: [],
             actoresR: [],
             listas: [],
-            programaVisto: false,
+            lista: [],
+            //programaVisto: false,
+            //programaSeguimiento: false,
             id: this.$route.params.id,
         }
     },
@@ -148,6 +175,14 @@ export default {
         this.getPrograma(),
         this.getListas()
     },
+
+    // mounted() {
+
+    //     this.programaEstaVisto(),
+    //     this.programaEstaEnSeguimiento()
+        
+    // },
+
     methods: {
         getPrograma() {
             fetch('http://localhost:5000/programas/' + this.id, { headers: { 'Authorization': sessionStorage.getItem("token") } })
@@ -159,8 +194,6 @@ export default {
         },
         moment,
         getActores() {
-            console.log(this.programa)
-            console.log(this.actores)
             fetch('http://localhost:5000/actores/programa',
                 {
                     method: 'POST',
@@ -174,44 +207,146 @@ export default {
         },
 
         getListas() {
-        fetch("http://localhost:5000/" + "listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
-        .then(res => res.json())
-        .then(data => {
-          this.listas = data;
-        })
-    },
+            fetch("http://localhost:5000/" + "listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
+                .then(res => res.json())
+                .then(data => {
+                    this.listas = data;
+                    console.log(this.listas);
+                })
+        },
 
+        async getLista(id) {
+            await fetch("http://localhost:5000/" + "lista/" + id, { headers: { 'Authorization': sessionStorage.getItem("token") } })
+                .then(res => res.json())
+                .then(data => {
+                    this.lista = data;
+                })
+        },
 
         setProgramaVisto() {
-            let lista = this.listas.find(l => l.lista.nombre === "Programas vistos").lista;
-            fetch('http://localhost:5000/lista/' + lista._id + '/agregar/' + this.programa._id,
+
+            //Se obtiene el json de programas
+            let jsonProgramasVistos = this.listas.find(l => l.lista.nombre === "Programas vistos");
+            fetch('http://localhost:5000/lista/' + jsonProgramasVistos.lista._id + '/agregar/' + this.programa._id,
                 {
-                    headers : { 'Authorization': sessionStorage.getItem("token") },
+                    headers: { 'Authorization': sessionStorage.getItem("token") },
                     method: 'PUT',
                 });
 
-                this.programaVisto = true;
+            //Se obtiene la lista modificada y se añade el programa
+            let listaModificada = jsonProgramasVistos.lista;
+            listaModificada.programas.push(this.programa._id);
 
+            //Se actualiza la propiedad lista del json
+            jsonProgramasVistos.lista = listaModificada; 
+
+            let index = this.listas.findIndex(l => l.lista.nombre === "Programas vistos");
+
+            //Se actualiza el json de las listas
+            this.listas[index] = jsonProgramasVistos;
+
+            
         },
-
-        
 
         deleteProgramaVisto() {
 
-            let lista = this.listas.find(l => l.lista.nombre === "Programas vistos").lista;
-            fetch('http://localhost:5000/lista/' + lista._id + '/borrar/' + this.programa._id,
+
+            //Se obtiene el json de programas
+            let jsonProgramasVistos = this.listas.find(l => l.lista.nombre === "Programas vistos");
+
+            fetch('http://localhost:5000/lista/' + jsonProgramasVistos.lista._id + '/borrar/' + this.programa._id,
                 {
-                    headers : { 'Authorization': sessionStorage.getItem("token") },
+                    headers: { 'Authorization': sessionStorage.getItem("token") },
                     method: 'PUT',
                 });
-                this.programaVisto = false;
+
+            //Se obtiene la lista modificada y se añade el programa
+            let listaModificada = jsonProgramasVistos.lista;
+            let indexPrograma = listaModificada.programas.indexOf(this.programa._id);
+            listaModificada.programas.splice(indexPrograma, 1);
+
+            //Se actualiza la propiedad lista del json
+            jsonProgramasVistos.lista = listaModificada; 
+
+            let index = this.listas.findIndex(l => l.lista.nombre === "Programas vistos");
+
+            //Se actualiza el json de las listas
+            this.listas[index] = jsonProgramasVistos;
+            
+
+        },
+
+        setProgramaSeguimiento() {
+            let jsonProgramasSeguimiento = this.listas.find(l => l.lista.nombre === "En seguimiento");
+            fetch('http://localhost:5000/lista/' + jsonProgramasSeguimiento.lista._id + '/agregar/' + this.programa._id,
+                {
+                    headers: { 'Authorization': sessionStorage.getItem("token") },
+                    method: 'PUT',
+                });
+
+
+            //Se obtiene la lista modificada y se añade el programa
+            let listaModificada = jsonProgramasSeguimiento.lista;
+            listaModificada.programas.push(this.programa._id);
+
+            //Se actualiza la propiedad lista del json
+            jsonProgramasSeguimiento.lista = listaModificada; 
+
+            let index = this.listas.findIndex(l => l.lista.nombre === "En seguimiento");
+
+            //Se actualiza el json de las listas
+            this.listas[index] = jsonProgramasSeguimiento;
+
+        },
+
+        deleteProgramaSeguimiento() {
+            let jsonProgramasSeguimiento = this.listas.find(l => l.lista.nombre === "En seguimiento");
+          
+            fetch('http://localhost:5000/lista/' + jsonProgramasSeguimiento.lista._id + '/borrar/' + this.programa._id,
+                {
+                    headers: { 'Authorization': sessionStorage.getItem("token") },
+                    method: 'PUT',
+                });
+
+            //Se obtiene la lista modificada y se añade el programa
+            let listaModificada = jsonProgramasSeguimiento.lista;
+            let indexPrograma = listaModificada.programas.indexOf(this.programa._id);
+            listaModificada.programas.splice(indexPrograma, 1);
+
+            //Se actualiza la propiedad lista del json
+            jsonProgramasSeguimiento.lista = listaModificada; 
+
+            let index = this.listas.findIndex(l => l.lista.nombre === "En seguimiento");
+
+            //Se actualiza el json de las listas
+            this.listas[index] = jsonProgramasSeguimiento;
+            
 
         },
 
 
-    }, components: {
-        Navbar
+        },
+
+        computed: {
+            programaEstaVisto() {
+                let lista = this.listas.find(l => l.lista.nombre === "Programas vistos").lista;
+                let programas = lista.programas;
+                return programas.includes(this.programa._id);
+        },
+
+            programaEstaEnSeguimiento() {
+                let lista = this.listas.find(l => l.lista.nombre === "En seguimiento").lista;
+                let programas = lista.programas;
+                return programas.includes(this.programa._id);
+        }
+
+        },
+
+
+    components: {
+        Navbar,
     }
+
 }
 </script>
 
@@ -260,5 +395,9 @@ export default {
     border-radius: 20px;
     box-shadow: 0px 0px 5px var(--bs-gray-400);
     border-style: none;
+}
+
+.added-to-list {
+    color: #0E4CBF;
 }
 </style>
