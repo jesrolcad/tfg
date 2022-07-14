@@ -365,8 +365,8 @@ export default {
 
         },
 
-        puntuarPrograma() {
-            fetch('http://localhost:5000/puntuaciones/' + this.programa._id,
+        async puntuarPrograma() {
+            await fetch('http://localhost:5000/puntuaciones/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token"), 'Content-Type': 'application/json' },
                     method: 'POST',
@@ -374,7 +374,8 @@ export default {
                         puntuacion: this.puntuacion
                     })
                 }).then(res => res.json()).then(json => {
-                    if (json.status === 200 || json.status === 201) {
+                    if (json.status !== 400) {
+                        console.log("ÉXITO");
 
                         const toast = useToast();
 
@@ -386,6 +387,7 @@ export default {
                             });
 
                     } else {
+                        console.log("SE HA PRODUCIDO ERROR")
                         console.log(json);
                         console.log(this.puntuacion);
                         const toast = useToast();
