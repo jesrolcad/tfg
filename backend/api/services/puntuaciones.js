@@ -1,5 +1,6 @@
 const Puntuacion = require('../../models/Puntuacion');
 const Programa = require('../../models/Programa');
+const Lista = require('../../models/Lista');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 
@@ -12,6 +13,23 @@ module.exports.createOrUpdatePuntuacion = async (req, res) => {
    if (!errors.isEmpty()) {
       return res.status(400).json({ status: 400, errors: errors.array() });
    }
+
+    let programa = await Programa.findById(req.params.idPrograma);
+
+    if(!programa){
+        return res.status(400).json({
+            status: 400,
+            message: "El programa no existe"
+        });
+    }
+
+    console.log("PROGRAMA: " + programa);
+
+    let lista = await Lista.findOne({ user: req.user._id, nombre:"Programas vistos"});
+
+    console.log("LISTA: " + lista);
+
+    if(lista.programas.includes(programa._id)) {
 
     let puntuacion = await Puntuacion.findOne({ usuario: req.user._id, programa: req.params.idPrograma });
     if (puntuacion) {
@@ -29,10 +47,20 @@ module.exports.createOrUpdatePuntuacion = async (req, res) => {
         });
         await puntuacion.save();
         res.status(201).json({
-            ok: true,
+            status: 201,
             puntuacion: puntuacion	
         })
     }
+
+    } else {
+        return res.status(400).json({
+            status: 400,
+            message: "El programa solo puede ser puntuado si se encuentra en tu lista 'Programas vistos' "
+        });
+    }
+
+
+    
 }
 
 module.exports.getPuntuacionMediaPrograma = async (req, res) => {
@@ -41,11 +69,10 @@ module.exports.getPuntuacionMediaPrograma = async (req, res) => {
     let programa = await Programa.findById(req.params.idPrograma);
     if (!programa) {
         return res.status(400).json({
-            ok: false,
+            status: 400,
             message: "El programa no existe"
         });
     }
-
     
     let puntuacionMedia = await Puntuacion.aggregate([
         {
@@ -64,7 +91,7 @@ module.exports.getPuntuacionMediaPrograma = async (req, res) => {
     console.log(puntuacionMedia);
 
     res.json({
-        ok: true,
+        status: 200,
         puntuacionMedia: puntuacionMedia
     })
 }
