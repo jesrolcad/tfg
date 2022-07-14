@@ -43,36 +43,41 @@
 
                                         <button v-if="!programaEstaVisto" v-on:click="setProgramaVisto();"
                                             title="Añadir a programas vistos"
-                                            style="border-radius: 112px;margin-right: 10px;">
+                                            style="border-radius: 100px;margin-right: 10px;">
                                             <font-awesome-icon icon="fa-solid fa-eye" class="fa-xl" />
                                         </button>
 
                                         <button v-if="programaEstaVisto" v-on:click="deleteProgramaVisto();"
                                             title="Eliminar de programas vistos"
-                                            style="border-radius: 112px;margin-right: 10px;">
+                                            style="border-radius: 100px;margin-right: 10px;">
                                             <font-awesome-icon icon="fa-solid fa-eye" class="fa-xl added-to-list" />
                                         </button>
 
                                         <button v-if="!programaEstaEnSeguimiento" v-on:click="setProgramaSeguimiento();"
-                                            title="Añadir a programas en seguimiento" style="border-radius: 112px;">
+                                            title="Añadir a programas en seguimiento" style="border-radius: 100px;">
                                             <font-awesome-icon icon="fa-solid fa-bookmark" class="fa-xl" />
                                         </button>
 
                                         <button v-if="programaEstaEnSeguimiento"
                                             v-on:click="deleteProgramaSeguimiento();"
-                                            title="Eliminar de programas en seguimiento" style="border-radius: 112px;">
+                                            title="Eliminar de programas en seguimiento" style="border-radius: 100px;">
                                             <font-awesome-icon icon="fa-solid fa-bookmark"
                                                 class="fa-xl added-to-list" />
                                         </button>
 
-
                                         <button class="btn btn-primary" type="button"
-                                            style="border-radius: 112px;margin-left: 10px;"><i
-                                                class="far fa-star"></i></button><button class="btn btn-primary"
-                                            type="button" style="border-radius: 112px;margin-left: 10px;"><i
-                                                class="far fa-star"></i></button><button class="btn btn-primary"
-                                            type="button" style="border-radius: 112px;margin-left: 10px;"><i
+                                            style="border-radius: 100px;margin-left: 10px; margin-right: 10px;"><i
                                                 class="far fa-star"></i></button>
+
+                                        <form v-on:submit.prevent>
+                                            <star-rating :star-size="33" :show-rating="false"
+                                                v-model:rating="this.puntuacion" v-on:click="puntuarPrograma();" />
+                                        </form>
+
+
+                                        <!-- <button class="btn btn-primary"
+                                            type="button" style="border-radius: 112px;margin-left: 10px;"><i
+                                                class="far fa-star"></i></button> -->
                                     </div>
                                 </section>
                                 <section style="margin: 0px;margin-top: 15px;">
@@ -143,7 +148,9 @@
 <script>
 import Navbar from './Navbar.vue'
 import moment from 'moment'
-import { useToast} from "vue-toastification";
+import { useToast } from "vue-toastification";
+import StarRating from 'vue-star-rating'
+
 
 
 
@@ -170,8 +177,7 @@ export default {
             actoresR: [],
             listas: [],
             lista: [],
-            //programaVisto: false,
-            //programaSeguimiento: false,
+            puntuacion: 0,
             id: this.$route.params.id,
         }
     },
@@ -179,13 +185,6 @@ export default {
         this.getPrograma(),
             this.getListas()
     },
-
-    // mounted() {
-
-    //     this.programaEstaVisto(),
-    //     this.programaEstaEnSeguimiento()
-
-    // },
 
     methods: {
         getPrograma() {
@@ -251,20 +250,12 @@ export default {
 
             const toast = useToast();
 
-            toast.success("Programa añadido a Programas vistos", {
-                position: "top-right",
-                timeout: 1994,
-                closeOnClick: true,
-                pauseOnFocusLoss: true,
-                pauseOnHover: true,
-                draggable: true,
-                draggablePercent: 0.6,
-                showCloseButtonOnHover: true,
-                hideProgressBar: true,
-                closeButton: "button",
-                icon: true,
-                rtl: false
-            });
+            toast.success("Programa añadido a Programas vistos",
+                {
+                    position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                    draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                    icon: true, rtl: false
+                });
 
 
 
@@ -298,20 +289,12 @@ export default {
 
             const toast = useToast();
 
-            toast.success("Programa eliminado de Programas vistos", {
-                position: "top-right",
-                timeout: 1994,
-                closeOnClick: true,
-                pauseOnFocusLoss: true,
-                pauseOnHover: true,
-                draggable: true,
-                draggablePercent: 0.6,
-                showCloseButtonOnHover: true,
-                hideProgressBar: true,
-                closeButton: "button",
-                icon: true,
-                rtl: false
-            });
+            toast.success("Programa eliminado de Programas vistos",
+                {
+                    position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                    draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                    icon: true, rtl: false
+                });
 
 
         },
@@ -339,20 +322,12 @@ export default {
 
             const toast = useToast();
 
-            toast.success("Programa añadido a En seguimiento", {
-                position: "top-right",
-                timeout: 1994,
-                closeOnClick: true,
-                pauseOnFocusLoss: true,
-                pauseOnHover: true,
-                draggable: true,
-                draggablePercent: 0.6,
-                showCloseButtonOnHover: true,
-                hideProgressBar: true,
-                closeButton: "button",
-                icon: true,
-                rtl: false
-            });
+            toast.success("Programa añadido a En seguimiento",
+                {
+                    position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                    draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                    icon: true, rtl: false
+                });
 
         },
 
@@ -380,23 +355,57 @@ export default {
 
             const toast = useToast();
 
-            toast.success("Programa eliminado de En seguimiento", {
-                position: "top-right",
-                timeout: 1994,
-                closeOnClick: true,
-                pauseOnFocusLoss: true,
-                pauseOnHover: true,
-                draggable: true,
-                draggablePercent: 0.6,
-                showCloseButtonOnHover: true,
-                hideProgressBar: true,
-                closeButton: "button",
-                icon: true,
-                rtl: false
-            });
+            toast.success("Programa eliminado de En seguimiento",
+                {
+                    position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                    draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                    icon: true, rtl: false
+                });
 
 
         },
+
+        puntuarPrograma() {
+            fetch('http://localhost:5000/puntuaciones/' + this.programa._id,
+                {
+                    headers: { 'Authorization': sessionStorage.getItem("token"), 'Content-Type': 'application/json' },
+                    method: 'POST',
+                    body: JSON.stringify({
+                        puntuacion: this.puntuacion
+                    })
+                }).then(res => res.json()).then(json => {
+                    if (json.status === 200 || json.status === 201) {
+
+                        const toast = useToast();
+
+                        toast.success("Programa puntuado correctamente",
+                            {
+                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                                icon: true, rtl: false
+                            });
+
+                    } else {
+                        console.log(json);
+                        console.log(this.puntuacion);
+                        const toast = useToast();
+                            toast.error(json.message,
+                                {
+                                    position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                    draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                                    icon: true, rtl: false
+                                });
+                        
+
+
+
+                    }
+
+
+                });
+
+
+        }
 
 
     },
@@ -419,6 +428,7 @@ export default {
 
     components: {
         Navbar,
+        StarRating
     }
 
 }
