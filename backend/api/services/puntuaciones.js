@@ -23,11 +23,7 @@ module.exports.createOrUpdatePuntuacion = async (req, res) => {
         });
     }
 
-    console.log("PROGRAMA: " + programa);
-
     let lista = await Lista.findOne({ user: req.user._id, nombre:"Programas vistos"});
-
-    console.log("LISTA: " + lista);
 
     if(lista.programas.includes(programa._id)) {
 
@@ -55,7 +51,7 @@ module.exports.createOrUpdatePuntuacion = async (req, res) => {
     } else {
         return res.status(400).json({
             status: 400,
-            message: "El programa solo puede ser puntuado si se encuentra en tu lista 'Programas vistos' "
+            message: "Añade el programa a tu lista 'Programas vistos' para puntuarlo"
         });
     }
 
