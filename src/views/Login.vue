@@ -106,15 +106,11 @@ export default {
 
         else if (json.status == 200) {
           sessionStorage.setItem("token", json.token);
-        }
-
-      })
-        .then(data => {
-          this.user = data;
           this.v$.$reset();
           this.$router.push({ name: 'Programas' });
+        }
 
-        });
+      });
     },
 
      async submit() {
