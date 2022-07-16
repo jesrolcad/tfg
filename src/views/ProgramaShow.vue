@@ -40,22 +40,21 @@
                                     <div class="btn-group btn-group-lg" role="group"
                                         style="border-radius: 0px;margin-left: 4px;">
 
-                                        
-                                            <button v-if="!programaEstaVisto"
-                                                v-on:click="setProgramaVisto();" title="Añadir a programas vistos"
-                                                style="border-radius: 112px;margin-right: 10px;">
-                                                <font-awesome-icon icon="fa-solid fa-eye" class="fa-xl" />
-                                            </button>
 
-                                            <button v-if="programaEstaVisto"
-                                                v-on:click="deleteProgramaVisto();" title="Eliminar de programas vistos"
-                                                style="border-radius: 112px;margin-right: 10px;">
-                                                <font-awesome-icon icon="fa-solid fa-eye" class="fa-xl added-to-list" />
-                                            </button>
+                                        <button v-if="!programaEstaVisto" v-on:click="setProgramaVisto();"
+                                            title="Añadir a programas vistos"
+                                            style="border-radius: 112px;margin-right: 10px;">
+                                            <font-awesome-icon icon="fa-solid fa-eye" class="fa-xl" />
+                                        </button>
 
-                                        <button v-if="!programaEstaEnSeguimiento"
-                                            v-on:click="setProgramaSeguimiento();" title="Añadir a programas en seguimiento"
-                                            style="border-radius: 112px;">
+                                        <button v-if="programaEstaVisto" v-on:click="deleteProgramaVisto();"
+                                            title="Eliminar de programas vistos"
+                                            style="border-radius: 112px;margin-right: 10px;">
+                                            <font-awesome-icon icon="fa-solid fa-eye" class="fa-xl added-to-list" />
+                                        </button>
+
+                                        <button v-if="!programaEstaEnSeguimiento" v-on:click="setProgramaSeguimiento();"
+                                            title="Añadir a programas en seguimiento" style="border-radius: 112px;">
                                             <font-awesome-icon icon="fa-solid fa-bookmark" class="fa-xl" />
                                         </button>
 
@@ -139,9 +138,14 @@
         </body>
     </div>
 </template>
+
+
 <script>
 import Navbar from './Navbar.vue'
 import moment from 'moment'
+import { useToast} from "vue-toastification";
+
+
 
 class Programa {
     constructor(_id, tipo, titulo, fecha, imagen, generos, duracion, clasificacion_edad, actoresIds) {
@@ -173,14 +177,14 @@ export default {
     },
     created() {
         this.getPrograma(),
-        this.getListas()
+            this.getListas()
     },
 
     // mounted() {
 
     //     this.programaEstaVisto(),
     //     this.programaEstaEnSeguimiento()
-        
+
     // },
 
     methods: {
@@ -238,14 +242,33 @@ export default {
             listaModificada.programas.push(this.programa._id);
 
             //Se actualiza la propiedad lista del json
-            jsonProgramasVistos.lista = listaModificada; 
+            jsonProgramasVistos.lista = listaModificada;
 
             let index = this.listas.findIndex(l => l.lista.nombre === "Programas vistos");
 
             //Se actualiza el json de las listas
             this.listas[index] = jsonProgramasVistos;
 
-            
+            const toast = useToast();
+
+            toast.success("Programa añadido a Programas vistos", {
+                position: "top-right",
+                timeout: 1994,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: true,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false
+            });
+
+
+
+
         },
 
         deleteProgramaVisto() {
@@ -266,13 +289,30 @@ export default {
             listaModificada.programas.splice(indexPrograma, 1);
 
             //Se actualiza la propiedad lista del json
-            jsonProgramasVistos.lista = listaModificada; 
+            jsonProgramasVistos.lista = listaModificada;
 
             let index = this.listas.findIndex(l => l.lista.nombre === "Programas vistos");
 
             //Se actualiza el json de las listas
             this.listas[index] = jsonProgramasVistos;
-            
+
+            const toast = useToast();
+
+            toast.success("Programa eliminado de Programas vistos", {
+                position: "top-right",
+                timeout: 1994,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: true,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false
+            });
+
 
         },
 
@@ -290,18 +330,35 @@ export default {
             listaModificada.programas.push(this.programa._id);
 
             //Se actualiza la propiedad lista del json
-            jsonProgramasSeguimiento.lista = listaModificada; 
+            jsonProgramasSeguimiento.lista = listaModificada;
 
             let index = this.listas.findIndex(l => l.lista.nombre === "En seguimiento");
 
             //Se actualiza el json de las listas
             this.listas[index] = jsonProgramasSeguimiento;
 
+            const toast = useToast();
+
+            toast.success("Programa añadido a En seguimiento", {
+                position: "top-right",
+                timeout: 1994,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: true,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false
+            });
+
         },
 
         deleteProgramaSeguimiento() {
             let jsonProgramasSeguimiento = this.listas.find(l => l.lista.nombre === "En seguimiento");
-          
+
             fetch('http://localhost:5000/lista/' + jsonProgramasSeguimiento.lista._id + '/borrar/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token") },
@@ -314,33 +371,50 @@ export default {
             listaModificada.programas.splice(indexPrograma, 1);
 
             //Se actualiza la propiedad lista del json
-            jsonProgramasSeguimiento.lista = listaModificada; 
+            jsonProgramasSeguimiento.lista = listaModificada;
 
             let index = this.listas.findIndex(l => l.lista.nombre === "En seguimiento");
 
             //Se actualiza el json de las listas
             this.listas[index] = jsonProgramasSeguimiento;
-            
+
+            const toast = useToast();
+
+            toast.success("Programa eliminado de En seguimiento", {
+                position: "top-right",
+                timeout: 1994,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: true,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false
+            });
+
 
         },
 
 
+    },
+
+    computed: {
+        programaEstaVisto() {
+            let lista = this.listas.find(l => l.lista.nombre === "Programas vistos").lista;
+            let programas = lista.programas;
+            return programas.includes(this.programa._id);
         },
 
-        computed: {
-            programaEstaVisto() {
-                let lista = this.listas.find(l => l.lista.nombre === "Programas vistos").lista;
-                let programas = lista.programas;
-                return programas.includes(this.programa._id);
-        },
-
-            programaEstaEnSeguimiento() {
-                let lista = this.listas.find(l => l.lista.nombre === "En seguimiento").lista;
-                let programas = lista.programas;
-                return programas.includes(this.programa._id);
+        programaEstaEnSeguimiento() {
+            let lista = this.listas.find(l => l.lista.nombre === "En seguimiento").lista;
+            let programas = lista.programas;
+            return programas.includes(this.programa._id);
         }
 
-        },
+    },
 
 
     components: {

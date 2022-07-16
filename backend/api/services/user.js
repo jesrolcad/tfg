@@ -3,14 +3,13 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Usuario = require('../../models/Usuario');
 const Lista = require('../../models/Lista');
-const Programa = require('../../models/Programa');
 const app = express();
 const { validationResult } = require('express-validator');
 
 
 app.use(express.json());
 
-module.exports.login = async function login(req, res) {
+module.exports.login = function login(req, res) {
 
    const errors = validationResult(req);
 
@@ -30,6 +29,7 @@ module.exports.login = async function login(req, res) {
       // Verifica que exista un usuario con el nombre de usuario escrito por el usuario.
       if (!usuarioDB) {
          return res.status(400).json({
+            status: 400,
             ok: false,
             err: {
                message: "Usuario incorrecto"
@@ -39,6 +39,7 @@ module.exports.login = async function login(req, res) {
       // Valida que la contraseña escrita por el usuario, sea la almacenada en la db
       if (!bcrypt.compareSync(body.password, usuarioDB.password)) {
          return res.status(400).json({
+            status: 400,
             ok: false,
             err: {
                message: "Contraseña incorrecta"
