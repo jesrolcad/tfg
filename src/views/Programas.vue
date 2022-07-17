@@ -1,15 +1,28 @@
 <template>
-<Navbar />
-    <div class="Programas">
-        <h1 style="font-family:montserratbold;">Programas</h1>
-    </div>
-    <div class="card-group" >
+<Navbar style="margin-bottom:80px"/>
+    <div class="Programas" style="margin-left:10px;">
+        <h1 style="font-family:montserratbold; margin-bottom:30px">Programas</h1>
+        <Filtros @escucharFiltros="filtrados" />
+    <div v-if="programasFiltrados.length==0" class="card-group" >
         <div class="col-3" v-for="programa of displayedProgramas" :key="programa._id">
             <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
                         :src="programa.imagen || 'placeholder.png'"> </router-link>
             <div class="card-body" style="margin: 10px">
                 <h4 class="card-title">{{programa.titulo}}</h4>
                 <small>{{moment(programa.fecha).locale('es').format("D MMM YYYY")}}</small>
+            </div>
+        </div>
+    </div>
+    <div v-else-if="programasFiltrados.mensaje" class="card-group" >
+        {{programasFiltrados.mensaje}}
+    </div>
+    <div v-else class="card-group" >
+        <div class="col-3" v-for="programa of displayedProgramasF" :key="programa._id">
+            <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
+                        :src="programa.imagen || 'placeholder.png'"> </router-link>
+            <div class="card-body" style="margin: 10px">
+                <h4 class="card-title">{{programa.titulo}}</h4>
+                <small style="font-family:abeezeeregular;">{{moment(programa.fecha).locale('es').format("D MMM YYYY")}}</small>
             </div>
         </div>
     </div>
@@ -34,11 +47,13 @@
           class="btn btn-sm btn-outline-secondary"
         >Siguiente</button>
       </div>
+      </div>
       <Footer />
 </template>
 <script>
     import Navbar from './Navbar.vue'
     import Footer from './Footer.vue'
+    import Filtros from './Filtros.vue'
     import moment from 'moment'
     class Programa{
         constructor(_id,tipo,titulo,fecha,imagen){
@@ -57,7 +72,8 @@
                 baseURL: "http://localhost:5000",
                 page: 1,
                 perPage: 21,
-                pages: []
+                pages: [],
+                programasFiltrados:[],
             }
         },
         created(){
@@ -80,8 +96,8 @@
                     });
             },
             moment,
-            setProgramas() {
-                let numberOfPages = Math.ceil(this.programas.length / this.perPage);
+            setProgramas(programas) {
+                let numberOfPages = Math.ceil(programas.length / this.perPage);
                 for (let i = 1; i <= numberOfPages; i++) {
                     this.pages.push(i);
             }
@@ -92,24 +108,35 @@
                 let from = (page * perPage) - perPage;
                 let to = (page * perPage);
                 return programas.slice(from, to);
-            }
+            },
+            filtrados(value){
+                this.programasFiltrados = value;
+                console.log(JSON.stringify(this.programasFiltrados))
+            },
         },
         components: {
             Navbar,
-            Footer
+            Footer,
+            Filtros
         },watch: {
             programas(){
-                this.setProgramas();
+                this.setProgramas(this.programas);
+            },
+            programasF(){
+                this.setProgramas(this.programasFiltrados);
             }
         },
         computed: {
             displayedProgramas: function () {
             return this.paginate(this.programas);
-            }
+            },
+            displayedProgramasF: function () {
+            return this.paginate(this.programasFiltrados);
+            },
         }
     }
 </script>
-<style>
+<style scoped>
 .col-3{
     margin: 20px;
     font-family: montserratbold;

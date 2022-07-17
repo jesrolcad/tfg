@@ -162,8 +162,9 @@ class Programa {
 }
 
 export default {
-    data() {
-        return {
+    data(){
+        return{
+            baseURL: "http://localhost:5000",
             programa: new Programa(),
             programas: [],
             actores: [],
@@ -189,7 +190,7 @@ export default {
 
     methods: {
         getPrograma() {
-            fetch('http://localhost:5000/programas/' + this.id, { headers: { 'Authorization': sessionStorage.getItem("token") } })
+            fetch(this.baseURL+'/programas/'+ this.id, { headers: { 'Authorization': sessionStorage.getItem("token") } })
                 .then(res => res.json())
                 .then(data => {
                     this.programa = data;
@@ -197,11 +198,10 @@ export default {
                 }).then(() => { this.getActores() });
         },
         moment,
-        getActores() {
-            fetch('http://localhost:5000/actores/programa',
-                {
-                    method: 'POST',
-                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' },
+        getActores(){
+            fetch(this.baseURL+'/actores/programa',
+                {   method: 'POST',
+                    headers: {'Accept': 'application/json','Content-type':'application/json'},
                     body: JSON.stringify(this.actores)
                 })
                 .then(res => res.json())
@@ -211,7 +211,7 @@ export default {
         },
 
         getListas() {
-            fetch("http://localhost:5000/" + "listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
+            fetch(this.baseURL+ + "/listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
                 .then(res => res.json())
                 .then(data => {
                     this.listas = data;
@@ -220,7 +220,7 @@ export default {
         },
 
         async getLista(id) {
-            await fetch("http://localhost:5000/" + "lista/" + id, { headers: { 'Authorization': sessionStorage.getItem("token") } })
+            await fetch(this.baseURL + "/lista/" + id, { headers: { 'Authorization': sessionStorage.getItem("token") } })
                 .then(res => res.json())
                 .then(data => {
                     this.lista = data;
@@ -231,7 +231,7 @@ export default {
 
             //Se obtiene el json de programas
             let jsonProgramasVistos = this.listas.find(l => l.lista.nombre === "Programas vistos");
-            fetch('http://localhost:5000/lista/' + jsonProgramasVistos.lista._id + '/agregar/' + this.programa._id,
+            fetch(this.baseURL+'/lista/' + jsonProgramasVistos.lista._id + '/agregar/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token") },
                     method: 'PUT',
@@ -265,19 +265,13 @@ export default {
                 icon: true,
                 rtl: false
             });
-
-
-
-
         },
 
         deleteProgramaVisto() {
 
-
             //Se obtiene el json de programas
             let jsonProgramasVistos = this.listas.find(l => l.lista.nombre === "Programas vistos");
-
-            fetch('http://localhost:5000/lista/' + jsonProgramasVistos.lista._id + '/borrar/' + this.programa._id,
+            fetch(this.baseURL+'/lista/' + jsonProgramasVistos.lista._id + '/borrar/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token") },
                     method: 'PUT',
@@ -318,7 +312,7 @@ export default {
 
         setProgramaSeguimiento() {
             let jsonProgramasSeguimiento = this.listas.find(l => l.lista.nombre === "En seguimiento");
-            fetch('http://localhost:5000/lista/' + jsonProgramasSeguimiento.lista._id + '/agregar/' + this.programa._id,
+            fetch(this.baseURL+'/lista/' + jsonProgramasSeguimiento.lista._id + '/agregar/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token") },
                     method: 'PUT',
@@ -359,7 +353,7 @@ export default {
         deleteProgramaSeguimiento() {
             let jsonProgramasSeguimiento = this.listas.find(l => l.lista.nombre === "En seguimiento");
 
-            fetch('http://localhost:5000/lista/' + jsonProgramasSeguimiento.lista._id + '/borrar/' + this.programa._id,
+            fetch(this.baseURL+'/lista/' + jsonProgramasSeguimiento.lista._id + '/borrar/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token") },
                     method: 'PUT',
@@ -424,8 +418,8 @@ export default {
 }
 </script>
 
-<style>
-.card {
+<style scoped>
+.card{
     margin: 20px;
     font-family: 'montserratbold';
     border-radius: 20px;
