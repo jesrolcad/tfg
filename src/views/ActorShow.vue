@@ -84,7 +84,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 .table{
     vertical-align: middle; text-align: center;
 }

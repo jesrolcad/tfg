@@ -1,7 +1,9 @@
 <template>
     <Navbar />
     <div class="Programa">
-        <body style="margin-top: 80px;width: 1140px;height: 600px;">
+        <body style="justify-content: space-evenly; margin-top: 80px">
+            <button @click="goBack" class="btn btn-primary btn-lg btn-block"> 
+            <font-awesome-icon icon="fa-arrow-left" style="color:white" class="fa-xl" /></button>
             <div class="container">
                 <div class="row">
                     <div class="col-md-8">
@@ -221,6 +223,9 @@ export default {
                 .then(data => {
                     this.lista = data;
                 })
+        },
+        goBack() {
+            this.$router.go(-1)
         },
         setProgramaVisto() {
             //Se obtiene el json de programas

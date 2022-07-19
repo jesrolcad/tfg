@@ -31,6 +31,13 @@ router.beforeEach((to, from, next) => {
     } else {
         next();
     }
+
+    let modalBackground = document.querySelector('.modal')
+    if (modalBackground) {
+        modalBackground.remove()
+    }else{
+        next()
+    }
 });
 
 export default router;

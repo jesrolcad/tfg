@@ -8,10 +8,10 @@
                 <h3 >Programas similares</h3>
                 <div class="card-group" style="justify-content: space-evenly;" >
                     <div class="col-2" v-for="sugerido of sugeridos" :key="sugerido._id">
-                        <router-link v-if="sugerido.imagen" :to="`/programa/${sugerido._id}`"><img class="card-img-top"
-                        :src="sugerido.imagen"> </router-link>
-                        <router-link v-if="!sugerido.imagen" :to="`/programa/${sugerido._id}`"><img class="card-img-top"
-                        src='..\..\public\placeholder.png' > </router-link>
+                        <router-link  :to="`/programa/${sugerido._id}`" :key="$route.fullPath">
+                        <img v-if="sugerido.imagen" class="card-img-top" :src="sugerido.imagen">
+                        <img v-if="!sugerido.imagen" class="card-img-top" src='..\..\public\placeholder.png' >
+                        </router-link>
                         <div class="card-body" style="margin: 10px; height: max-content; word-wrap: break-word;" >
                             <h5 class="card-title">{{ sugerido.titulo }}</h5>
                             <small style="font-family:abeezeeregular;">{{moment(sugerido.fecha).locale('es').format("D MMM YYYY")}}</small>
