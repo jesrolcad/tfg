@@ -7,5 +7,9 @@ router_recomendaciones.post('/sugerencias', verifyLoggedInUser.authenticateToken
     recomendacionesService.getSugerencias(req,res);
 });
 
+router_recomendaciones.post('/usuario', verifyLoggedInUser.authenticateToken, (req,res) => {
+    recomendacionesService.getRecomendacionesUsuario(req,res);
+});
+
 
 module.exports = router_recomendaciones;

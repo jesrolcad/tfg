@@ -133,3 +133,141 @@ module.exports.getSugerencias = async function (req, res) {
         ]);
         res.json(sugerencias);
 };
+
+module.exports.getRecomendacionesUsuario = async function (req, res) {
+    console.log(req.user._id);
+    const puntuadosUsuario = await Puntuacion.aggregate(
+        [
+                {
+                '$match': {
+                    'usuario': mongoose.Types.ObjectId(req.user._id)
+                }
+                }, {
+                '$project': {
+                    'programa': 1,
+                    '_id': 0
+                }
+                }, {
+                '$group': {
+                    '_id': 'new',
+                    'programa': {
+                    '$addToSet': '$programa'
+                    }
+                }
+                }, {
+                '$project': {
+                    '_id': 0,
+                    'programa': 1
+                }
+                }
+        ]
+    );
+    console.log(puntuadosUsuario)
+    const generosUsuario= await Puntuacion.aggregate([
+        {
+            '$match': {
+                'usuario': mongoose.Types.ObjectId(req.user._id),
+                'puntuacion': {
+                '$gte': 4
+                }
+            }
+            }, {
+            '$sort': {
+                'puntuacion': -1
+            }
+            }, {
+            '$limit': 5
+            }, {
+            '$lookup': {
+                'from': 'programas',
+                'localField': 'programa',
+                'foreignField': '_id',
+                'as': 'generos'
+            }
+            }, {
+            '$project': {
+                '_id': 0,
+                'programa': 1,
+                'puntuacion': 1,
+                'generos.generos': 1
+            }
+            }, {
+            '$unwind': {
+                'path': '$generos'
+            }
+            }, {
+            '$unwind': {
+                'path': '$generos.generos'
+            }
+            }, {
+            '$group': {
+                '_id': 'nuevo_id',
+                'generos': {
+                '$addToSet': '$generos.generos'
+                }
+            }
+            }, {
+            '$project': {
+                '_id': 0,
+                'generos': 1
+            }
+            }
+        ])
+    console.log(generosUsuario[0].generos)
+    const recomendaciones= await Programa.aggregate([
+        {
+        '$match': {
+            '_id': {
+                '$nin': puntuadosUsuario[0].programa
+            },
+            'generos': {
+                '$in': generosUsuario[0].generos
+            }
+        }
+        }, {
+        '$project': {
+            'titulo': 1,
+            'tipo': 1,
+            'fecha': 1,
+            'imagen': 1,
+            '_id': 1
+        }
+        }, {
+        '$lookup': {
+            'from': 'puntuaciones',
+            'localField': '_id',
+            'foreignField': 'programa',
+            'as': 'puntuacion'
+        }
+        }, {
+        '$match': {
+            'puntuacion': {
+            '$exists': true,
+            '$ne': []
+            }
+        }
+        }, {
+        '$set': {
+            'numPuntuaciones': {
+            '$size': '$puntuacion'
+            },
+            'puntuacion': '$puntuacion.puntuacion'
+        }
+        }, {
+        '$set': {
+            'puntuacionMedia': {
+            '$avg': '$puntuacion'
+            }
+        }
+        }, {
+        '$sort': {
+            'numPuntuaciones': -1,
+            'puntuacionMedia': -1
+        }
+        }, {
+        '$limit': 5
+        }
+    ]);
+    res.json(recomendaciones)
+    console.log(recomendaciones)
+};

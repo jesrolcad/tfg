@@ -38,6 +38,7 @@
       </div>
     </div>
   </div>
+  <RecomendacionesUsuario />
   </div>
 
 </template>
@@ -45,7 +46,7 @@
 
 <script>
 import Navbar from './Navbar.vue'
-
+import RecomendacionesUsuario from './RecomendacionesUsuario.vue'
 
 export default {
   data() {
@@ -84,7 +85,8 @@ export default {
 
   },
   components: {
-    Navbar
+    Navbar,
+    RecomendacionesUsuario
   }
 
 
