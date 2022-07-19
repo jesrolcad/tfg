@@ -36,7 +36,7 @@ module.exports.login = function login(req, res) {
             }
          })
       }
-      // Valida que la contraseña escrita por el usuario, sea la almacenada en la db
+      //Valida que la contraseña escrita por el usuario, sea la almacenada en la db
       if (!bcrypt.compareSync(body.password, usuarioDB.password)) {
          return res.status(400).json({
             status: 400,
@@ -61,6 +61,8 @@ module.exports.login = function login(req, res) {
 
 
 module.exports.registro = async function registro(req, res) {
+
+   
 
    const errors = validationResult(req);
 

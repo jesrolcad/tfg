@@ -1,5 +1,6 @@
 const Lista = require('../../models/Lista');
 const Programa = require('../../models/Programa');
+const Puntuacion = require('../../models/Puntuacion');
 const mongoose = require('mongoose');
 const { validationResult } = require('express-validator');
 
@@ -104,16 +105,18 @@ module.exports.getGenerosLista = async (lista) => {
  
     // console.log(req.params.idLista);
  
-    Lista.findById(req.params.idLista, function (err, lista) {
+    Lista.findById(req.params.idLista, async function (err, lista) {
        if (lista) {
  
           if (lista.usuario == req.user._id) {
              let programas = lista.programas;
              let index = programas.indexOf(req.params.idPrograma);
              if (index > -1) {
-                programas.splice(index, 1);
-                lista.save();
-                return res.sendStatus(204);
+               programas.splice(index, 1);
+               lista.save();
+               let puntuacion = await Puntuacion.findOne({programa: req.params.idPrograma, usuario: req.user._id});
+               puntuacion.remove();
+               return res.sendStatus(204);
  
              } else {
                 return res.sendStatus(400);
