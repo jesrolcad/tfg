@@ -3,12 +3,11 @@ const Puntuacion = require('../../models/Puntuacion');
 const mongoose = require('mongoose');
 
 module.exports.getSugerencias = async function (req, res) {
-    //console.log(req.body.idUsuario)
     const puntuadosUsuario = await Puntuacion.aggregate(
         [
                 {
                 '$match': {
-                    'usuario': mongoose.Types.ObjectId(req.body.idUsuario)
+                    'usuario': mongoose.Types.ObjectId(req.user._id)
                 }
                 }, {
                 '$project': {
@@ -30,7 +29,6 @@ module.exports.getSugerencias = async function (req, res) {
                 }
         ]
     );
-    //console.log(puntuadosUsuario[0].programa)
     const puntuacionPrograma = await Puntuacion.aggregate([
         {
             '$match': {
@@ -45,7 +43,6 @@ module.exports.getSugerencias = async function (req, res) {
             }
         }
     ]);
-    //console.log(puntuacionPrograma[0].media)
     const numPuntuacionesPrograma = await Puntuacion.aggregate([
         {
             '$match': {
@@ -55,7 +52,6 @@ module.exports.getSugerencias = async function (req, res) {
             '$count': 'count'
         }
     ]);
-    //console.log(numPuntuacionesPrograma[0].count)
     const sugerencias = await Programa.aggregate([
         {
             '$match': {
@@ -132,9 +128,8 @@ module.exports.getSugerencias = async function (req, res) {
                 'distance': 1
             }
             }, {
-            '$limit': 5
+            '$limit': 4
             }
         ]);
-        //console.log(sugerencias)
         res.json(sugerencias);
 };

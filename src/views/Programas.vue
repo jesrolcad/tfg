@@ -1,10 +1,10 @@
 <template>
 <Navbar style="margin-bottom:80px"/>
-    <div class="Programas" style="margin-left:10px;">
+    <div class="Programas" >
         <h1 style="font-family:montserratbold; margin-bottom:30px">Programas</h1>
         <Filtros @escucharFiltros="filtrados" />
-    <div v-if="programasFiltrados.length==0" class="card-group" >
-        <div class="col-3" v-for="programa of displayedProgramas" :key="programa._id">
+    <div v-if="programasFiltrados.length==0" class="card-group" style="justify-content: space-evenly;">
+        <div class="col-3" v-for="programa of displayedProgramas" :key="programa._id" >
             <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
                         :src="programa.imagen || 'placeholder.png'"> </router-link>
             <div class="card-body" style="margin: 10px">
@@ -13,10 +13,10 @@
             </div>
         </div>
     </div>
-    <div v-else-if="programasFiltrados.mensaje" class="card-group" >
+    <div v-else-if="programasFiltrados.mensaje" class="card-group" style="justify-content: space-evenly;">
         {{programasFiltrados.mensaje}}
     </div>
-    <div v-else class="card-group" >
+    <div v-else class="card-group" style="justify-content: space-evenly;" >
         <div class="col-3" v-for="programa of displayedProgramasF" :key="programa._id">
             <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
                         :src="programa.imagen || 'placeholder.png'"> </router-link>
@@ -28,27 +28,27 @@
     </div>
     <div class="btn-group col-md-2 offset-md-5">
         <button
-          type="button"
-          class="btn btn-sm btn-outline-secondary"
-          v-if="page != 1"
-          @click="page--"
+            type="button"
+            class="btn btn-sm btn-outline-secondary"
+            v-if="page != 1"
+            @click="page--"
         >Anterior</button>
         <button
-          type="button"
-          class="btn btn-sm btn-outline-secondary"
-          v-for="pageNumber in pages.slice(page-1, page+5)"
-          @click="page = pageNumber"
-          :key="pageNumber"
+            type="button"
+            class="btn btn-sm btn-outline-secondary"
+            v-for="pageNumber in pages.slice(page-1, page+5)"
+            @click="page = pageNumber"
+            :key="pageNumber"
         >{{pageNumber}}</button>
         <button
-          type="button"
-          @click="page++"
-          v-if="page < pages.length"
-          class="btn btn-sm btn-outline-secondary"
+            type="button"
+            @click="page++"
+            v-if="page < pages.length"
+            class="btn btn-sm btn-outline-secondary"
         >Siguiente</button>
-      </div>
-      </div>
-      <Footer />
+    </div>
+    </div>
+    <Footer />
 </template>
 <script>
     import Navbar from './Navbar.vue'
@@ -82,13 +82,9 @@
         methods:{
             getProgramas(){
                 fetch(this.baseURL+'/programas/all', {
-                    
                     headers:{
-                        
                             'Authorization':sessionStorage.getItem("token")
-                        
                     }
-                    
                 })
                     .then(res=> res.json())
                     .then(data => {
@@ -138,7 +134,9 @@
 </script>
 <style scoped>
 .col-3{
-    margin: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 20px;
     font-family: montserratbold;
     border-radius: 20px;
     box-shadow: 0px 0px 5px var(--bs-gray-400);
