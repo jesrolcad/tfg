@@ -21,7 +21,16 @@ const PuntuacionSchema = new Schema({
         type: mongoose.Types.ObjectId,
         ref: 'Usuario',
         required: [true, "Un programa debe ser puntuado por un usuario"],
+    },
+
+
+    fechaPuntuacion: {
+        type: Date,
+        timestamps: true,
+
     }}, 
+
+    
     
     {collection: 'puntuaciones'});
 

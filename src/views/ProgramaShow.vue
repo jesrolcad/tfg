@@ -36,7 +36,7 @@
                                 </h1>
                             </div>
                             <div class="card-body" style="width:auto;height: auto;">
-                                <section>
+                                <section class="buttons">
                                     <div class="btn-group btn-group-lg" role="group"
                                         style="border-radius: 0px;margin-left: 4px;">
 
@@ -78,8 +78,29 @@
                                         <!-- <button class="btn btn-primary"
                                             type="button" style="border-radius: 112px;margin-left: 10px;"><i
                                                 class="far fa-star"></i></button> -->
+
+                                                
                                     </div>
+                                    
                                 </section>
+
+                                <div class="progress-bar">
+                                    <ve-progress :progress="porcentajePuntuacionMedia" :legend="this.puntuacionMedia.media" :size="55">
+
+                                    <template #legend>
+                                        <span>/5</span>
+                                    </template>
+                                    
+                                    </ve-progress>
+                                    
+                                </div>
+
+                            <div>
+                                <p v-if="this.puntuacionMedia.numPuntuaciones == 0" class="legend-caption">0 puntuaciones</p>
+                                <p v-if="this.puntuacionMedia.numPuntuaciones == 1" class="legend-caption">{{this.puntuacionMedia.numPuntuaciones}} puntuación</p>
+                                <p v-if="this.puntuacionMedia.numPuntuaciones > 1" class="legend-caption">{{this.puntuacionMedia.numPuntuaciones}} puntuaciones</p>
+
+                            </div>
                                 <section style="margin: 0px;margin-top: 15px;">
                                     <div class="row" style="margin: 0px;">
                                         <div class="col-xl-2"><button class="btn disabled" type="button" disabled=""
@@ -105,7 +126,7 @@
                                         </div>
                                     </div>
                                 </section>
-                                <section style="font-size: 23px;margin-top: 10x;">
+                                <section style="font-size: 23px;">
                                     <h3 class="text-start"
                                         style="font-family: montserratbold; font-size: 30px;margin: 0px;padding: 5px;text-align: center;margin-top: 5px;">
                                         <strong>Descripción:</strong>
@@ -146,10 +167,11 @@
 
 
 <script>
-import Navbar from './Navbar.vue'
-import moment from 'moment'
+import Navbar from './Navbar.vue';
+import moment from 'moment';
 import { useToast } from "vue-toastification";
-import StarRating from 'vue-star-rating'
+import StarRating from 'vue-star-rating';
+import {VeProgress} from "vue-ellipse-progress";
 
 
 
@@ -178,12 +200,15 @@ export default {
             listas: [],
             lista: [],
             puntuacion: 0,
+            puntuacionMedia: {},
             id: this.$route.params.id,
         }
     },
     created() {
         this.getPrograma(),
-            this.getListas()
+        this.getListas(),
+        this.getPuntuacionPrograma(),
+        this.getPuntuacionMediaPrograma()
     },
 
     methods: {
@@ -214,15 +239,6 @@ export default {
                 .then(res => res.json())
                 .then(data => {
                     this.listas = data;
-                    console.log(this.listas);
-                })
-        },
-
-        async getLista(id) {
-            await fetch("http://localhost:5000/" + "lista/" + id, { headers: { 'Authorization': sessionStorage.getItem("token") } })
-                .then(res => res.json())
-                .then(data => {
-                    this.lista = data;
                 })
         },
 
@@ -286,6 +302,9 @@ export default {
 
             //Se actualiza el json de las listas
             this.listas[index] = jsonProgramasVistos;
+
+            //Se elimina la puntuacion
+            this.puntuacion = 0;
 
             const toast = useToast();
 
@@ -365,7 +384,35 @@ export default {
 
         },
 
+        getPuntuacionPrograma() {
+            fetch('http://localhost:5000/puntuaciones/' + this.id, {
+                headers: { 'Authorization': sessionStorage.getItem("token") },
+                method: 'GET',
+            })
+                .then(res => res.json())
+                .then(json => {
+                    this.puntuacion = json.puntuacion;
+                });
+        },
+
+        getPuntuacionMediaPrograma() {
+            fetch('http://localhost:5000/puntuaciones/media/' + this.id, {
+                headers: { 'Authorization': sessionStorage.getItem("token") },
+                method: 'GET',
+            })
+                .then(res => res.json())
+                .then(json => {
+                    this.puntuacionMedia = json.puntuacionMedia;
+                });
+        },
+        
+        
+
         async puntuarPrograma() {
+
+            let jsonProgramasVistos = this.listas.find(l => l.lista.nombre === "Programas vistos");
+            console.log(jsonProgramasVistos);
+            console.log(this.programa._id);
             await fetch('http://localhost:5000/puntuaciones/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token"), 'Content-Type': 'application/json' },
@@ -375,9 +422,11 @@ export default {
                     })
                 }).then(res => res.json()).then(json => {
                     if (json.status !== 400) {
-                        console.log("ÉXITO");
 
                         const toast = useToast();
+
+                        this.getPuntuacionPrograma();
+                        this.getPuntuacionMediaPrograma();
 
                         toast.success("Programa puntuado correctamente",
                             {
@@ -385,11 +434,10 @@ export default {
                                 draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                                 icon: true, rtl: false
                             });
+                            
 
                     } else {
-                        console.log("SE HA PRODUCIDO ERROR")
-                        console.log(json);
-                        console.log(this.puntuacion);
+                        this.puntuacion = 0;
                         const toast = useToast();
                             toast.error(json.message,
                                 {
@@ -397,9 +445,6 @@ export default {
                                     draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                                     icon: true, rtl: false
                                 });
-                        
-
-
 
                     }
 
@@ -423,6 +468,10 @@ export default {
             let lista = this.listas.find(l => l.lista.nombre === "En seguimiento").lista;
             let programas = lista.programas;
             return programas.includes(this.programa._id);
+        },
+
+        porcentajePuntuacionMedia() {
+            return (this.puntuacionMedia.media * 100) / 5;
         }
 
     },
@@ -430,7 +479,8 @@ export default {
 
     components: {
         Navbar,
-        StarRating
+        StarRating,
+        VeProgress
     }
 
 }
@@ -485,5 +535,56 @@ export default {
 
 .added-to-list {
     color: #0E4CBF;
+}
+
+
+.custom-text {
+  font-weight: bold;
+  font-size: 1.9em;
+  border: 1px solid #cfcfcf;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  color: #999;
+  background: #fff;
+}
+
+.legend-caption {
+
+    font-size: 0.7em;
+
+    color: #000;
+
+    position: relative;
+
+    top: 40px;
+
+    left: 300px;
+
+    
+
+}
+
+.progress-bar {
+    /* set margin left */
+    margin-left: 245px;
+    /* set padding */
+    position: relative;
+    /* set top */
+    top: 40px;
+    /* set left */
+    left: 70px;
+
+    z-index: 0;
+
+}
+
+.buttons {
+
+    position: relative;
+    margin-bottom: -80px;   
+
+    z-index: 0;
+
 }
 </style>
