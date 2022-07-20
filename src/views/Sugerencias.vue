@@ -8,7 +8,7 @@
                 <h3 >Programas similares</h3>
                 <div class="card-group" style="justify-content: space-evenly;" >
                     <div class="col-2" v-for="sugerido of sugeridos" :key="sugerido._id">
-                        <router-link  :to="`/programa/${sugerido._id}`" :key="$route.fullPath">
+                        <router-link  :to="`/programa/${sugerido._id}`">
                         <img v-if="sugerido.imagen" class="card-img-top" :src="sugerido.imagen">
                         <img v-if="!sugerido.imagen" class="card-img-top" src='..\..\public\placeholder.png' >
                         </router-link>
@@ -22,7 +22,6 @@
         <!--<div v-if="actoresR.length === 0" class="row" style="margin-top:100px">
                 <h1 style="font-family:montserratbold; font-size: 30px;">Reparto no disponible</h1>
             </div>-->
-            <div></div>
         </div>
     </div>
 </template>
