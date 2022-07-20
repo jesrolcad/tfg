@@ -141,7 +141,6 @@ module.exports.getSugerencias = async function (req, res) {
 };
 
 module.exports.getRecomendacionesUsuario = async function (req, res) {
-    console.log(req.user._id);
     const puntuadosUsuario = await Puntuacion.aggregate(
         [
                 {
@@ -168,7 +167,6 @@ module.exports.getRecomendacionesUsuario = async function (req, res) {
                 }
         ]
     );
-    console.log(puntuadosUsuario)
     const generosUsuario= await Puntuacion.aggregate([
         {
             '$match': {
@@ -218,62 +216,64 @@ module.exports.getRecomendacionesUsuario = async function (req, res) {
                 'generos': 1
             }
             }
-        ])
-    console.log(generosUsuario[0].generos)
-    const recomendaciones= await Programa.aggregate([
-        {
-        '$match': {
-            '_id': {
-                '$nin': puntuadosUsuario[0].programa
-            },
-            'generos': {
-                '$in': generosUsuario[0].generos
+        ]);
+    if(puntuadosUsuario.length == 0 || generosUsuario.length == 0){
+        res.status(200).json({"mensaje": "No se han podido realizar sugerencias para usted debido a que no ha añadido ninguna puntuación"})
+    }else{
+        const recomendaciones= await Programa.aggregate([
+            {
+            '$match': {
+                '_id': {
+                    '$nin': puntuadosUsuario[0].programa
+                },
+                'generos': {
+                    '$in': generosUsuario[0].generos
+                }
             }
-        }
-        }, {
-        '$project': {
-            'titulo': 1,
-            'tipo': 1,
-            'fecha': 1,
-            'imagen': 1,
-            '_id': 1
-        }
-        }, {
-        '$lookup': {
-            'from': 'puntuaciones',
-            'localField': '_id',
-            'foreignField': 'programa',
-            'as': 'puntuacion'
-        }
-        }, {
-        '$match': {
-            'puntuacion': {
-            '$exists': true,
-            '$ne': []
+            }, {
+            '$project': {
+                'titulo': 1,
+                'tipo': 1,
+                'fecha': 1,
+                'imagen': 1,
+                '_id': 1
             }
-        }
-        }, {
-        '$set': {
-            'numPuntuaciones': {
-            '$size': '$puntuacion'
-            },
-            'puntuacion': '$puntuacion.puntuacion'
-        }
-        }, {
-        '$set': {
-            'puntuacionMedia': {
-            '$avg': '$puntuacion'
+            }, {
+            '$lookup': {
+                'from': 'puntuaciones',
+                'localField': '_id',
+                'foreignField': 'programa',
+                'as': 'puntuacion'
             }
-        }
-        }, {
-        '$sort': {
-            'numPuntuaciones': -1,
-            'puntuacionMedia': -1
-        }
-        }, {
-        '$limit': 5
-        }
-    ]);
-    res.json(recomendaciones)
-    console.log(recomendaciones)
+            }, {
+            '$match': {
+                'puntuacion': {
+                '$exists': true,
+                '$ne': []
+                }
+            }
+            }, {
+            '$set': {
+                'numPuntuaciones': {
+                '$size': '$puntuacion'
+                },
+                'puntuacion': '$puntuacion.puntuacion'
+            }
+            }, {
+            '$set': {
+                'puntuacionMedia': {
+                '$avg': '$puntuacion'
+                }
+            }
+            }, {
+            '$sort': {
+                'numPuntuaciones': -1,
+                'puntuacionMedia': -1
+            }
+            }, {
+            '$limit': 5
+            }
+        ]);
+        res.status(200).json(recomendaciones);
+    }
 };

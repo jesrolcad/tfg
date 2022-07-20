@@ -88,12 +88,8 @@ module.exports.registro = async function registro(req, res) {
 
 //get my profile
 module.exports.perfil = function perfil(req, res) {
-   
-      let usuario = req.user;
-      console.log(usuario);
-   
-      return res.status(200).json({
-         usuario: usuario });
-   
+   let usuario = req.user;
+   return res.status(200).json({
+      usuario: usuario });
    }
 

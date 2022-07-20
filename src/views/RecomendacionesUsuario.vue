@@ -1,6 +1,6 @@
 <template>
     <div class="RecomendacionesUsuario">
-        <div v-if="recomendados.length !== 0" class="row">
+        <div v-if="recomendados.length !== 0 && !recomendados.mensaje" class="row">
                 <h3 class="mt-5">Recomendaciones según tus gustos</h3>
                 <div class="card-group" style="justify-content: space-evenly;" >
                     <div class="col-8" v-for="recomendado of recomendados" :key="recomendado._id">
