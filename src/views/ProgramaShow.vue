@@ -112,7 +112,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="actoresR.length !== 0" class="row" style="margin-top:80px">
+                <div v-if="actoresR.length !== 0" class="row" style="margin-top:15%">
                     <h1 style="width: 87px;">Reparto:</h1>
                     <div class="card-group" style="justify-content: space-evenly;" >
                         <div class="col-3" v-for="actor of actoresR" :key="actor._id">
@@ -121,7 +121,7 @@
                             </router-link>
                             <router-link :to="`/actor/${actor.nombre}`">
                                 <img class="card-img-top" v-if="!actor.imagen_actor"
-                                    src='..\..\public\placeholder_actor.png'>
+                                    src='..\..\public\placeholder.png'>
                             </router-link>
                             <div class="card-body" style="margin: 10px; height: max-content;">
                                 <h4 class="card-title">{{ actor.nombre }}</h4>

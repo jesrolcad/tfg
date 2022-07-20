@@ -1,8 +1,8 @@
 <template>
 <Navbar style="margin-bottom: 100px" />
 <div class="Actor">
-    <h1><img v-if="personajes[0].imagen_actor" class="rounded shadow mb-5" style="margin-right:5px;width:100px;height:100px" :src="personajes[0].imagen_actor">
-        <img v-if="!personajes[0].imagen_actor" class="rounded shadow mb-5" style="margin-right:5px;width:100px;height:100px" src="../../public/placeholder_actor.png">
+    <h1><img v-if="personajes[0].imagen_actor" class="rounded shadow mb-5" style="margin-right:5px;height:200px; width:150px" :src="personajes[0].imagen_actor">
+        <img v-if="!personajes[0].imagen_actor" class="rounded shadow mb-5" style="margin-right:5px;height:200px; width:150px" src="../../public/placeholder.png">
     {{id}}</h1>
     <div style="margin-top: 35px;">
         <h1>Películas</h1>
