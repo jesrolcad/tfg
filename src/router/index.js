@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 const routes = [
     {path:'/', name:'Home',component: Home},
     {path:'/programas', name:'Programas',component: () => import(/* webpackChunkName: "Programas" */'../views/Programas.vue'), meta: {auth: true}},
+    {path:'/sugerencias', name:'Sugerencias',component: () => import('../views/Sugerencias.vue'), meta: {auth: true}},
     //{path:'/programa', name:'Programa',component: () => import(/* webpackChunkName: "Programa" */'../views/ProgramaShow.vue')}
     {path:'/programa/:id', name:'Programa',component: () => import(/* webpackChunkName: "Programa" */'../views/ProgramaShow.vue'), meta: {auth: true}},
     {path: '/login', name:'Login', component: () => import(/* webpackChunkName: "Programa" */'../views/Login.vue'), meta: {auth: false}},
@@ -29,6 +30,13 @@ router.beforeEach((to, from, next) => {
 
     } else {
         next();
+    }
+
+    let modalBackground = document.querySelector('.modal')
+    if (modalBackground) {
+        modalBackground.remove()
+    }else{
+        next()
     }
 });
 

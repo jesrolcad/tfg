@@ -12,7 +12,7 @@ router.post('/login', [ValidadorLogin.LoginSchema], (req, res) => {
 
 
 
-router.post('/registro',verifyLoggedInUser.authenticateToken, [ValidadorRegistro.registroSchema], (req, res) => {
+router.post('/registro', [ValidadorRegistro.registroSchema], (req, res) => {
     userService.registro(req, res);
 
 });
