@@ -235,19 +235,11 @@ export default {
         },
 
         getListas() {
-            fetch(this.baseURL+ + "/listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
+            fetch(this.baseURL +  "/listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
                 .then(res => res.json())
                 .then(data => {
                     this.listas = data;
                     console.log(this.listas);
-                })
-        },
-
-        async getLista(id) {
-            await fetch(this.baseURL + "/lista/" + id, { headers: { 'Authorization': sessionStorage.getItem("token") } })
-                .then(res => res.json())
-                .then(data => {
-                    this.lista = data;
                 })
         },
 

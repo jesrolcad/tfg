@@ -110,8 +110,6 @@ module.exports.getPuntuacionMediaPrograma = async (req, res) => {
 
     } else {
 
-    console.log(puntuacionMedia);
-
     res.json({
         status: 200,
         puntuacionMedia: {

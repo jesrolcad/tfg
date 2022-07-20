@@ -19,6 +19,7 @@ module.exports.getMisListas = async (req, res) => {
       }
       listasJson.push(listaJson);
    }
+   console.log(listasJson);
    res.json(listasJson);
  
  }
