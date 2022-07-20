@@ -52,86 +52,92 @@ module.exports.getSugerencias = async function (req, res) {
             '$count': 'count'
         }
     ]);
-    const sugerencias = await Programa.aggregate([
-        {
-            '$match': {
-                '_id': {
-                '$nin': puntuadosUsuario[0].programa
-                },
-                'generos': {
-                '$in': req.body.generos
+    if(puntuacionPrograma.length == 0 || numPuntuacionesPrograma.length == 0){
+        res.status(200).json({"mensaje": "El programa no ha sido votado y no es posible realizar sugerencias"})
+    }else if(req.body.generos.length == 0){
+        res.status(200).json({"mensaje": "El programa no tiene generos registrados y no es posible realizar sugerencias"})
+    }else{
+        const sugerencias = await Programa.aggregate([
+            {
+                '$match': {
+                    '_id': {
+                    '$nin': puntuadosUsuario[0].programa
+                    },
+                    'generos': {
+                    '$in': req.body.generos
+                    }
                 }
-            }
-            }, {
-            '$project': {
-                'titulo': 1,
-                'tipo': 1,
-                'fecha': 1,
-                'imagen': 1,
-                '_id': 1
-            }
-            }, {
-            '$lookup': {
-                'from': 'puntuaciones',
-                'localField': '_id',
-                'foreignField': 'programa',
-                'as': 'puntuacion'
-            }
-            }, {
-            '$match': {
-                'puntuacion': {
-                '$exists': true,
-                '$ne': []
+                }, {
+                '$project': {
+                    'titulo': 1,
+                    'tipo': 1,
+                    'fecha': 1,
+                    'imagen': 1,
+                    '_id': 1
                 }
-            }
-            }, {
-            '$set': {
-                'numPuntuaciones': {
-                '$size': '$puntuacion'
-                },
-                'puntuacion': '$puntuacion.puntuacion'
-            }
-            }, {
-            '$set': {
-                'puntuacion': {
-                '$avg': '$puntuacion'
+                }, {
+                '$lookup': {
+                    'from': 'puntuaciones',
+                    'localField': '_id',
+                    'foreignField': 'programa',
+                    'as': 'puntuacion'
                 }
-            }
-            }, {
-            '$set': {
-                'distance': {
-                '$sqrt': {
-                    '$add': [
-                    {
-                        '$pow': [
+                }, {
+                '$match': {
+                    'puntuacion': {
+                    '$exists': true,
+                    '$ne': []
+                    }
+                }
+                }, {
+                '$set': {
+                    'numPuntuaciones': {
+                    '$size': '$puntuacion'
+                    },
+                    'puntuacion': '$puntuacion.puntuacion'
+                }
+                }, {
+                '$set': {
+                    'puntuacion': {
+                    '$avg': '$puntuacion'
+                    }
+                }
+                }, {
+                '$set': {
+                    'distance': {
+                    '$sqrt': {
+                        '$add': [
                         {
-                            '$subtract': [
-                                puntuacionPrograma[0].media, '$puntuacion'
+                            '$pow': [
+                            {
+                                '$subtract': [
+                                    puntuacionPrograma[0].media, '$puntuacion'
+                                ]
+                            }, 2
                             ]
-                        }, 2
-                        ]
-                    }, {
-                        '$pow': [
-                        {
-                            '$subtract': [
-                                numPuntuacionesPrograma[0].count, '$numPuntuaciones'
+                        }, {
+                            '$pow': [
+                            {
+                                '$subtract': [
+                                    numPuntuacionesPrograma[0].count, '$numPuntuaciones'
+                                ]
+                            }, 2
                             ]
-                        }, 2
+                        }
                         ]
                     }
-                    ]
+                    }
                 }
+                }, {
+                '$sort': {
+                    'distance': 1
                 }
-            }
-            }, {
-            '$sort': {
-                'distance': 1
-            }
-            }, {
-            '$limit': 4
-            }
-        ]);
+                }, {
+                '$limit': 4
+                }
+            ]);
         res.json(sugerencias);
+    }
 };
 
 module.exports.getRecomendacionesUsuario = async function (req, res) {

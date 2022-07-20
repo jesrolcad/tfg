@@ -5,7 +5,11 @@ module.exports.getAllProgramas = async (req,res) => {
     const programas= await Programa.find()
         .select({ "titulo": 1, "tipo":1, "fecha":1, "imagen":1, "_id": 1})
         .sort({fecha:'desc'});
-    res.json(programas);
+    if(programas.length > 0) {
+        res.status(200).json(programas);
+    }else {
+        res.status(200).json({"mensaje": "No se han encontrado programas"});
+    }
 }
 
 module.exports.getProgramaById = async (req,res) => {
@@ -81,7 +85,7 @@ module.exports.getProgramasFiltados= async (req,res)=> {
     if(filtrados.length > 0) {
         res.status(200).json(filtrados);
     }else {
-        res.status(200).json({"mensaje": "No se han encontrado programas"});
+        res.status(200).json({"mensaje": "No se han encontrado programas para los filtros aplicados."});
     }
 }
 

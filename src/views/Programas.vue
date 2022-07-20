@@ -13,6 +13,9 @@
             </div>
         </div>
     </div>
+    <div v-else-if="programas.mensaje" class="card-group" style="justify-content: space-evenly;">
+        {{programas.mensaje}}
+    </div>
     <div v-else-if="programasFiltrados.mensaje" class="card-group" style="justify-content: space-evenly;">
         {{programasFiltrados.mensaje}}
     </div>

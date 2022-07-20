@@ -3,7 +3,11 @@
         <button style="margin-left: 10px;" type="button" class="btn btn-primary btn-lg btn-block"
         @click="showModal = true; getSugerencias();" data-bs-toggle="modal" data-bs-target="#myModal">Sugerencias</button>
         <div v-if="showModal" class="modal">
-            <div v-if="sugeridos.length !== 0" class="row">
+            <div v-if="sugeridos.mensaje" class="row">
+                <div style="position: absolute; margin-left:900px"><button class="btn btn-secondary" style="width: min-content;height: min-content;" @click="showModal = false">X</button></div>
+                <h4>{{sugeridos.mensaje}}</h4>
+            </div>
+            <div v-else class="row">
                 <div style="position: absolute; margin-left:900px"><button class="btn btn-secondary" style="width: min-content;height: min-content;" @click="showModal = false">X</button></div>
                 <h3 >Programas similares</h3>
                 <div class="card-group" style="justify-content: space-evenly;" >
@@ -19,6 +23,7 @@
                     </div>
                 </div>
             </div>
+            
         <!--<div v-if="actoresR.length === 0" class="row" style="margin-top:100px">
                 <h1 style="font-family:montserratbold; font-size: 30px;">Reparto no disponible</h1>
             </div>-->
