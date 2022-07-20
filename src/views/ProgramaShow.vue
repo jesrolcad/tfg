@@ -291,7 +291,6 @@ export default {
             let index = this.listas.findIndex(l => l.lista.nombre === "Programas vistos");
             //Se actualiza el json de las listas
             this.listas[index] = jsonProgramasVistos;
-
             //Se elimina la puntuacion
             this.puntuacion = 0;
 
@@ -303,8 +302,6 @@ export default {
                     draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                     icon: true, rtl: false
                 });
-
-
         },
         setProgramaSeguimiento() {
             let jsonProgramasSeguimiento = this.listas.find(l => l.lista.nombre === "En seguimiento");
@@ -322,14 +319,12 @@ export default {
             //Se actualiza el json de las listas
             this.listas[index] = jsonProgramasSeguimiento;
             const toast = useToast();
-
             toast.success("Programa añadido a En seguimiento",
                 {
                     position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                     draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                     icon: true, rtl: false
                 });
-
         },
         deleteProgramaSeguimiento() {
             let jsonProgramasSeguimiento = this.listas.find(l => l.lista.nombre === "En seguimiento");
@@ -348,24 +343,76 @@ export default {
             //Se actualiza el json de las listas
             this.listas[index] = jsonProgramasSeguimiento;
             const toast = useToast();
-            toast.success("Programa eliminado de En seguimiento", {
-                position: "top-right",
-                timeout: 1994,
-                closeOnClick: true,
-                pauseOnFocusLoss: true,
-                pauseOnHover: true,
-                draggable: true,
-                draggablePercent: 0.6,
-                showCloseButtonOnHover: true,
-                hideProgressBar: true,
-                closeButton: "button",
-                icon: true,
-                rtl: false
-            });
+            toast.success("Programa eliminado de En seguimiento",
+                {
+                    position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                    draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                    icon: true, rtl: false
+                });
         },
-        sugeridos(value){
-            this.programasSugeridos = value;
-            console.log(JSON.stringify(this.programasSugeridos));
+
+        getPuntuacionPrograma() {
+            fetch('http://localhost:5000/puntuaciones/' + this.id, {
+                headers: { 'Authorization': sessionStorage.getItem("token") },
+                method: 'GET',
+            })
+                .then(res => res.json())
+                .then(json => {
+                    this.puntuacion = json.puntuacion;
+                });
+        },
+
+        getPuntuacionMediaPrograma() {
+            fetch('http://localhost:5000/puntuaciones/media/' + this.id, {
+                headers: { 'Authorization': sessionStorage.getItem("token") },
+                method: 'GET',
+            })
+                .then(res => res.json())
+                .then(json => {
+                    this.puntuacionMedia = json.puntuacionMedia;
+                });
+        },
+
+        async puntuarPrograma() {
+
+            let jsonProgramasVistos = this.listas.find(l => l.lista.nombre === "Programas vistos");
+            console.log(jsonProgramasVistos);
+            console.log(this.programa._id);
+            await fetch('http://localhost:5000/puntuaciones/' + this.programa._id,
+                {
+                    headers: { 'Authorization': sessionStorage.getItem("token"), 'Content-Type': 'application/json' },
+                    method: 'POST',
+                    body: JSON.stringify({
+                        puntuacion: this.puntuacion
+                    })
+                }).then(res => res.json()).then(json => {
+                    if (json.status !== 400) {
+
+                        const toast = useToast();
+
+                        this.getPuntuacionPrograma();
+                        this.getPuntuacionMediaPrograma();
+
+                        toast.success("Programa puntuado correctamente",
+                            {
+                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                                icon: true, rtl: false
+                            });
+
+                    } else {
+                        this.puntuacion = 0;
+                        const toast = useToast();
+                            toast.error(json.message,
+                                {
+                                    position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                    draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                                    icon: true, rtl: false
+                                });
+
+                    }
+
+                });
         }
     },
     computed: {
@@ -457,19 +504,11 @@ export default {
 }
 
 .legend-caption {
-
     font-size: 0.7em;
-
     color: #000;
-
     position: relative;
-
     top: 40px;
-
     left: 300px;
-
-    
-
 }
 
 .progress-bar {
@@ -487,11 +526,8 @@ export default {
 }
 
 .buttons {
-
     position: relative;
-    margin-bottom: -80px;   
-
+    margin-bottom: -80px;
     z-index: 0;
-
 }
 </style>
