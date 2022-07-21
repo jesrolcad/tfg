@@ -60,7 +60,7 @@ module.exports.createOrUpdatePuntuacion = async (req, res) => {
 
 module.exports.getPuntuacionMediaPrograma = async (req, res) => {
 
-    //if idPrograma is not ObjectId
+    
     if(!mongoose.Types.ObjectId.isValid(req.params.idPrograma)) {
         return res.status(400).json({
             status: 400,
@@ -69,9 +69,6 @@ module.exports.getPuntuacionMediaPrograma = async (req, res) => {
 
     }
 
-    console.log(req.params.idPrograma);
-
-    
     let programa = await Programa.findById(req.params.idPrograma);
     if (!programa) {
         return res.status(400).json({
