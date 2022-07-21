@@ -11,7 +11,7 @@ module.exports.getActoresPrograma = async (req,res) => {
 }
 
 module.exports.getActorByName = async (req,res) => {
-    const nombre=req.params.nombre;
+    const nombre=req.params.nombre.trim();
     //const personajes= await Actor.find({"nombre": nombre}).select({_id:0,nombre:0});
     const personajes= await Actor.aggregate([
         {
@@ -34,8 +34,18 @@ module.exports.getActorByName = async (req,res) => {
             'titulo_url':1,
             'num_episodios': 1,
             'imagen_actor': 1,
+            'programas_actores._id':1,
             'programas_actores.imagen': 1,
             'programas_actores.fecha': 1
+          }
+        }, {
+          '$match': {
+            'programas_actores': {
+              '$exists': true,
+              '$not': {
+                '$size': 0
+              }
+            }
           }
         }, {
             '$sort': {

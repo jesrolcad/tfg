@@ -41,29 +41,34 @@
                                         style="border-radius: 0px;margin-left: 4px;">
 
 
-                                        <button class="border border-0 bg-transparent" v-if="!programaEstaVisto" v-on:click="setProgramaVisto();"
+                                        <button v-if="!programaEstaVisto" v-on:click="setProgramaVisto();"
                                             title="Añadir a programas vistos"
                                             style="border-radius: 80px;margin-right: 10px;">
                                             <font-awesome-icon icon="fa-solid fa-eye" class=" lista-botones fa-xl" />
                                         </button>
 
-                                        <button class="border border-0 bg-transparent" v-if="programaEstaVisto" v-on:click="deleteProgramaVisto();"
+                                        <button v-if="programaEstaVisto" v-on:click="deleteProgramaVisto();"
                                             title="Eliminar de programas vistos"
                                             style="border-radius: 80px;margin-right: 10px;">
                                             <font-awesome-icon icon="fa-solid fa-eye" class="fa-xl added-to-list" />
                                         </button>
 
-                                        <button class="border border-0 bg-transparent" v-if="!programaEstaEnSeguimiento" v-on:click="setProgramaSeguimiento();"
+                                        <button v-if="!programaEstaEnSeguimiento" v-on:click="setProgramaSeguimiento();"
                                             title="Añadir a programas en seguimiento" style="border-radius: 120px;">
                                             <font-awesome-icon icon="fa-solid fa-bookmark" class="fa-xl" />
                                         </button>
 
-                                        <button class="border border-0 bg-transparent" v-if="programaEstaEnSeguimiento"
+                                        <button v-if="programaEstaEnSeguimiento"
                                             v-on:click="deleteProgramaSeguimiento();"
                                             title="Eliminar de programas en seguimiento" style="border-radius: 120px;">
                                             <font-awesome-icon icon="fa-solid fa-bookmark"
                                                 class="fa-xl added-to-list" />
                                         </button>
+
+                                        <Sugerencias :id="id" :generos="programa.generos" @escucharSugerencias="sugeridos" :show="show" />
+                                        <button class="btn btn-primary" type="button"
+                                            style="border-radius: 100px;margin-left: 10px; margin-right: 10px;"><i
+                                                class="far fa-star"></i></button>
 
                                         <AddProgramaLista></AddProgramaLista>
 
@@ -166,6 +171,7 @@
 
 <script>
 import Navbar from './Navbar.vue';
+import Sugerencias from './Sugerencias.vue'
 import AddProgramaLista from './AddProgramaLista.vue';
 import moment from 'moment';
 import { useToast } from "vue-toastification";
@@ -479,7 +485,8 @@ export default {
         Navbar,
         StarRating,
         VeProgress,
-        AddProgramaLista
+        AddProgramaLista,
+        Sugerencias
     }
 
 }
@@ -584,4 +591,6 @@ export default {
     margin-bottom: -80px;   
 
 }
+
+
 </style>

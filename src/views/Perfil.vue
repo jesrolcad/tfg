@@ -18,7 +18,7 @@
       <div class="text-center mb-5">
       <h3 class="mt-5">Listas de programas</h3>
     </div>
-    <div class=" listas card mb-1 " v-for="json of this.listas">
+    <div class=" listas card mb-1 " v-for="json of this.listas" v-bind:key="json._id">
       <div class="card-body">
         <div class="d-flex flex-column flex-lg-row">
           <font-awesome-icon icon="fa-solid fa-list" class=" fa-list me-4 position-relative" size="2xl" />
@@ -38,6 +38,7 @@
       </div>
     </div>
   </div>
+  <RecomendacionesUsuario />
   </div>
 
 </template>
@@ -45,7 +46,7 @@
 
 <script>
 import Navbar from './Navbar.vue'
-
+import RecomendacionesUsuario from './RecomendacionesUsuario.vue'
 
 export default {
   data() {
@@ -84,7 +85,8 @@ export default {
 
   },
   components: {
-    Navbar
+    Navbar,
+    RecomendacionesUsuario
   }
 
 
@@ -166,7 +168,7 @@ body {
 }
 
 .nav {
-  margin-bottom: 5%
+  margin-bottom: 10%
 }
 </style>
 
