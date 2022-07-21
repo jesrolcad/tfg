@@ -13,6 +13,15 @@ module.exports.createOrUpdatePuntuacion = async (req, res) => {
    if (!errors.isEmpty()) {
       return res.status(400).json({ status: 400, errors: errors.array() });
    }
+   
+   //if id is not ObjectId
+    if (!mongoose.Types.ObjectId.isValid(req.params.idPrograma)) {
+         return res.status(400).json({
+            status: 400,
+            key: "idProgramaInvalido",
+            msg: "El id del programa no es válido"
+            });
+    }
 
     let programa = await Programa.findById(req.params.idPrograma);
 
@@ -120,6 +129,13 @@ module.exports.getPuntuacionMediaPrograma = async (req, res) => {
 }
 
 module.exports.getPuntuacionPrograma = async (req, res) => {
+
+    if(!mongoose.Types.ObjectId.isValid(req.params.idPrograma)) {
+        return res.status(400).json({
+            status: 400,
+            message: "El id del programa no es válido"
+        });
+    }
 
     let programa = await Programa.findById(req.params.idPrograma);
 

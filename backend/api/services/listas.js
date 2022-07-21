@@ -68,9 +68,20 @@ module.exports.getGenerosLista = async (lista) => {
  
  //Validar que un usuario solo accede a su lista
  module.exports.getLista = async (req, res) => {
+
+   //if idLista is not ObjectId
+   if (!mongoose.Types.ObjectId.isValid(req.params.idLista)) {
+      return res.status(400).json({
+         status: 400,
+         key: "idListaInvalido",
+         msg: "El id de la lista no es válido"
+      });
+   }
  
  
     const lista = await Lista.findById(req.params.idLista);
+
+   if (lista) {
  
     if (lista.usuario == req.user._id) {
        res.json(lista);
@@ -78,7 +89,15 @@ module.exports.getGenerosLista = async (lista) => {
        res.sendStatus(401);
     }
  
+ } else {
+      return res.status(400).json({
+         status: 400,
+         key: "listaInexistente",
+         msg: "La lista no existe"
+      });
  }
+
+}
 
  
  
@@ -100,8 +119,20 @@ module.exports.getGenerosLista = async (lista) => {
  }
  
  module.exports.deleteLista = async (req, res) => {
- 
+
+   //if idLista is not ObjectId
+   if (!mongoose.Types.ObjectId.isValid(req.params.idLista)) {
+      return res.status(400).json({
+         status: 400,
+         key: "idListaInvalido",
+         msg: "El id de la lista no es válido"
+      });
+
+   }
+
     let lista = await Lista.findById(req.params.idLista);
+
+   if (lista) {
  
     if (lista.usuario == req.user._id) {
        await lista.remove();
@@ -113,7 +144,17 @@ module.exports.getGenerosLista = async (lista) => {
     } else {
        res.sendStatus(401);
     }
+ } else {
+      return res.status(400).json({
+         status: 400,
+         key: "listaInexistente",
+         msg: "La lista no existe"
+      });
  }
+
+ }
+
+//  
  
  //Validar que es el usuario que ha iniciado sesión
  module.exports.deleteProgramaLista = async (req, res) => {
@@ -124,6 +165,14 @@ module.exports.getGenerosLista = async (lista) => {
        if (lista) {
  
           if (lista.usuario == req.user._id) {
+            //if idPrograma is not ObjectId
+            if (!mongoose.Types.ObjectId.isValid(req.params.idPrograma)) {
+               return res.status(400).json({
+                  status: 400,
+                  key: "idProgramaInvalido",
+                  msg: "El id del programa no es válido"
+               });
+            }
             let programa = Programa.findById(req.params.idPrograma);
  
              if (!programa) { 
@@ -170,6 +219,13 @@ module.exports.getGenerosLista = async (lista) => {
        if (lista) {
  
           if (lista.usuario == req.user._id) {
+            if (!mongoose.Types.ObjectId.isValid(req.params.idPrograma)) {
+               return res.status(400).json({
+                  status: 400,
+                  key: "idProgramaInvalido",
+                  msg: "El id del programa no es válido"
+               });
+            }
              let programa = Programa.findById(req.params.idPrograma);
  
              if (!programa) { 
