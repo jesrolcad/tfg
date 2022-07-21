@@ -41,35 +41,33 @@
                                         style="border-radius: 0px;margin-left: 4px;">
 
 
-                                        <button v-if="!programaEstaVisto" v-on:click="setProgramaVisto();"
+                                        <button class="border border-0 bg-transparent" v-if="!programaEstaVisto" v-on:click="setProgramaVisto();"
                                             title="Añadir a programas vistos"
-                                            style="border-radius: 100px;margin-right: 10px;">
-                                            <font-awesome-icon icon="fa-solid fa-eye" class="fa-xl" />
+                                            style="border-radius: 80px;margin-right: 10px;">
+                                            <font-awesome-icon icon="fa-solid fa-eye" class=" lista-botones fa-xl" />
                                         </button>
 
-                                        <button v-if="programaEstaVisto" v-on:click="deleteProgramaVisto();"
+                                        <button class="border border-0 bg-transparent" v-if="programaEstaVisto" v-on:click="deleteProgramaVisto();"
                                             title="Eliminar de programas vistos"
-                                            style="border-radius: 100px;margin-right: 10px;">
+                                            style="border-radius: 80px;margin-right: 10px;">
                                             <font-awesome-icon icon="fa-solid fa-eye" class="fa-xl added-to-list" />
                                         </button>
 
-                                        <button v-if="!programaEstaEnSeguimiento" v-on:click="setProgramaSeguimiento();"
-                                            title="Añadir a programas en seguimiento" style="border-radius: 100px;">
+                                        <button class="border border-0 bg-transparent" v-if="!programaEstaEnSeguimiento" v-on:click="setProgramaSeguimiento();"
+                                            title="Añadir a programas en seguimiento" style="border-radius: 120px;">
                                             <font-awesome-icon icon="fa-solid fa-bookmark" class="fa-xl" />
                                         </button>
 
-                                        <button v-if="programaEstaEnSeguimiento"
+                                        <button class="border border-0 bg-transparent" v-if="programaEstaEnSeguimiento"
                                             v-on:click="deleteProgramaSeguimiento();"
-                                            title="Eliminar de programas en seguimiento" style="border-radius: 100px;">
+                                            title="Eliminar de programas en seguimiento" style="border-radius: 120px;">
                                             <font-awesome-icon icon="fa-solid fa-bookmark"
                                                 class="fa-xl added-to-list" />
                                         </button>
 
-                                        <button class="btn btn-primary" type="button"
-                                            style="border-radius: 100px;margin-left: 10px; margin-right: 10px;"><i
-                                                class="far fa-star"></i></button>
+                                        <AddProgramaLista></AddProgramaLista>
 
-                                        <form v-on:submit.prevent>
+                                        <form title="Puntuar programa" v-on:submit.prevent>
                                             <star-rating :star-size="33" :show-rating="false"
                                                 v-model:rating="this.puntuacion" v-on:click="puntuarPrograma();" />
                                         </form>
@@ -101,7 +99,7 @@
                                 <p v-if="this.puntuacionMedia.numPuntuaciones > 1" class="legend-caption">{{this.puntuacionMedia.numPuntuaciones}} puntuaciones</p>
 
                             </div>
-                                <section style="margin: 0px;margin-top: 15px;">
+                                <section style="margin: 0px;margin-top: 45px;">
                                     <div class="row" style="margin: 0px;">
                                         <div class="col-xl-2"><button class="btn disabled" type="button" disabled=""
                                                 style="font-family: abeezeeregular;font-weight: bolder;color: rgb(0,0,0);border-width: 3px;border-color: var(--bs-teal);"
@@ -168,6 +166,7 @@
 
 <script>
 import Navbar from './Navbar.vue';
+import AddProgramaLista from './AddProgramaLista.vue';
 import moment from 'moment';
 import { useToast } from "vue-toastification";
 import StarRating from 'vue-star-rating';
@@ -479,7 +478,8 @@ export default {
     components: {
         Navbar,
         StarRating,
-        VeProgress
+        VeProgress,
+        AddProgramaLista
     }
 
 }
@@ -574,7 +574,7 @@ export default {
     /* set left */
     left: 70px;
 
-    z-index: 0;
+   
 
 }
 
@@ -582,8 +582,6 @@ export default {
 
     position: relative;
     margin-bottom: -80px;   
-
-    z-index: 0;
 
 }
 </style>
