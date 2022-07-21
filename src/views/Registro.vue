@@ -116,7 +116,7 @@ import useVuelidate from '@vuelidate/core'
 import { required, minLength, maxLength, email, alpha, helpers } from '@vuelidate/validators'
 
 const alphaValidatorWithSpace = value => {
-    return /^[a-zA-Z ]*$/.test(value)
+    return /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(value)
 }
 
 export default {
