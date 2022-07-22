@@ -41,36 +41,33 @@
                                         style="border-radius: 0px;margin-left: 4px;">
 
 
-                                        <button v-if="!programaEstaVisto" v-on:click="setProgramaVisto();"
+                                        <button class="border border-0 bg-transparent" v-if="!programaEstaVisto" v-on:click="setProgramaVisto();"
                                             title="Añadir a programas vistos"
                                             style="border-radius: 80px;margin-right: 10px;">
                                             <font-awesome-icon icon="fa-solid fa-eye" class=" lista-botones fa-xl" />
                                         </button>
 
-                                        <button v-if="programaEstaVisto" v-on:click="deleteProgramaVisto();"
+                                        <button class="border border-0 bg-transparent" v-if="programaEstaVisto" v-on:click="deleteProgramaVisto();"
                                             title="Eliminar de programas vistos"
                                             style="border-radius: 80px;margin-right: 10px;">
                                             <font-awesome-icon icon="fa-solid fa-eye" class="fa-xl added-to-list" />
                                         </button>
 
-                                        <button v-if="!programaEstaEnSeguimiento" v-on:click="setProgramaSeguimiento();"
+                                        <button class="border border-0 bg-transparent" v-if="!programaEstaEnSeguimiento" v-on:click="setProgramaSeguimiento();"
                                             title="Añadir a programas en seguimiento" style="border-radius: 120px;">
                                             <font-awesome-icon icon="fa-solid fa-bookmark" class="fa-xl" />
                                         </button>
 
-                                        <button v-if="programaEstaEnSeguimiento"
+                                        <button class="border border-0 bg-transparent" v-if="programaEstaEnSeguimiento"
                                             v-on:click="deleteProgramaSeguimiento();"
                                             title="Eliminar de programas en seguimiento" style="border-radius: 120px;">
                                             <font-awesome-icon icon="fa-solid fa-bookmark"
                                                 class="fa-xl added-to-list" />
                                         </button>
 
-                                        <Sugerencias :id="id" :generos="programa.generos" @escucharSugerencias="sugeridos" :show="show" />
-                                        <button class="btn btn-primary" type="button"
-                                            style="border-radius: 100px;margin-left: 10px; margin-right: 10px;"><i
-                                                class="far fa-star"></i></button>
+                                         <AddProgramaLista></AddProgramaLista>
 
-                                        <AddProgramaLista></AddProgramaLista>
+                                         <Sugerencias :id="id" :generos="programa.generos" @escucharSugerencias="sugeridos" :show="show" />
 
                                         <form title="Puntuar programa" v-on:submit.prevent>
                                             <star-rating :star-size="33" :show-rating="false"
@@ -82,7 +79,7 @@
                                             type="button" style="border-radius: 112px;margin-left: 10px;"><i
                                                 class="far fa-star"></i></button> -->
 
-                                                
+                                                 
                                     </div>
                                     
                                 </section>
@@ -102,8 +99,10 @@
                                 <p v-if="this.puntuacionMedia.numPuntuaciones == 0" class="legend-caption">0 puntuaciones</p>
                                 <p v-if="this.puntuacionMedia.numPuntuaciones == 1" class="legend-caption">{{this.puntuacionMedia.numPuntuaciones}} puntuación</p>
                                 <p v-if="this.puntuacionMedia.numPuntuaciones > 1" class="legend-caption">{{this.puntuacionMedia.numPuntuaciones}} puntuaciones</p>
-
+                                
                             </div>
+
+                            
                                 <section style="margin: 0px;margin-top: 45px;">
                                     <div class="row" style="margin: 0px;">
                                         <div class="col-xl-2"><button class="btn disabled" type="button" disabled=""
@@ -208,6 +207,7 @@ export default {
             puntuacion: 0,
             puntuacionMedia: {},
             id: this.$route.params.id,
+            addProgramaListaKey: 0
         }
     },
     created() {
@@ -456,7 +456,8 @@ export default {
                 });
 
 
-        }
+        },
+        
 
 
     },
@@ -563,9 +564,9 @@ export default {
 
     position: relative;
 
-    top: 40px;
+    top: 30px;
 
-    left: 300px;
+    left: 485px;
 
     
 
@@ -573,11 +574,11 @@ export default {
 
 .progress-bar {
     /* set margin left */
-    margin-left: 245px;
+    margin-left: 425px;
     /* set padding */
     position: relative;
     /* set top */
-    top: 40px;
+    top: 25px;
     /* set left */
     left: 70px;
 

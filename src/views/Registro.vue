@@ -20,8 +20,7 @@
                                             v-model="v$.user.nombre.$model" placeholder="Nombre y apellidos" />
                                         <div v-if="v$.user.nombre.$dirty">
                                             <div v-if="v$.user.nombre.alphaValidatorWithSpace.$invalid">
-                                                <p class="text-danger">El nombre y apellidos solo puede contener letras
-                                                </p>
+                                                <p class="text-danger">El nombre y apellidos solo puede contener letras,</p>
                                             </div>
                                             <div v-for="error of v$.user.nombre.$silentErrors" :key="error.$message">
                                                 <div>
@@ -197,6 +196,7 @@ export default {
                     required: helpers.withMessage("La dirección de correo es obligatoria", required),
                     email: helpers.withMessage("La dirección de correo no sigue el formato adecuado", email), $autoDirty: true
                 },
+                
                 nombreUsuario: {
                     required: helpers.withMessage("El nombre de usuario es obligatorio", required),
                     minLength: helpers.withMessage("El nombre de usuario debe tener 5 caracteres como mínimo", minLength(5)),

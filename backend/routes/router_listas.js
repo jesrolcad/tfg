@@ -14,7 +14,7 @@ router.get('/lista/:idLista', verifyLoggedInUser.authenticateToken, (req, res) =
     listaService.getLista(req, res);
 })
 
-router.post('/lista/crear', [ValidadorLista.ListaSchema], verifyLoggedInUser.authenticateToken, (req, res) =>{
+router.post('/lista/crear', verifyLoggedInUser.authenticateToken, [ValidadorLista.ListaSchema], (req, res) =>{
 
     listaService.createLista(req, res);
 })

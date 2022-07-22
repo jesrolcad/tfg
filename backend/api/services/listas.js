@@ -106,15 +106,17 @@ module.exports.getGenerosLista = async (lista) => {
    const errors = validationResult(req);
 
    if (!errors.isEmpty()) {
-      return res.json({ status:400, errors: errors.array() });
+      return res.status(400).json({ status:400, errors: errors.array()});
    }
  
     const lista = new Lista({ nombre: req.body.nombre, programas: [], usuario: req.user._id });
     await lista.save();
  
     res.json({
-       ok: true,
-    })
+       status: 200,
+         msg: "Lista creada con éxito",
+         lista: lista
+      });
  
  }
  
@@ -189,7 +191,6 @@ module.exports.getGenerosLista = async (lista) => {
                if(lista.nombre === "Programas vistos"){
                let puntuacion = await Puntuacion.findOne({programa: req.params.idPrograma, usuario: req.user._id});
                if(puntuacion){
-
                   puntuacion.remove();
                }
 
