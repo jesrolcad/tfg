@@ -20,5 +20,4 @@ router.get('/perfil', verifyLoggedInUser.authenticateToken, (req, res) => {
     userService.perfil(req,res);
 })
 
-
 module.exports = router; 

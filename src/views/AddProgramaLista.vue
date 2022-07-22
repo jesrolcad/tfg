@@ -16,13 +16,13 @@
                             <td v-if="!l.lista.programas.includes(this.idPrograma)">
                                 <button class="border border-0 bg-transparent" title="Añadir programa a lista" @click="addProgramaToLista(l.lista._id)"><font-awesome-icon icon="fa-solid fa-plus" class="fa-xl"></font-awesome-icon></button>
                             </td>
-
                             <td v-else>
                                 <button class="border border-0 bg-transparent" title="Eliminar programa de lista" @click="deleteProgramaFromLista(l.lista._id)"><font-awesome-icon icon="fa-solid fa-trash-can" class="fa-xl"></font-awesome-icon></button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <crearLista @escucharCrearLista="addLista"></crearLista>
                 </div>
     </div>
     
@@ -30,6 +30,7 @@
 
 <script> 
 import { useToast } from "vue-toastification";
+import CrearLista from "./CrearLista.vue";
 
     export default {
         data() {
@@ -38,6 +39,7 @@ import { useToast } from "vue-toastification";
                 showModal: false,
                 listasPersonalizadas: [],
                 idPrograma: this.$route.params.id,
+                componentKey: 0
                
             }
         },
@@ -122,8 +124,16 @@ import { useToast } from "vue-toastification";
                         }
                         
                     });
+            },
+
+            addLista(value){
+                this.listasPersonalizadas.push(value);
             }
 
+        },
+
+        components: {
+            CrearLista
         }
         }
 

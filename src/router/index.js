@@ -11,7 +11,7 @@ const routes = [
     {path: '/login', name:'Login', component: () => import(/* webpackChunkName: "Programa" */'../views/Login.vue'), meta: {auth: false}},
     {path: '/registro', name:'Registro', component: () => import('../views/Registro.vue'), meta: {auth: false}},
     {path:'/actor/:id', name:'Actor',component: () => import(/* webpackChunkName: "Programa" */'../views/ActorShow.vue'), meta: {auth: true}},
-    {path: '/perfil', name:'Perfil', component: () => import(/* webpackChunkName: "Programa" */'../views/Perfil.vue'), meta: {auth: true}},
+    {path: '/perfil', name:'Perfil', component: () => import(/* webpackChunkName: "Programa" */'../views/Perfil.vue'), meta: {auth: true}}
 ]
 
 const router = createRouter({

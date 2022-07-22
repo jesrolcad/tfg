@@ -9,11 +9,10 @@ body('nombreUsuario').exists({checkFalsy: true}).withMessage("El nombre de usuar
 .isAlpha().withMessage("El nombre de usuario solo puede contener letras")
 .isLength({min: 5, max: 30}).withMessage("El nombre de usuario debe contener entre 5 y 30 caracteres")
 .custom(async value => {
-  return Usuario.findOne({nombreUsuario: value}).then(user => {
-    if(user){
-      return Promise.reject("Nombre de usuario en uso");
-    }
-  })
+  const user = await Usuario.findOne({ nombreUsuario: value });
+  if (user) {
+    return Promise.reject("Nombre de usuario en uso");
+  }
 }),
 body('email').isEmail().withMessage("No sigue el formato adecuado").custom(async value => {
   return Usuario.findOne({email: value}).then(user => {
