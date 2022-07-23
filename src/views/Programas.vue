@@ -1,8 +1,7 @@
 <template>
-<Navbar style="margin-bottom:80px"/>
+<Navbar />
     <div class="Programas" >
-        <h1 style="font-family:montserratbold; margin-bottom:30px">Programas</h1>
-        <Filtros @escucharFiltros="filtrados" />
+        <Filtros @escucharFiltros="filtrados" style="margin-top:10%"/>
     <div v-if="programasFiltrados.length==0" class="card-group" style="justify-content: space-evenly;">
         <div class="col-3" v-for="programa of displayedProgramas" :key="programa._id" >
             <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
@@ -110,7 +109,6 @@
             },
             filtrados(value){
                 this.programasFiltrados = value;
-                console.log(JSON.stringify(this.programasFiltrados))
             },
         },
         components: {

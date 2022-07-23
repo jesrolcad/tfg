@@ -234,8 +234,7 @@ module.exports.getGenerosLista = async (lista) => {
  
              } else if (lista.programas.includes(req.params.idPrograma)) {
                 return res.status(400).json({status: 400, key:"programaEnLista", msg: "El programa ya estaba en la lista " + lista.nombre});
-             } else { 
-                console.log("ENTRA AQUÍ");
+             } else {
                 lista.programas.push(req.params.idPrograma);
                 await lista.save();
                 return res.json({status: 204, msg: "Programa añadido a " + lista.nombre});

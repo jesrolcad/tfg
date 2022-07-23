@@ -45,9 +45,6 @@ export default {
         id: null,
         generos: null
     },
-    created(){
-        console.log(typeof(this.showModal))
-    },
     methods: {
         async getSugerencias() {
             await fetch(this.baseURL+'/recomendaciones/sugerencias',

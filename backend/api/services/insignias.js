@@ -1,4 +1,3 @@
-const Insignia = require('../../models/Insignia');
 const Lista = require('../../models/Lista');
 const Usuario = require('../../models/Usuario');
 const mongoose = require('mongoose');
@@ -9,10 +8,11 @@ module.exports.insigniasUsuario= async function(userId){
 }
 
 module.exports.addInsignia= async function(userId, insignia){
-    if(insigniasUsuario(userId).includes(insignia)){
+    let insignias= await this.insigniasUsuario(userId);
+    if(insignias.includes(insignia)){
         return false;
     }else{
-        Usuario.updateOne({_id : mongoose.Types.ObjectId(userId), insignias : {$ne : insignia}},
+        await Usuario.updateOne({_id : mongoose.Types.ObjectId(userId), insignias : {$ne : insignia}},
         {"$push" : { "insignias" : insignia}},{ "new": true, "upsert": true });
         return true;
     }
@@ -43,13 +43,13 @@ module.exports.getProgramasVistos = async function (req,res) {
         )
         if(programasVistos.length!=0){
             if(parseInt(programasVistos[0].programa)== 10){
-                addInsignia(req.user._id, "Bronce Watcher");
+                this.addInsignia(req.user._id, "Bronce Watcher");
                 res.status(200).json({'key': 10,'insignia': 'Bronce Watcher'})
             }else if(parseInt(programasVistos[0].programa)== 25){
-                addInsignia(req.user._id, "Silver Watcher");
+                this.addInsignia(req.user._id, "Silver Watcher");
                 res.status(200).json({'key': 25,'insignia': 'Silver Watcher'})
             }else if(parseInt(programasVistos[0].programa)== 50){
-                addInsignia(req.user._id, "Gold Watcher");
+                this.addInsignia(req.user._id, "Gold Watcher");
                 res.status(200).json({'key': 50,'insignia': 'Gold Watcher'})
             }else{
                 res.status(200).json({'mensaje': 'No hay insignias. Programas vistos: '+ JSON.stringify(programasVistos[0].programa)})
@@ -88,13 +88,13 @@ module.exports.getListasPropias = async function (req,res) {
         )
         if(listasPropias.length!=0){
             if(parseInt(listasPropias[0].listasPropias)== 1){
-                addInsignia(req.user._id, "List Beginner");
+                this.addInsignia(req.user._id, "List Beginner");
                 res.status(200).json({'key': 1,'insignia': 'List Beginner'})
             }else if(parseInt(listasPropias[0].listasPropias)== 3){
-                addInsignia(req.user._id, "List Expert");
+                this.addInsignia(req.user._id, "List Expert");
                 res.status(200).json({'key': 3,'insignia': 'List Expert'})
             }else if(parseInt(listasPropias[0].listasPropias)== 5){
-                addInsignia(req.user._id, "List Freak");
+                this.addInsignia(req.user._id, "List Freak");
                 res.status(200).json({'key': 5,'insignia': 'List Freak'})
             }else{
                 res.status(200).json({'mensaje': 'No hay insignias. Listas propias: '+ JSON.stringify(listasPropias[0].listasPropias)})
@@ -126,9 +126,10 @@ module.exports.getProgramasListasPropias = async function (req,res) {
                 }
             ]
         )
-        var five=new Boolean(false);
-        var ten=new Boolean(false);
-        var twenty=new Boolean(false);
+
+        var five=false;
+        var ten=false;
+        var twenty=false;
 
         for (var i=0;i<programasLP.length;i++) {
             if(programasLP[i].programas.length==5 && !five){
@@ -142,13 +143,13 @@ module.exports.getProgramasListasPropias = async function (req,res) {
 
         if((five || ten || twenty)== true){
             if(five){
-                var bronce= addInsignia(req.user._id,"Bronce List");
+                var bronce= await this.addInsignia(req.user._id,"Bronce List");
             }
             if(ten){
-                var silver=addInsignia(req.user._id,"Silver List");
+                var silver=await this.addInsignia(req.user._id,"Silver List");
             }
             if(twenty){
-                var gold=addInsignia(req.user._id,"Gold List");
+                var gold=await this.addInsignia(req.user._id,"Gold List");
             }
             res.status(200).json({'Bronce List': bronce, 'Silver List': silver, 'Gold List': gold});
         }else{
@@ -215,26 +216,26 @@ module.exports.getGenerosProgramasVistos = async function (req,res) {
             ]
         )
 
-        var five=new Boolean(false);
-        var ten=new Boolean(false);
-        var twenty=new Boolean(false);
+        var five=false;
+        var ten=false;
+        var twenty=false;
 
         if(generosProgramas.length!=0){
             for (var i=0;i<generosProgramas.length;i++) {
                 if(generosProgramas[i].count==5 && !five){
-                    var amateur=addInsignia(req.user._id,"Amateur Genre Watcher")
+                    var amateur=await this.addInsignia(req.user._id,"Amateur Genre Watcher")
                     five=true;
                 }else if(generosProgramas[i].count==10 && !ten){
-                    var intermediate=addInsignia(req.user._id,"Intermediate Genre Watcher")
+                    var intermediate=await this.addInsignia(req.user._id,"Intermediate Genre Watcher")
                     ten=true;
                 }else if(generosProgramas[i].count==20 && !twenty){
-                    var professional=addInsignia(req.user._id,"Professional Genre Watcher")
+                    var professional=await this.addInsignia(req.user._id,"Professional Genre Watcher")
                     twenty=true;
                 }
             }
             if((amateur || intermediate || professional)== true){
-                res.status(200).json({'Amateur Genre Watcher': amateur, 'Intermediate Genre Watcher': intermediate,
-                'Professional Genre Watcher': professional});
+                res.status(200).json({'Amateur': amateur, 'Intermediate': intermediate,
+                'Professional': professional});
             }
             else{
                 res.status(200).json({'mensaje': 'No hay insignias.'});
@@ -328,26 +329,27 @@ module.exports.getActoresProgramasVistos = async function (req,res) {
                 }
             ]
         )
-        var three=new Boolean(false);
-        var five=new Boolean(false);
-        var ten=new Boolean(false);
+
+        var three=false;
+        var five=false;
+        var ten=false;
 
         if(actoresProgramas.length!=0){
             for (var i=0;i<actoresProgramas.length;i++) {
                 if(actoresProgramas[i].count==3 && !three){
-                    var fan=addInsignia(req.user._id,"Actor/Actress Fan")
+                    var fan=await this.addInsignia(req.user._id,"Actor/Actress Fan")
                     three=true;
                 }else if(actoresProgramas[i].count==5 && !five){
-                    var lover=addInsignia(req.user._id,"Actor/Actress Lover")
+                    var lover=await this.addInsignia(req.user._id,"Actor/Actress Lover")
                     five=true;
                 }else if(actoresProgramas[i].count==10 && !ten){
-                    var addict=addInsignia(req.user._id,"Actor/Actress Addict")
+                    var addict=await this.addInsignia(req.user._id,"Actor/Actress Addict")
                     ten=true;
                 }
             }
             if((fan || addict || lover)== true){
-                res.status(200).json({'Actor/Actress Fan': fan, 'Actor/Actress Lover': lover,
-                'Actor/Actress Addict': addict});
+                res.status(200).json({'Fan': fan, 'Lover': lover,
+                'Addict': addict});
             }
             else{
                 res.status(200).json({'mensaje': 'No hay insignias.'});

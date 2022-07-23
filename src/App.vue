@@ -1,14 +1,9 @@
 <template>
-    <div id="nav">
-        <router-link to="/">Home</router-link>
-        <router-link to="/programas">Programas</router-link>
-        <router-link to="/login">Iniciar sesión</router-link>
-        <router-link to="/registro">Registro</router-link>
-    </div>
+    <div id="app">
     <div class="container">
         <router-view :key="$route.path"> </router-view>
     </div>
-
+</div>
 </template>
 
 <style>
