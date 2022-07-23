@@ -19,7 +19,7 @@ export default{
     watch: {
         listener: async function() {
             await this.getProgramasVistos();
-            console.log(JSON.stringify(this.programasVistos))cOM
+            console.log(JSON.stringify(this.programasVistos));
         }
     },
     methods: {

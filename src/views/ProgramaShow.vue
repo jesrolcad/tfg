@@ -40,7 +40,7 @@
                                     <div class="btn-group btn-group-lg" role="group"
                                         style="border-radius: 0px;margin-left: 4px;">
 
-
+                                        <Insignias :listener="trigger" />
                                         <button v-if="!programaEstaVisto" v-on:click="setProgramaVisto();"
                                             title="Añadir a programas vistos"
                                             style="border-radius: 100px;margin-right: 10px;">
@@ -172,6 +172,7 @@ import moment from 'moment';
 import { useToast } from "vue-toastification";
 import StarRating from 'vue-star-rating';
 import {VeProgress} from "vue-ellipse-progress";
+import Insignias from './Insignias.vue'
 
 class Programa {
     constructor(_id, tipo, titulo, fecha, imagen, generos, duracion, clasificacion_edad, actoresIds) {
@@ -202,6 +203,7 @@ export default {
             show:true,
             id: this.$route.params.id,
             programasSugeridos:[],
+            trigger: false,
         }
     },
     created() {
@@ -273,6 +275,7 @@ export default {
                     draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                     icon: true, rtl: false
                 });
+            this.trigger= !this.trigger;
         },
         deleteProgramaVisto() {
             //Se obtiene el json de programas
@@ -435,7 +438,8 @@ export default {
         Navbar,
         StarRating,
         VeProgress,
-        Sugerencias
+        Sugerencias,
+        Insignias
     }
 }
 </script>

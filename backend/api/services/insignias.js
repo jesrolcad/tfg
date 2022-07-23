@@ -3,12 +3,12 @@ const Lista = require('../../models/Lista');
 const Usuario = require('../../models/Usuario');
 const mongoose = require('mongoose');
 
-async function insigniasUsuario(userId){
-    const insignias= await Usuario.findById(mongoose.Types.ObjectId(userId));
+module.exports.insigniasUsuario= async function(userId){
+    let insignias= await Usuario.findById(mongoose.Types.ObjectId(userId));
     return insignias.insignias;
 }
 
-async function addInsignia(userId, insignia){
+module.exports.addInsignia= async function(userId, insignia){
     if(insigniasUsuario(userId).includes(insignia)){
         return false;
     }else{
@@ -19,7 +19,7 @@ async function addInsignia(userId, insignia){
 }
 
 module.exports.getProgramasVistos = async function (req,res) {
-    const insigniasUsuario = insigniasUsuario(req.user._id);
+    let insigniasUsuario = await this.insigniasUsuario(req.user._id);
     const BronceWatcher= insigniasUsuario.includes("Bronce Watcher");
     const SilverWatcher=insigniasUsuario.includes("Silver Watcher");
     const GoldWatcher=insigniasUsuario.includes("Gold Watcher");
@@ -64,7 +64,7 @@ module.exports.getProgramasVistos = async function (req,res) {
 }
 
 module.exports.getListasPropias = async function (req,res) {
-    const insigniasUsuario = insigniasUsuario(req.user._id);
+    let insigniasUsuario = await this.insigniasUsuario(req.user._id);
     const ListBeginner= insigniasUsuario.includes("List Beginner");
     const ListExpert=insigniasUsuario.includes("List Expert");
     const ListFreak=insigniasUsuario.includes("List Freak");
@@ -108,7 +108,7 @@ module.exports.getListasPropias = async function (req,res) {
 }
 
 module.exports.getProgramasListasPropias = async function (req,res) {
-    const insigniasUsuario = insigniasUsuario(req.user._id);
+    let insigniasUsuario = await this.insigniasUsuario(req.user._id);
     const BronceList= insigniasUsuario.includes("Bronce List");
     const SilverList=insigniasUsuario.includes("Silver List");
     const GoldList=insigniasUsuario.includes("Gold List");
@@ -160,7 +160,7 @@ module.exports.getProgramasListasPropias = async function (req,res) {
 }
 
 module.exports.getGenerosProgramasVistos = async function (req,res) {
-    const insigniasUsuario = insigniasUsuario(req.user._id);
+    let insigniasUsuario = await this.insigniasUsuario(req.user._id);
     const AmateurGenreWatcher= insigniasUsuario.includes("Amateur Genre Watcher");
     const IntermediateGenreWatcher=insigniasUsuario.includes("Intermediate Genre Watcher");
     const ProfessionalGenreWatcher=insigniasUsuario.includes("Professional Genre Watcher");
@@ -248,7 +248,7 @@ module.exports.getGenerosProgramasVistos = async function (req,res) {
 }
 
 module.exports.getActoresProgramasVistos = async function (req,res) {
-    const insigniasUsuario = insigniasUsuario(req.user._id);
+    let insigniasUsuario = await this.insigniasUsuario(req.user._id);
     const ActorActressFan= insigniasUsuario.includes("Actor/Actress Fan");
     const ActorActressLover=insigniasUsuario.includes("Actor/Actress Lover");
     const ActorActressAddict=insigniasUsuario.includes("Actor/Actress Addict");
