@@ -151,7 +151,7 @@ module.exports.getProgramasListasPropias = async function (req,res) {
             if(twenty){
                 var gold=await this.addInsignia(req.user._id,"Gold List");
             }
-            res.status(200).json({'Bronce List': bronce, 'Silver List': silver, 'Gold List': gold});
+            res.status(200).json({'Bronce': bronce, 'Silver': silver, 'Gold': gold});
         }else{
             res.status(200).json({'mensaje': 'No hay insignias.'});
         }

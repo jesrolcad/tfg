@@ -1,6 +1,5 @@
 <template>
     <div id="Insignias">
-
     </div>
 </template>
 <script>
@@ -16,17 +15,20 @@ export default{
             programasListas:[]
         }
     },
-    props: ['listener', 'listener2'],
+    props: {
+        listener:null,
+        listenerL:null
+    },
     watch: {
         listener: async function() {
             await this.getProgramasVistos();
             await this.getGenerosProgramasVistos();
             await this.getActoresProgramasVistos();
         },
-        listener2: async function() {
+        listenerL: async function() {
             await this.getListasPropias();
             await this.getProgramasListasPropias();
-        }
+        },
     },
     methods: {
         async getProgramasVistos() {
@@ -135,7 +137,17 @@ export default{
                 .then(data => {
                     this.listas = data;
                 });
-            //this.$emit('escucharSugerencias',this.sugeridos)
+            console.log(JSON.stringify(this.listas))
+            if(this.listas.insignia){
+                const toast = useToast();
+
+                toast.info("Ha obtenido la insignia: "+ this.listas.insignia,
+                    {
+                        position: "top-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                        icon: true, rtl: false
+                    });
+            }
         },
         async getProgramasListasPropias() {
             await fetch(this.baseURL+'/insignias/listas-programas',
@@ -146,7 +158,34 @@ export default{
                 .then(data => {
                     this.programasListas = data;
                 });
-            //this.$emit('escucharSugerencias',this.sugeridos)
+            console.log(JSON.stringify(this.programasListas))
+            if(!this.programasListas.mensaje){
+                const toast = useToast();
+                if(this.programasListas.Bronce){
+                    toast.info("Ha obtenido la insignia: Bronce List",
+                    {
+                        position: "top-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                        icon: true, rtl: false
+                    });
+                }
+                if(this.programasListas.Silver){
+                    toast.info("Ha obtenido la insignia: Silver List",
+                    {
+                        position: "top-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                        icon: true, rtl: false
+                    });
+                }
+                if(this.programasListas.Gold){
+                    toast.info("Ha obtenido la insignia: Gold List",
+                    {
+                        position: "top-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                        icon: true, rtl: false
+                    });
+                }
+            }
         }
     }
 }

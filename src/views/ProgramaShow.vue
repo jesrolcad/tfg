@@ -41,7 +41,7 @@
                                     <div class="btn-group btn-group-lg" role="group"
                                         style="border-radius: 0px;margin-left: 4px;">
 
-                                        <Insignias :listener="trigger" />
+                                        <Insignias :listener="trigger" :listenerL="triggerL"/>
                                         <button class="border border-0 bg-transparent" v-if="!programaEstaVisto" v-on:click="setProgramaVisto();"
                                             title="Añadir a programas vistos"
                                             style="border-radius: 80px;margin-right: 10px;">
@@ -66,7 +66,7 @@
                                                 class="fa-xl added-to-list" />
                                         </button>
 
-                                        <AddProgramaLista></AddProgramaLista>
+                                        <AddProgramaLista @escucharAdd="triggerAdd"/>
 
                                         <Sugerencias :id="id" :generos="programa.generos"/>
 
@@ -171,7 +171,7 @@ import moment from 'moment';
 import { useToast } from "vue-toastification";
 import StarRating from 'vue-star-rating';
 import {VeProgress} from "vue-ellipse-progress";
-import Insignias from './Insignias.vue'
+import Insignias from './Insignias.vue';
 
 class Programa {
     constructor(_id, tipo, titulo, fecha, imagen, generos, duracion, clasificacion_edad, actoresIds) {
@@ -200,7 +200,8 @@ export default {
             puntuacion: 0,
             puntuacionMedia: {},
             id: this.$route.params.id,
-            trigger: false
+            trigger: false,
+            triggerL: false
         }
     },
 
@@ -415,6 +416,9 @@ export default {
                     }
                 });
         },
+        triggerAdd(){
+            this.triggerL = !this.triggerL;
+        }
     },
 
     computed: {
