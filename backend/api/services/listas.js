@@ -43,9 +43,9 @@ module.exports.getGenerosLista = async (lista) => {
       if (generos.length == 1) {
          return generos[0];
       }
-      let generosString = "";
+      let generosList = [];
       for (let k = 0; k < generos.length; k++) {
-         generosString += generos[k] + ", ";
+         generosList.push(generos[k]);
 
          if (k == 2) {
             break;
@@ -54,13 +54,13 @@ module.exports.getGenerosLista = async (lista) => {
       }
 
       if (generos.length > 2) {
-         generosString += "...";
+         generosList.push("...");
 
       }
 
-      return generosString;
+      return generosList;
    } else {
-      return "Sin géneros";
+      return ["Sin géneros"];
    }
 
 }

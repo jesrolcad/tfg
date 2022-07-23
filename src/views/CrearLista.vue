@@ -108,7 +108,7 @@ export default {
       nombre: {
         required: helpers.withMessage("El nombre de la lista es obligatorio", required),
         minLength: helpers.withMessage("El nombre debe tener 5 caracteres como mínimo", minLength(5)),
-        maxLength: helpers.withMessage("El nombre debe tener 50 caracteres como máximo", maxLength(50)),
+        maxLength: helpers.withMessage("El nombre debe tener 25 caracteres como máximo", maxLength(25)),
         regexValidator, $autoDirty: true
       },
     }
