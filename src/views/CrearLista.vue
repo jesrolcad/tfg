@@ -9,27 +9,24 @@
         <div class="field">
           <div class="control">
             <input class="input" type="text" v-model="v$.nombre.$model" placeholder="Nombre">
-            <button class="button-is-primary" @click="crearLista();enviarLista();">Crear</button>
+            <button class="button-is-primary" @click="crearLista(); enviarLista();">Crear</button>
           </div>
           <div v-if="v$.nombre.$dirty">
-              <div v-if="v$.nombre.regexValidator.$invalid">
-                <p class="validaciones text-danger">Solo puede contener letras y números</p>
-              </div>
-            
+            <div v-if="v$.nombre.regexValidator.$invalid">
+              <p class="validaciones text-danger">Solo puede contener letras y números</p>
+            </div>
+
             <div v-for="error of v$.nombre.$silentErrors" :key="error.$message">
               <div>
                 <p class="validaciones text-danger">{{ error.$message }}</p>
               </div>
-              </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
 
   </form>
-
-
-
 </template>
 
 <script>
@@ -79,26 +76,26 @@ export default {
             });
 
 
-        } else {  
+        } else {
           data.errors.forEach(error => toast.error(error.msg,
             {
               position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
               draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
               icon: true, rtl: false
             }));
-            
 
-          }
-          
-        });
 
-      },
-    
+        }
+
+      });
+
+    },
+
     async submit() {
       const isFormCorrect = await this.v$.$validate();
-            if (isFormCorrect) {
-                this.crearLista();
-            }
+      if (isFormCorrect) {
+        this.crearLista();
+      }
     },
 
     enviarLista() {

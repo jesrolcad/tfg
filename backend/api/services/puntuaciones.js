@@ -33,7 +33,6 @@ module.exports.createOrUpdatePuntuacion = async (req, res) => {
     }
 
     let lista = await Lista.findOne({ user: req.user._id, nombre:"Programas vistos"});
-    console.log(lista);
 
     if(lista.programas.includes(programa._id)) {
 
@@ -102,7 +101,6 @@ module.exports.getPuntuacionMediaPrograma = async (req, res) => {
         }
     ]);
 
-    console.log(puntuacionMedia);
 
     if(puntuacionMedia.length == 0){
         return res.status(200).json({

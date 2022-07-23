@@ -5,10 +5,12 @@
     <font-awesome-icon icon="fa-solid fa-plus" class="fa-xl"></font-awesome-icon>
     </button>
 
+    
     <div v-if="showModal" class="modal">
+    <div style="position: absolute; margin-left:425px; margin-top:-15px"><button class="btn btn-secondary" style="width: min-content;height: min-content;" @click="showModal = false">X</button></div>
+    <h3 class="mb-3 mr-1">Listas personalizadas</h3>
             <div v-if="this.listasPersonalizadas.length > 0" class="row">
-                <div style="position: absolute; margin-left:425px; margin-top:-15px"><button class="btn btn-secondary" style="width: min-content;height: min-content;" @click="showModal = false">X</button></div>
-                <h3 class="mb-3 mr-1">Listas personalizadas</h3>
+                
                 <table class="table">
                     <tbody>
                         <tr v-for="l in this.listasPersonalizadas">
@@ -22,8 +24,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <crearLista @escucharCrearLista="addLista"></crearLista>
+                
                 </div>
+                <div v-else>
+
+                    <p>Aún no tienes listas personalizadas </p>
+                </div>
+                <crearLista @escucharCrearLista="addLista"></crearLista>
     </div>
     
 </template>
@@ -127,6 +134,7 @@ import CrearLista from "./CrearLista.vue";
             },
 
             addLista(value){
+                this.showModal = false;
                 this.listasPersonalizadas.push(value);
             }
 
