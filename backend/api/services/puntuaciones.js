@@ -102,6 +102,8 @@ module.exports.getPuntuacionMediaPrograma = async (req, res) => {
         }
     ]);
 
+    console.log(puntuacionMedia);
+
     if(puntuacionMedia.length == 0){
         return res.status(200).json({
             status: 200,
@@ -115,6 +117,7 @@ module.exports.getPuntuacionMediaPrograma = async (req, res) => {
         });
 
     } else {
+
 
     res.json({
         status: 200,

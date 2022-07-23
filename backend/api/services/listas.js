@@ -98,8 +98,6 @@ module.exports.getGenerosLista = async (lista) => {
  }
 
 }
-
- 
  
  module.exports.createLista = async (req, res) => {
 

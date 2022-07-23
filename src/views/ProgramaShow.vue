@@ -284,11 +284,11 @@ export default {
 
         },
 
-        deleteProgramaVisto() {
+        async deleteProgramaVisto() {
 
             //Se obtiene el json de programas
             let jsonProgramasVistos = this.listas.find(l => l.lista.nombre === "Programas vistos");
-            fetch(this.baseURL+'/lista/' + jsonProgramasVistos.lista._id + '/borrar/' + this.programa._id,
+            await fetch(this.baseURL+'/lista/' + jsonProgramasVistos.lista._id + '/borrar/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token") },
                     method: 'PUT',
@@ -306,9 +306,11 @@ export default {
 
             //Se actualiza el json de las listas
             this.listas[index] = jsonProgramasVistos;
-
-            //Se elimina la puntuacion
-            this.puntuacion = 0;
+            
+            if(this.puntuacionMedia.numPuntuaciones > 0){
+                this.getPuntuacionPrograma();
+                this.getPuntuacionMediaPrograma();
+            }
 
             const toast = useToast();
 
@@ -449,16 +451,10 @@ export default {
                                     draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                                     icon: true, rtl: false
                                 });
-
                     }
-
-
                 });
-
-
         },
         
-
 
     },
 
