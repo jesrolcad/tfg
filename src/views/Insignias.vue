@@ -1,8 +1,27 @@
 <template>
-    
+    <div id="Insignias">
+
+    </div>
 </template>
 <script>
 export default{
+    data(){
+        return{
+            baseURL: "http://localhost:5000",
+            programasVistos:[],
+            generosVistos:[],
+            actoresVistos:[],
+            listas:[],
+            programasListas:[]
+        }
+    },
+    props: ['listener'],
+    watch: {
+        listener: async function() {
+            await this.getProgramasVistos();
+            console.log(JSON.stringify(this.programasVistos))cOM
+        }
+    },
     methods: {
         async getProgramasVistos() {
             await fetch(this.baseURL+'/insignias/programas',
@@ -11,7 +30,7 @@ export default{
             })
                 .then(res => res.json())
                 .then(data => {
-                    this.sugeridos = data;
+                    this.programasVistos = data;
                 });
             //this.$emit('escucharSugerencias',this.sugeridos)
         },
@@ -22,7 +41,7 @@ export default{
             })
                 .then(res => res.json())
                 .then(data => {
-                    this.sugeridos = data;
+                    this.generosVistos = data;
                 });
             //this.$emit('escucharSugerencias',this.sugeridos)
         },
@@ -33,7 +52,7 @@ export default{
             })
                 .then(res => res.json())
                 .then(data => {
-                    this.sugeridos = data;
+                    this.actoresVistos = data;
                 });
             //this.$emit('escucharSugerencias',this.sugeridos)
         },
@@ -44,7 +63,7 @@ export default{
             })
                 .then(res => res.json())
                 .then(data => {
-                    this.sugeridos = data;
+                    this.listas = data;
                 });
             //this.$emit('escucharSugerencias',this.sugeridos)
         },
@@ -55,7 +74,7 @@ export default{
             })
                 .then(res => res.json())
                 .then(data => {
-                    this.sugeridos = data;
+                    this.programasListas = data;
                 });
             //this.$emit('escucharSugerencias',this.sugeridos)
         }
