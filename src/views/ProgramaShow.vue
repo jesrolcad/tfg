@@ -274,10 +274,10 @@ export default {
             this.trigger= !this.trigger;
         },
 
-        deleteProgramaVisto() {
+        async deleteProgramaVisto() {
             //Se obtiene el json de programas
             let jsonProgramasVistos = this.listas.find(l => l.lista.nombre === "Programas vistos");
-            fetch(this.baseURL+'/lista/' + jsonProgramasVistos.lista._id + '/borrar/' + this.programa._id,
+            await fetch(this.baseURL+'/lista/' + jsonProgramasVistos.lista._id + '/borrar/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token") },
                     method: 'PUT',
@@ -291,8 +291,12 @@ export default {
             let index = this.listas.findIndex(l => l.lista.nombre === "Programas vistos");
             //Se actualiza el json de las listas
             this.listas[index] = jsonProgramasVistos;
-            //Se elimina la puntuacion
-            this.puntuacion = 0;
+            
+            if(this.puntuacionMedia.numPuntuaciones > 0){
+                this.getPuntuacionPrograma();
+                this.getPuntuacionMediaPrograma();
+            }
+
             const toast = useToast();
             toast.success("Programa eliminado de Programas vistos",
                 {
