@@ -11,7 +11,6 @@ router.post('/login', [ValidadorLogin.LoginSchema], (req, res) => {
 });
 
 
-
 router.post('/registro', [ValidadorRegistro.registroSchema], (req, res) => {
     userService.registro(req, res);
 
@@ -20,6 +19,5 @@ router.post('/registro', [ValidadorRegistro.registroSchema], (req, res) => {
 router.get('/perfil', verifyLoggedInUser.authenticateToken, (req, res) => {
     userService.perfil(req,res);
 })
-
 
 module.exports = router; 

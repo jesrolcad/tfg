@@ -19,12 +19,14 @@ module.exports.getMisListas = async (req, res) => {
       }
       listasJson.push(listaJson);
    }
+   console.log(listasJson);
    res.json(listasJson);
  
  }
 
 module.exports.getGenerosLista = async (lista) => {
    let generos = [];
+   
    for (let i = 0; i < lista.programas.length; i++) {
       const programa = await Programa.findById(lista.programas[i]);
       for (let j = 0; j < programa.generos.length; j++) {
@@ -35,25 +37,51 @@ module.exports.getGenerosLista = async (lista) => {
          }
       }
 
-      if (generos.length > 3) {
-         let generosString = "";
-         for (let k = 0; k < 3; k++) {
-            generosString += generos[k] + ", ";
+   }
+
+      if (generos.length > 0) {
+
+         if(generos.length == 1){
+            return generos[0];
          }
+         let generosString = "";
+         for (let k = 0; k < generos.length; k++) {
+            generosString += generos[k] + ", ";
+
+            if (k == 2) {
+               break;
+            }
+
+         }
+
+         if(generos.length > 2){
          generosString += "...";
 
+         }
+
          return generosString;
+   } else{
+      return "-";
    }
   
-}
-
 }
  
  //Validar que un usuario solo accede a su lista
  module.exports.getLista = async (req, res) => {
+
+   //if idLista is not ObjectId
+   if (!mongoose.Types.ObjectId.isValid(req.params.idLista)) {
+      return res.status(400).json({
+         status: 400,
+         key: "idListaInvalido",
+         msg: "El id de la lista no es válido"
+      });
+   }
  
  
     const lista = await Lista.findById(req.params.idLista);
+
+   if (lista) {
  
     if (lista.usuario == req.user._id) {
        res.json(lista);
@@ -61,7 +89,15 @@ module.exports.getGenerosLista = async (lista) => {
        res.sendStatus(401);
     }
  
+ } else {
+      return res.status(400).json({
+         status: 400,
+         key: "listaInexistente",
+         msg: "La lista no existe"
+      });
  }
+
+}
 
  
  
@@ -70,21 +106,35 @@ module.exports.getGenerosLista = async (lista) => {
    const errors = validationResult(req);
 
    if (!errors.isEmpty()) {
-      return res.json({ status:400, errors: errors.array() });
+      return res.status(400).json({ status:400, errors: errors.array()});
    }
  
     const lista = new Lista({ nombre: req.body.nombre, programas: [], usuario: req.user._id });
     await lista.save();
  
     res.json({
-       ok: true,
-    })
+       status: 200,
+         msg: "Lista creada con éxito",
+         lista: lista
+      });
  
  }
  
  module.exports.deleteLista = async (req, res) => {
- 
+
+   //if idLista is not ObjectId
+   if (!mongoose.Types.ObjectId.isValid(req.params.idLista)) {
+      return res.status(400).json({
+         status: 400,
+         key: "idListaInvalido",
+         msg: "El id de la lista no es válido"
+      });
+
+   }
+
     let lista = await Lista.findById(req.params.idLista);
+
+   if (lista) {
  
     if (lista.usuario == req.user._id) {
        await lista.remove();
@@ -96,9 +146,17 @@ module.exports.getGenerosLista = async (lista) => {
     } else {
        res.sendStatus(401);
     }
- 
- 
+ } else {
+      return res.status(400).json({
+         status: 400,
+         key: "listaInexistente",
+         msg: "La lista no existe"
+      });
  }
+
+ }
+
+//  
  
  //Validar que es el usuario que ha iniciado sesión
  module.exports.deleteProgramaLista = async (req, res) => {
@@ -109,25 +167,46 @@ module.exports.getGenerosLista = async (lista) => {
        if (lista) {
  
           if (lista.usuario == req.user._id) {
+            //if idPrograma is not ObjectId
+            if (!mongoose.Types.ObjectId.isValid(req.params.idPrograma)) {
+               return res.status(400).json({
+                  status: 400,
+                  key: "idProgramaInvalido",
+                  msg: "El id del programa no es válido"
+               });
+            }
+            let programa = Programa.findById(req.params.idPrograma);
+ 
+             if (!programa) { 
+                return res.status(400).json({status: 400, key: "programaInexistente", msg: "El programa no existe"});
+
+             }
+ 
              let programas = lista.programas;
              let index = programas.indexOf(req.params.idPrograma);
              if (index > -1) {
                programas.splice(index, 1);
                lista.save();
+               //find Programas vistos
+               if(lista.nombre === "Programas vistos"){
                let puntuacion = await Puntuacion.findOne({programa: req.params.idPrograma, usuario: req.user._id});
-               puntuacion.remove();
-               return res.sendStatus(204);
+               if(puntuacion){
+                  puntuacion.remove();
+               }
+
+            }
+               return res.json({status: 204, msg: "Programa borrado de " + lista.nombre});
  
              } else {
-                return res.sendStatus(400);
+                return res.status(400).json({status: 400, key: "programaNoEnLista", msg: "El programa no está en la lista"});
              }
  
           } else {
-             return res.sendStatus(401);
+             return res.status(401).json({status: 401, msg: "No eres propietario de esta lista"});
           }
  
        } else {
-          res.sendStatus(400);
+          res.status(400).json({status: 400, key: "listaInexistente", msg: "La lista no existe"});
        }
  
     });
@@ -137,27 +216,36 @@ module.exports.getGenerosLista = async (lista) => {
  //Validar que es el usuario que ha iniciado sesión
  module.exports.addProgramaLista = async (req, res) => {
  
-    Lista.findById(req.params.idLista, function (err, lista) {
+    Lista.findById(req.params.idLista, async function (err, lista) {
        if (lista) {
  
           if (lista.usuario == req.user._id) {
+            if (!mongoose.Types.ObjectId.isValid(req.params.idPrograma)) {
+               return res.status(400).json({
+                  status: 400,
+                  key: "idProgramaInvalido",
+                  msg: "El id del programa no es válido"
+               });
+            }
              let programa = Programa.findById(req.params.idPrograma);
  
              if (!programa) { 
-                return res.status(400).json({message: "El programa no existe"});
+                return res.status(400).json({status: 400, key: "programaInexistente", msg: "El programa no existe"});
  
              } else if (lista.programas.includes(req.params.idPrograma)) {
-                return res.status(400).json({msg: "El programa ya estaba en la lista"});
+                return res.status(400).json({status: 400, key:"programaEnLista", msg: "El programa ya estaba en la lista " + lista.nombre});
              } else { 
+                console.log("ENTRA AQUÍ");
                 lista.programas.push(req.params.idPrograma);
-                lista.save();
-                res.status(204).json({msg: "Programa añadido correctamente"});
+                await lista.save();
+                return res.json({status: 204, msg: "Programa añadido a " + lista.nombre});
              }
+
           }  else {
-             res.status(401).json({"msg": "No eres propietario de esta lista"});
+             return res.status(401).json({status: 401, msg: "No eres propietario de esta lista"});
        }
        } else {
-          res.status(400).json({msg: "La lista no existe"});
+          return res.status(400).json({status: 400, key: "listaInexistente", msg: "La lista " + lista.nombre + " no existe"}); 
        }
  
     })
