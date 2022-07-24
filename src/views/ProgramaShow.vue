@@ -48,13 +48,14 @@
                                             <font-awesome-icon icon="fa-solid fa-eye" class=" lista-botones fa-xl" />
                                         </button>
 
-                                        <button class="border border-0 bg-transparent" v-if="programaEstaVisto" v-on:click="deleteProgramaVisto();"
-                                            title="Eliminar de programas vistos"
+                                        <button class="border border-0 bg-transparent" v-if="programaEstaVisto"
+                                            v-on:click="deleteProgramaVisto();" title="Eliminar de programas vistos"
                                             style="border-radius: 80px;margin-right: 10px;">
                                             <font-awesome-icon icon="fa-solid fa-eye" class="fa-xl added-to-list" />
                                         </button>
 
-                                        <button class="border border-0 bg-transparent" v-if="!programaEstaEnSeguimiento" v-on:click="setProgramaSeguimiento();"
+                                        <button class="border border-0 bg-transparent" v-if="!programaEstaEnSeguimiento"
+                                            v-on:click="setProgramaSeguimiento();"
                                             title="Añadir a programas en seguimiento" style="border-radius: 120px;">
                                             <font-awesome-icon icon="fa-solid fa-bookmark" class="fa-xl" />
                                         </button>
@@ -81,22 +82,27 @@
                                 </section>
 
                                 <div class="progress-bar">
-                                    <ve-progress :progress="porcentajePuntuacionMedia" :legend="this.puntuacionMedia.media" :size="55">
+                                    <ve-progress :progress="porcentajePuntuacionMedia"
+                                        :legend="this.puntuacionMedia.media" :size="55">
 
-                                    <template #legend>
-                                        <span>/5</span>
-                                    </template>
+                                        <template #legend>
+                                            <span>/5</span>
+                                        </template>
 
                                     </ve-progress>
 
                                 </div>
 
-                            <div>
-                                <p v-if="this.puntuacionMedia.numPuntuaciones == 0" class="legend-caption">0 puntuaciones</p>
-                                <p v-if="this.puntuacionMedia.numPuntuaciones == 1" class="legend-caption">{{this.puntuacionMedia.numPuntuaciones}} puntuación</p>
-                                <p v-if="this.puntuacionMedia.numPuntuaciones > 1" class="legend-caption">{{this.puntuacionMedia.numPuntuaciones}} puntuaciones</p>
+                                <div>
+                                    <p v-if="this.puntuacionMedia.numPuntuaciones == 0" class="legend-caption">0
+                                        puntuaciones</p>
+                                    <p v-if="this.puntuacionMedia.numPuntuaciones == 1" class="legend-caption">
+                                        {{ this.puntuacionMedia.numPuntuaciones }} puntuación</p>
+                                    <p v-if="this.puntuacionMedia.numPuntuaciones > 1" class="legend-caption">
+                                        {{ this.puntuacionMedia.numPuntuaciones }} puntuaciones</p>
 
-                            </div>
+                                </div>
+
 
                                 <section style="margin: 0px;margin-top: 45px;">
                                     <div class="row" style="margin: 0px;">
@@ -188,8 +194,8 @@ class Programa {
 }
 
 export default {
-    data(){
-        return{
+    data() {
+        return {
             baseURL: "http://localhost:5000",
             programa: new Programa(),
             programas: [],
@@ -207,14 +213,14 @@ export default {
 
     created() {
         this.getPrograma(),
-        this.getListas(),
-        this.getPuntuacionPrograma(),
-        this.getPuntuacionMediaPrograma()
+            this.getListas(),
+            this.getPuntuacionPrograma(),
+            this.getPuntuacionMediaPrograma()
     },
 
     methods: {
         getPrograma() {
-            fetch(this.baseURL+'/programas/'+ this.id, { headers: { 'Authorization': sessionStorage.getItem("token") } })
+            fetch(this.baseURL + '/programas/' + this.id, { headers: { 'Authorization': sessionStorage.getItem("token") } })
                 .then(res => res.json())
                 .then(data => {
                     this.programa = data;
@@ -223,11 +229,11 @@ export default {
         },
 
         moment,
-
-        getActores(){
-            fetch(this.baseURL+'/actores/programa',
-                {   method: 'POST',
-                    headers: {'Accept': 'application/json','Content-type':'application/json'},
+        getActores() {
+            fetch(this.baseURL + '/actores/programa',
+                {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' },
                     body: JSON.stringify(this.actores)
                 })
                 .then(res => res.json())
@@ -241,7 +247,7 @@ export default {
         },
 
         getListas() {
-            fetch(this.baseURL +  "/listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
+            fetch(this.baseURL + "/listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
                 .then(res => res.json())
                 .then(data => {
                     this.listas = data;
@@ -252,7 +258,7 @@ export default {
         setProgramaVisto() {
             //Se obtiene el json de programas
             let jsonProgramasVistos = this.listas.find(l => l.lista.nombre === "Programas vistos");
-            fetch(this.baseURL+'/lista/' + jsonProgramasVistos.lista._id + '/agregar/' + this.programa._id,
+            fetch(this.baseURL + '/lista/' + jsonProgramasVistos.lista._id + '/agregar/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token") },
                     method: 'PUT',
@@ -278,7 +284,7 @@ export default {
         async deleteProgramaVisto() {
             //Se obtiene el json de programas
             let jsonProgramasVistos = this.listas.find(l => l.lista.nombre === "Programas vistos");
-            await fetch(this.baseURL+'/lista/' + jsonProgramasVistos.lista._id + '/borrar/' + this.programa._id,
+            await fetch(this.baseURL + '/lista/' + jsonProgramasVistos.lista._id + '/borrar/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token") },
                     method: 'PUT',
@@ -292,8 +298,8 @@ export default {
             let index = this.listas.findIndex(l => l.lista.nombre === "Programas vistos");
             //Se actualiza el json de las listas
             this.listas[index] = jsonProgramasVistos;
-            
-            if(this.puntuacionMedia.numPuntuaciones > 0){
+
+            if (this.puntuacionMedia.numPuntuaciones > 0) {
                 this.getPuntuacionPrograma();
                 this.getPuntuacionMediaPrograma();
             }
@@ -309,7 +315,7 @@ export default {
 
         setProgramaSeguimiento() {
             let jsonProgramasSeguimiento = this.listas.find(l => l.lista.nombre === "En seguimiento");
-            fetch(this.baseURL+'/lista/' + jsonProgramasSeguimiento.lista._id + '/agregar/' + this.programa._id,
+            fetch(this.baseURL + '/lista/' + jsonProgramasSeguimiento.lista._id + '/agregar/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token") },
                     method: 'PUT',
@@ -407,12 +413,12 @@ export default {
                     } else {
                         this.puntuacion = 0;
                         const toast = useToast();
-                            toast.error(json.message,
-                                {
-                                    position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                                    draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                                    icon: true, rtl: false
-                                });
+                        toast.error(json.message,
+                            {
+                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                                icon: true, rtl: false
+                            });
                     }
                 });
         },
@@ -449,7 +455,7 @@ export default {
 </script>
 
 <style scoped>
-.card{
+.card {
     margin: 20px;
     font-family: 'montserratbold';
     border-radius: 20px;
@@ -500,14 +506,14 @@ export default {
 }
 
 .custom-text {
-  font-weight: bold;
-  font-size: 1.9em;
-  border: 1px solid #cfcfcf;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 5px;
-  color: #999;
-  background: #fff;
+    font-weight: bold;
+    font-size: 1.9em;
+    border: 1px solid #cfcfcf;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+    color: #999;
+    background: #fff;
 }
 
 .legend-caption {
