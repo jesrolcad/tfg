@@ -16,7 +16,6 @@ const UsuarioSchema = new Schema({
         required: [true, "El nombre de usuario es obligatorio"],
     },
 
-    
     email: {
         type: String,
         unique: true,
@@ -26,8 +25,12 @@ const UsuarioSchema = new Schema({
     password: {
         type: String,
         required: [true, "La contraseña es obligatoria"],
-    }}, 
-    
+    },
+
+    insignias: {
+        type: Array
+    }},
+
     {collection: 'usuarios'});
 
 
@@ -37,10 +40,10 @@ UsuarioSchema.methods.toJSON = function() {
     let userObject = user.toObject();
     delete userObject.password;
     return userObject;
- }
+}
 
- UsuarioSchema.plugin(uniqueValidator,  {
+UsuarioSchema.plugin(uniqueValidator,  {
     message: "Debe ser único"
- })
+})
 
- module.exports = mongoose.model('Usuario', UsuarioSchema)
+module.exports = mongoose.model('Usuario', UsuarioSchema)

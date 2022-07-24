@@ -39,7 +39,8 @@
     "vue-material-design-icons": "^5.1.1",
     "vue-router": "^4.0.16",
     "vue-star-rating": "^2.1.0",
-    "vue-toastification": "^2.0.0-rc.5"
+    "vue-toastification": "^2.0.0-rc.5",
+    "vue3-carousel": "^0.1.40"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",

@@ -10,10 +10,9 @@
     <div style="position: absolute; margin-left:425px; margin-top:-15px"><button class="btn btn-secondary" style="width: min-content;height: min-content;" @click="showModal = false">X</button></div>
     <h3 class="mb-3 mr-1">Listas personalizadas</h3>
             <div v-if="this.listasPersonalizadas.length > 0" class="row">
-                
                 <table class="table">
                     <tbody>
-                        <tr v-for="l in this.listasPersonalizadas">
+                        <tr v-for="l in this.listasPersonalizadas" v-bind:key="l">
                             <td>{{l.lista.nombre}}</td>
                             <td v-if="!l.lista.programas.includes(this.idPrograma)">
                                 <button class="border border-0 bg-transparent" title="Añadir programa a lista" @click="addProgramaToLista(l.lista._id)"><font-awesome-icon icon="fa-solid fa-plus" class="fa-xl"></font-awesome-icon></button>
@@ -46,8 +45,7 @@ import CrearLista from "./CrearLista.vue";
                 showModal: false,
                 listasPersonalizadas: [],
                 idPrograma: this.$route.params.id,
-                componentKey: 0
-               
+                componentKey: 0,
             }
         },
 
@@ -86,6 +84,7 @@ import CrearLista from "./CrearLista.vue";
                             draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                             icon: true, rtl: false
                             });
+                        this.$emit('escucharAdd');
 
                         } else {
                             toast.error(data.msg,
@@ -136,14 +135,15 @@ import CrearLista from "./CrearLista.vue";
             addLista(value){
                 this.showModal = false;
                 this.listasPersonalizadas.push(value);
+                this.$emit("escucharAdd")
             }
 
         },
 
         components: {
-            CrearLista
+            CrearLista,
         }
-        }
+    }
 
 
 

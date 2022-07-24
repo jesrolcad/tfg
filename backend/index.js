@@ -9,6 +9,8 @@ const router_usuarios = require('./routes/router_usuarios');
 const router_listas = require('./routes/router_listas');
 const router_recomendaciones = require('./routes/router_recomendaciones');
 const router_puntuaciones = require('./routes/router_puntuaciones');
+const router_insignias = require('./routes/router_insignias');
+
 require("dotenv").config();
 const path = require('path');
 
@@ -48,6 +50,7 @@ app.use('/usuarios', router_usuarios);
 app.use('/', router_listas);
 app.use('/puntuaciones', router_puntuaciones);
 app.use('/recomendaciones', router_recomendaciones);
+app.use('/insignias', router_insignias);
 
 
 

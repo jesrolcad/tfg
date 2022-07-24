@@ -129,7 +129,6 @@ methods:{
                 .then(data => {
                     this.filtrados=data;
                 });
-        console.log(JSON.stringify(this.filtrados))
         this.$emit('escucharFiltros',this.filtrados)
     }
 }
