@@ -2,19 +2,26 @@
   <Navbar class="nav" />
   <div class="container">
     <div class="text-center mb-5">
-      <h3 class="mt-5">Bienvenido, {{ this.perfil.usuario.nombreUsuario }}</h3>
+      <h3 class="mt-5">Bienvenido, {{ perfil.usuario.nombreUsuario }}</h3>
     </div>
-    <div class="row d-flex justify-content-center">
-      <div class="col-lg-4">
+    <div class="row">
+      <div class="col">
         <div class="card mb-4">
-          <div class="card-body text-center">
+          <div class="card-body text-center" style=" height:275.3px">
             <font-awesome-icon icon="fa-solid fa-user" size="2xl" />
-            <h5 class="my-3">{{ this.perfil.usuario.nombre }}</h5>
-            <p class="text-muted mb-1">{{ this.perfil.usuario.nombreUsuario }}</p>
-            <p class="text-muted mb-4">{{ this.perfil.usuario.email }}</p>
+            <div style="margin-top:18%">
+              <h5 class="my-3">{{ perfil.usuario.nombre }}</h5>
+              <p class="text-muted mb-1">{{ perfil.usuario.nombreUsuario }}</p>
+              <p class="text-muted mb-4">{{ perfil.usuario.email }}</p>
+            </div>
           </div>
         </div>
       </div>
+      <div class="col-9">
+        <InsigniasShow />
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
       <Listas />
     </div>
     <RecomendacionesUsuario />
@@ -27,6 +34,7 @@
 import Navbar from './Navbar.vue'
 import RecomendacionesUsuario from './RecomendacionesUsuario.vue'
 import Listas from './Listas.vue'
+import InsigniasShow from './InsigniasShow.vue'
 
 export default {
   data() {
@@ -57,7 +65,8 @@ export default {
   components: {
     Navbar,
     RecomendacionesUsuario,
-    Listas
+    Listas,
+    InsigniasShow
   }
 
 

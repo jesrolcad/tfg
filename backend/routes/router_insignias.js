@@ -23,5 +23,8 @@ router_insignias.put('/actores', verifyLoggedInUser.authenticateToken, (req, res
     insigniaService.getActoresProgramasVistos(req,res);
 })
 
+router_insignias.get('/usuario', verifyLoggedInUser.authenticateToken, (req, res) => {
+    insigniaService.getInsigniasUsuario(req,res);
+})
 
 module.exports = router_insignias;

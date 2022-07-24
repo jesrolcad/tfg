@@ -1,5 +1,6 @@
 const Lista = require('../../models/Lista');
 const Usuario = require('../../models/Usuario');
+const Insignia = require('../../models/Insignia');
 const mongoose = require('mongoose');
 
 module.exports.insigniasUsuario= async function(userId){
@@ -16,6 +17,20 @@ module.exports.addInsignia= async function(userId, insignia){
         {"$push" : { "insignias" : insignia}},{ "new": true, "upsert": true });
         return true;
     }
+}
+
+module.exports.getInsigniasUsuario=async function (req,res) {
+    let insignias= await this.insigniasUsuario(req.user._id);
+    let insigniasPerfil = await Insignia.aggregate(
+        [
+            {
+                '$match': {
+                    'nombre': { '$in': insignias }
+                }
+            }
+        ]
+    )
+    res.status(200).json(insigniasPerfil);
 }
 
 module.exports.getProgramasVistos = async function (req,res) {
