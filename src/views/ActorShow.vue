@@ -4,7 +4,7 @@
     <h1><img v-if="personajes[0].imagen_actor" class="rounded shadow mb-5" style="margin-left:20px;margin-right:5px;height:200px; width:150px" :src="personajes[0].imagen_actor">
         <img v-if="!personajes[0].imagen_actor" class="rounded shadow mb-5" style="margin-left:20px;margin-right:5px;height:200px; width:150px" src="../../public/placeholder.png">
     {{id}}</h1>
-    <div style="margin-left:20px;margin-top: 35px;justify-content: space-evenly;">
+    <div v-if="movie" style="margin-left:20px;margin-top: 35px;justify-content: space-evenly;">
         <h1>Películas</h1>
         <div class="table-responsive">
             <table class="table table-borderless">
@@ -26,12 +26,12 @@
             </table>
         </div>
     </div>
-    <div style="margin-left:20px;margin-top: 35px;justify-content: space-evenly;">
+    <div v-if="serie" style="margin-left:20px;margin-top: 35px;justify-content: space-evenly;">
         <h1>Series</h1>
         <div class="table-responsive">
             <table class="table table-borderless">
                 <thead class="thead">
-                    <tr >
+                    <tr>
                         <th></th>
                         <th><button type="button" class="btn btn-lg btn-primary" disabled>Título</button></th>
                         <th><button type="button" class="btn btn-lg btn-primary" disabled>Personaje</button></th>
@@ -59,11 +59,14 @@
 import Navbar from './Navbar.vue'
 import Footer from './Footer.vue'
 import moment from 'moment'
+import { boolean } from 'webidl-conversions'
 export default {
     data() {
         return{
             id: this.$route.params.id,
-            personajes:[]
+            personajes:[],
+            movie: {type: boolean},
+            serie: {type: boolean},
         }
     },
     created(){
@@ -74,7 +77,9 @@ export default {
             fetch('http://localhost:5000/actores/'+ this.id)
                 .then(res=> res.json())
                 .then(data => {
-                    this.personajes=data;
+                    this.personajes=data.personajes;
+                    this.movie=data.movie;
+                    this.serie=data.serie;
                 });
         },
         moment
