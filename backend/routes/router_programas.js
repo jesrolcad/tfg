@@ -28,6 +28,10 @@ router_programas.post('/filtrados',async(req,res) => {
     programaService.getProgramasFiltados(req,res);
 });
 
+router_programas.post('/nombre',async(req,res) => {
+    programaService.getProgramaByName(req,res);
+});
+
 router_programas.get('/:id', verifyLoggedInUser.authenticateToken, (req,res) =>{
     programaService.getProgramaById(req,res);
 });

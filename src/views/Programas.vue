@@ -2,7 +2,10 @@
 <Navbar />
     <div class="Programas" >
         <Filtros @escucharFiltros="filtrados" style="margin-top:10%"/>
-    <div v-if="programasFiltrados.length==0" class="card-group" style="justify-content: space-evenly;">
+        <Buscador @escucharBusqueda="buscados" style="margin-top:5%" />
+        
+    <div v-if="programasFiltrados.length==0 && programasBuscados.length==0" class="card-group" style="justify-content: space-evenly;">
+        dentro del if 1
         <div class="col-3" v-for="programa of displayedProgramas" :key="programa._id" >
             <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
                         :src="programa.imagen || 'placeholder.png'"> </router-link>
@@ -12,13 +15,32 @@
             </div>
         </div>
     </div>
+    <div v-else-if="programasBuscados.length!=0" class="card-group" style="justify-content: space-evenly;">
+        dentro del if 2
+        {{programasBuscados.length}}
+        <div class="col-3" v-for="programa of displayedProgramasB" :key="programa._id" >
+            <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
+                        :src="programa.imagen || 'placeholder.png'"> </router-link>
+            <div class="card-body" style="margin: 10px">
+                <h4 class="card-title">{{programa.titulo}}</h4>
+                <small>{{moment(programa.fecha).locale('es').format("D MMM YYYY")}}</small>
+            </div>
+        </div>
+    </div>
+    <div v-else-if="programasBuscados.mensaje" class="card-group" style="justify-content: space-evenly;">
+        dentro del if 3
+        {{programasBuscados.mensaje}}
+    </div>
     <div v-else-if="programas.mensaje" class="card-group" style="justify-content: space-evenly;">
+        dentro del if 4
         {{programas.mensaje}}
     </div>
     <div v-else-if="programasFiltrados.mensaje" class="card-group" style="justify-content: space-evenly;">
+        dentro del if 5
         {{programasFiltrados.mensaje}}
     </div>
     <div v-else class="card-group" style="justify-content: space-evenly;" >
+        dentro del if 6
         <div class="col-3" v-for="programa of displayedProgramasF" :key="programa._id">
             <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
                         :src="programa.imagen || 'placeholder.png'"> </router-link>
@@ -57,6 +79,8 @@
     import Footer from './Footer.vue'
     import Filtros from './Filtros.vue'
     import moment from 'moment'
+    import Buscador from './Buscador.vue'
+
     class Programa{
         constructor(_id,tipo,titulo,fecha,imagen){
             this._id=_id;
@@ -76,6 +100,7 @@
                 perPage: 21,
                 pages: [],
                 programasFiltrados:[],
+                programasBuscados:[]
             }
         },
         created(){
@@ -110,17 +135,24 @@
             filtrados(value){
                 this.programasFiltrados = value;
             },
+            buscados(value){
+                this.programasBuscados = value;
+            }
         },
         components: {
             Navbar,
             Footer,
-            Filtros
+            Filtros,
+            Buscador
         },watch: {
             programas(){
                 this.setProgramas(this.programas);
             },
             programasF(){
                 this.setProgramas(this.programasFiltrados);
+            },
+            programasBuscados(){
+                this.setProgramas(this.programasBuscados);
             }
         },
         computed: {
@@ -130,8 +162,12 @@
             displayedProgramasF: function () {
             return this.paginate(this.programasFiltrados);
             },
+            displayedProgramasB: function () {
+            return this.paginate(this.programasBuscados);
+            },
         }
     }
+
 </script>
 <style scoped>
 .col-3{
