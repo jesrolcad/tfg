@@ -4,6 +4,7 @@ import router from "./router/index";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
+
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 
