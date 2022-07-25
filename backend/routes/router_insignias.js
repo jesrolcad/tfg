@@ -27,4 +27,8 @@ router_insignias.get('/usuario', verifyLoggedInUser.authenticateToken, (req, res
     insigniaService.getInsigniasUsuario(req,res);
 })
 
+router_insignias.get('/all', verifyLoggedInUser.authenticateToken, (req, res) => {
+    insigniaService.getAllInsignias(req, res);
+})
+
 module.exports = router_insignias;

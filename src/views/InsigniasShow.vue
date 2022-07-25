@@ -4,14 +4,14 @@
         <div class="card-body text-center" >
             <font-awesome-icon icon="fa-solid fa-trophy" size="2xl" style="margin-bottom:2%" />
             <carousel :items-to-show="3">
-                <slide v-for="insignia of insignias" v-bind:key="insignia._id">
+                <slide v-for="insignia of insigniasALL" v-bind:key="insignia._id">
                     <table class="table">
                         <tr>
-                            <img :src="insignia.insignia" style="width: 100px; height: 100px">
+                            <img v-if="insignias.includes(insignia.nombre)" :src="insignia.insignia" style="width: 100px; height: 100px;">
+                            <img v-else :src="insignia.insignia" style="width: 100px; height: 100px;opacity: 0.6; filter: grayscale(100%);">
                         </tr>
-                        <tr>
-                            {{insignia.nombre}}
-                        </tr>
+                        <tr v-if="insignias.includes(insignia.nombre)"><strong>{{insignia.nombre}}</strong></tr>
+                        <tr v-else>{{insignia.nombre}}</tr>
                     </table>
                 </slide>
 
@@ -47,11 +47,13 @@ export default{
     data() {
     return {
         baseURL: "http://localhost:5000",
-        insignias: []
+        insignias: [],
+        insigniasALL: []
         }
     },
     created(){
-        this.getInsignias()
+        this.getInsignias(),
+        this.getInsigniasAll()
     },
     methods: {
         getInsignias() {
@@ -60,6 +62,14 @@ export default{
             .then(data => {
             this.insignias = data;
             console.log(this.insignias);
+            })
+        },
+        getInsigniasAll() {
+        fetch(this.baseURL + "/insignias/all", { headers: { 'Authorization': sessionStorage.getItem("token") } })
+            .then(res => res.json())
+            .then(data => {
+            this.insigniasALL = data;
+            console.log(this.insigniasALL);
             })
         }
     },

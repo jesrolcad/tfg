@@ -21,7 +21,7 @@ module.exports.addInsignia= async function(userId, insignia){
 
 module.exports.getInsigniasUsuario=async function (req,res) {
     let insignias= await this.insigniasUsuario(req.user._id);
-    let insigniasPerfil = await Insignia.aggregate(
+    /*let insigniasPerfil = await Insignia.aggregate(
         [
             {
                 '$match': {
@@ -29,8 +29,13 @@ module.exports.getInsigniasUsuario=async function (req,res) {
                 }
             }
         ]
-    )
-    res.status(200).json(insigniasPerfil);
+    )*/
+    res.status(200).json(insignias);
+}
+
+module.exports.getAllInsignias = async function (req, res) {
+    let insigniasAll = await Insignia.find();
+    res.status(200).json(insigniasAll);
 }
 
 module.exports.getProgramasVistos = async function (req,res) {
