@@ -72,7 +72,12 @@
                         <router-link :to="`/programa/${p._id}`">
                             <td>{{ p.titulo }}</td>
                         </router-link>
+
+                        <td><button class="border border-0 bg-transparent" @click="borrarProgramaLista(p.lista, p._id);"><font-awesome-icon icon=" fa-solid fa-trash-can" class="fa-xl" title="Eliminar programa de lista">
+                                </font-awesome-icon></button></td>
                     </tr>
+
+                    
                 </tbody>
             </table>
             <nav aria-label="Page navigation example">
@@ -89,9 +94,6 @@
             <p>La lista está vacía</p>
         </div>
     </div>
-
-
-
 
 </template>
 
@@ -175,8 +177,14 @@ export default {
                     this.lista = data.lista;
                     this.showModalProgramas = true;
                     //add 5 programas to datosPaginados
-                    for(let i = 0; i < 5; i++){
+                    this.datosPaginados = [];
+                    //if lista programas length < 5
+                    if (this.lista.programas.length < this.elementosPorPagina) {
+                        this.datosPaginados = this.lista.programas;
+                    } else {
+                        for(let i = 0; i < 5; i++){
                         this.datosPaginados.push(this.lista.programas[i]);
+                    }
                     }
 
                 } else {
@@ -190,6 +198,40 @@ export default {
                 }
                 this.showModalProgramas = true;
             });
+
+        },
+
+
+        borrarProgramaLista(idLista, idPrograma){
+
+            fetch(this.baseURL + '/lista/' + idLista + '/borrar/' + idPrograma, {
+                    headers: { 'Authorization': sessionStorage.getItem("token"), },
+                    method: "PUT"})
+                    .then(response => response.json())
+                    .then(data => {
+
+                        const toast = useToast();
+                        
+                        if(data.status === 204){
+                            this.showModalProgramas = false;
+
+                            toast.success(data.msg,
+                            {
+                            position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                            draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                            icon: true, rtl: false
+                            });
+
+                        } else {
+                            toast.error(data.msg,
+                            {
+                            position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                            draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                            icon: true, rtl: false
+                            });
+                        }
+                        
+                    });
 
         },
 
@@ -270,7 +312,6 @@ export default {
 }
 
 .badges {
-    max-width: 21%;
     display: inline-block;
     margin-right: 5px;
 }
