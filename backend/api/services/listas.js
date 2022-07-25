@@ -86,7 +86,7 @@ module.exports.getLista = async (req, res) => {
          let listaNombreProgramas = [];
          for (let i = 0; i < listaProgramas.length; i++) {
             const programa = await Programa.findById(listaProgramas[i]);
-            listaNombreProgramas.push({titulo: programa.titulo, _id: programa._id});
+            listaNombreProgramas.push({titulo: programa.titulo, _id: programa._id, lista: req.params.idLista});
 
          }
          res.json({

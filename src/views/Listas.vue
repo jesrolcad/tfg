@@ -51,45 +51,52 @@
                         <span v-for="genero of json.generos" class="badges badge bg-secondary">{{ genero }}</span>
                     </div>
 
-                    <div class="d-flex justify-content-between install mt-3">
+                    <div class="d-flex justify-content-between install">
                         <button class="border border-0 bg-transparent" @click="getLista(json.lista._id)">
                             <span class="text-primary">Ver programas</span></button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div v-if="showModalProgramas" class="programas">
-        <h5 class="titulo">Programas de la lista {{ this.lista.nombre }}</h5>
-        <div style="margin-left:425px;margin-top:-45px;"><button class="btn btn-secondary"
-                style="width: min-content;height: min-content;" @click="showModalProgramas = false">X</button>
-        </div>
-        <div v-if="this.lista.programas.length > 0" class="row">
-            <table class="table">
-                <tbody>
-                    <tr v-for="p of this.datosPaginados" v-bind:key="p">
-                        <router-link :to="`/programa/${p._id}`">
-                            <td>{{ p.titulo }}</td>
-                        </router-link>
-                    </tr>
-                </tbody>
-            </table>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <!-- <li class="page-item" @click="getPreviousPage();"><a class="page-link" href="#">Previous</a></li> -->
-                    <li v-for="pagina in totalPaginas(this.lista.programas)" class="page-item" v-bind:class="isActive(pagina)" @click="getDataPagina(pagina);"><a
-                            class="page-link" @click="getNextPage();">{{ pagina }}</a>
-                    </li>
-                    <!-- <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
-                </ul>
-            </nav>
-        </div>
-        <div v-else>
-            <p>La lista está vacía</p>
+        <div v-if="showModalProgramas" class="programas">
+            <h5 class="titulo">Programas de la lista {{ this.lista.nombre }}</h5>
+            <div style="margin-left:425px;margin-top:-45px;"><button class="btn btn-secondary"
+                    style="width: min-content;height: min-content;" @click="showModalProgramas = false">X</button>
+            </div>
+            <div v-if="this.lista.programas.length > 0" class="row">
+                <table class="table">
+                    <tbody>
+                        <tr v-for="p of this.datosPaginados" v-bind:key="p">
+                            <router-link :to="`/programa/${p._id}`">
+                                <td>{{ p.titulo }}</td>
+                            </router-link>
+
+                            <td><button class="border border-0 bg-transparent"
+                                    @click="borrarProgramaLista(p.lista, p._id);">
+                                    <font-awesome-icon icon=" fa-solid fa-trash-can" class="fa-xl"
+                                        title="Eliminar programa de lista">
+                                    </font-awesome-icon>
+                                </button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <!-- <li class="page-item" @click="getPreviousPage();"><a class="page-link" href="#">Previous</a></li> -->
+                        <li v-for="pagina in totalPaginas(this.lista.programas)" class="page-item"
+                            v-bind:class="isActive(pagina)" @click="getDataPagina(pagina);"><a class="page-link"
+                                @click="getNextPage();">{{ pagina }}</a>
+                        </li>
+                        <!-- <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
+                    </ul>
+                </nav>
+            </div>
+            <div v-else>
+                <p>La lista está vacía</p>
+            </div>
         </div>
     </div>
-
 
 
 
@@ -115,7 +122,7 @@ export default {
 
     created() {
         this.getListas();
-            
+
     },
 
     methods: {
@@ -175,8 +182,14 @@ export default {
                     this.lista = data.lista;
                     this.showModalProgramas = true;
                     //add 5 programas to datosPaginados
-                    for(let i = 0; i < 5; i++){
-                        this.datosPaginados.push(this.lista.programas[i]);
+                    this.datosPaginados = [];
+                    //if lista programas length < 5
+                    if (this.lista.programas.length < this.elementosPorPagina) {
+                        this.datosPaginados = this.lista.programas;
+                    } else {
+                        for (let i = 0; i < 5; i++) {
+                            this.datosPaginados.push(this.lista.programas[i]);
+                        }
                     }
 
                 } else {
@@ -193,6 +206,41 @@ export default {
 
         },
 
+
+        borrarProgramaLista(idLista, idPrograma) {
+
+            fetch(this.baseURL + '/lista/' + idLista + '/borrar/' + idPrograma, {
+                headers: { 'Authorization': sessionStorage.getItem("token"), },
+                method: "PUT"
+            })
+                .then(response => response.json())
+                .then(data => {
+
+                    const toast = useToast();
+
+                    if (data.status === 204) {
+                        this.showModalProgramas = false;
+
+                        toast.success(data.msg,
+                            {
+                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                                icon: true, rtl: false
+                            });
+
+                    } else {
+                        toast.error(data.msg,
+                            {
+                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                                icon: true, rtl: false
+                            });
+                    }
+
+                });
+
+        },
+
         totalPaginas(lista) {
             return Math.ceil(lista.length / this.elementosPorPagina);
         },
@@ -204,10 +252,10 @@ export default {
             let fin = noPagina * this.elementosPorPagina;
             this.datosPaginados = this.lista.programas.slice(ini, fin);
 
-        }, 
+        },
 
         isActive(noPagina) {
-            if(noPagina == this.paginaActual){
+            if (noPagina == this.paginaActual) {
                 return "active";
             } else {
                 return '';
@@ -218,7 +266,7 @@ export default {
         // getPreviousPage(){
         //     if(this.paginaActual > 1){
         //         this.paginaActual--;
-                
+
         //     }
         //     this.getDataPagina(this.paginaActual);
         // },
@@ -226,12 +274,12 @@ export default {
         // getNextPage(){
         //     if(this.paginaActual < this.totalPaginas()){
         //         this.paginaActual++;
-                
+
         //     }
         //     this.getDataPagina(this.paginaActual);
         // }
- 
-        },
+
+    },
 
     components: {
         CrearLista
@@ -270,7 +318,6 @@ export default {
 }
 
 .badges {
-    max-width: 21%;
     display: inline-block;
     margin-right: 5px;
 }
@@ -302,8 +349,8 @@ export default {
     border-radius: 20px;
     box-shadow: 0px 0px 5px var(--bs-gray-400);
     border-style: var(--bs-gray-400);
-    bottom: 325px;
-    margin-left: 0px;
+    margin-left: 375px;
+    margin-top: -300px;
 }
 
 .pagination-container {
