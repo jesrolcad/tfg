@@ -1,14 +1,14 @@
 <template>
   <body>
     <section class="position-relative py-4 py-xl-5">
-      <div class="container" style="margin-left:90px">
+      <div class="container">
         <div class="row mb-5"></div>
         <div class="col-md-8 col-xl-6 text-center mx-auto">
           <h2 class="text-center" data-bs-toggle="tooltip" data-bss-tooltip="">Iniciar sesión</h2>
           <p class="w-lg-50"></p>
         </div>
         <div class="row d-flex justify-content-center">
-          <div class="col-md-8">
+          <div class="col-md-6 col-xl-4">
             <div class="card mb-5">
               <div class="card-body d-flex flex-column align-items-center">
                 <div class="bs-icon-xl bs-icon-circle bs-icon-primary-light text-black-50 bs-icon my-4"><svg
