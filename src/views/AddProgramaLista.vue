@@ -26,7 +26,6 @@
                 
                 </div>
                 <div v-else>
-
                     <p>Aún no tienes listas personalizadas </p>
                 </div>
                 <crearLista @escucharCrearLista="addLista"></crearLista>
@@ -135,10 +134,10 @@ import CrearLista from "./CrearLista.vue";
             addLista(value){
                 this.showModal = false;
                 this.listasPersonalizadas.push(value);
-                this.$emit("escucharAdd")
+                this.$emit("escucharAdd");
             }
 
-        },
+                },
 
         components: {
             CrearLista,

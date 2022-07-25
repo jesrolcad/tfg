@@ -9,7 +9,7 @@
         <div class="field">
           <div class="control">
             <input class="input" type="text" v-model="v$.nombre.$model" placeholder="Nombre">
-            <button class="button-is-primary" @click="crearLista(); enviarLista();">Crear</button>
+            <button class="button-is-primary" @click="submit();">Crear</button>
           </div>
           <div v-if="v$.nombre.$dirty">
             <div v-if="v$.nombre.regexValidator.$invalid">
@@ -52,6 +52,8 @@ export default {
       lista: {}
     }
   },
+
+  
   methods: {
     crearLista() {
       fetch('http://localhost:5000/lista/crear', {
@@ -75,16 +77,16 @@ export default {
               icon: true, rtl: false
             });
 
+            this.$emit('escucharCrearLista', this.lista);
+
 
         } else {
           data.errors.forEach(error => toast.error(error.msg,
             {
-              position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+              position: "top-right", closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
               draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
               icon: true, rtl: false
             }));
-
-
         }
 
       });
@@ -97,10 +99,6 @@ export default {
         this.crearLista();
       }
     },
-
-    enviarLista() {
-      this.$emit('escucharCrearLista', this.lista);
-    }
   },
 
   validations() {
