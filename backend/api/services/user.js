@@ -55,7 +55,7 @@ module.exports.login = function login(req, res) {
             expiresIn: process.env.CADUCIDAD_TOKEN
          })
 
-      res.json({status: 200, token: token});
+      res.json({status: 200, token: token, role:usuarioDB.roles});
 
    })};
 
