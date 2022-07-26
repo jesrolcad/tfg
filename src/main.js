@@ -25,10 +25,7 @@ const options = {
 
 }
 
-import mitt from 'mitt';
-const emitter = mitt();
-const app = createApp(App);
-app.config.globalProperties.emitter = emitter;
-app.component('font-awesome-icon', FontAwesomeIcon).use(router).use(Toast, options).mount('#app')
+
+createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(router).use(Toast, options).mount('#app')
 
 

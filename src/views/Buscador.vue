@@ -25,10 +25,8 @@ export default {
                 .then(res=> res.json())
                 .then(data => {
                     this.buscados=data;
-                }).then(this.emitter.emit('escuchar-busqueda',this.buscados));
-        console.log("En el buscador: " + this.buscados);
-        this.$router.push({name: 'ProgramasBuscados'})
-        //this.$emit('escucharBusqueda',this.buscados)
+                });
+        this.$emit('escucharBusqueda',this.buscados)
     }
     }
 }
