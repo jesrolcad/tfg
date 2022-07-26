@@ -2,7 +2,7 @@
 <Navbar />
     <div class="Programas" >
         <Filtros @escucharFiltros="filtrados" style="margin-top:10%"/>
-        <Buscador @escucharBusqueda="buscados" style="margin-top:5%" />
+        <Buscador style="margin-top:5%" />
         
     <div v-if="programasFiltrados.length==0 && programasBuscados.length==0" class="card-group" style="justify-content: space-evenly;">
         dentro del if 1
@@ -134,9 +134,6 @@
             },
             filtrados(value){
                 this.programasFiltrados = value;
-            },
-            buscados(value){
-                this.programasBuscados = value;
             }
         },
         components: {

@@ -2,6 +2,7 @@
 <div class="Navbar">
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient" style="background: linear-gradient(120deg, #78D5F5 0%, #787FF6 24%, #4ADEDE 49%, #1CA7EC 75%, #1F2F98 100%);">
         <div class="container"><img src="../../public/logo.png" style="width: 70px;height: 70px;"> <strong style="font-family:montserratbold;font-size: 25px;color: #ffffff;margin-left: 10px;border-color: #ffffff;">What To Watch</strong><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navbarNav"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <Buscador />
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><router-link to="/programas"><span class="nav-link active" style="font-size: 20px; font-family: montserratbold;font-weight: normal !important;">Programas</span></router-link></li>
@@ -15,3 +16,25 @@
     </nav>
 </div>
 </template>
+<script>
+import Buscador from './Buscador.vue'
+
+export default {
+    data(){
+        return{
+            programasNavbar:[]
+        }
+    },
+    components: {
+        Buscador
+    },methods:{
+        /*buscados(value){
+            console.log("En el navbar: "+ value)
+            this.programasNavbar = value;
+            this.$emit('escucharBuscador',this.programasNavbar)
+        }*/
+    }
+}
+
+
+</script>

@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 const routes = [
     {path:'/', name:'Home',component: Home},
     {path:'/programas', name:'Programas',component: () => import(/* webpackChunkName: "Programas" */'../views/Programas.vue'), meta: {auth: true}},
+    {path:'/programas-buscados', name:'ProgramasBuscados',component: () => import(/* webpackChunkName: "Programas" */'../views/ProgramasBuscados.vue'), meta: {auth: true}},
     {path:'/sugerencias', name:'Sugerencias',component: () => import('../views/Sugerencias.vue'), meta: {auth: true}},
     //{path:'/programa', name:'Programa',component: () => import(/* webpackChunkName: "Programa" */'../views/ProgramaShow.vue')}
     {path:'/programa/:id', name:'Programa',component: () => import(/* webpackChunkName: "Programa" */'../views/ProgramaShow.vue'), meta: {auth: true}},
