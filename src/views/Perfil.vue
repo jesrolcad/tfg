@@ -140,8 +140,6 @@ body {
   margin-right: 1.5rem !important;
 }
 
-
-
 .nav {
   margin-bottom: 10%
 }

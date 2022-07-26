@@ -27,10 +27,14 @@ const UsuarioSchema = new Schema({
         required: [true, "La contraseña es obligatoria"],
     },
 
+    roles: {
+        type:String
+    },
+
     insignias: {
         type: Array
     }},
-
+    {timestamps:true},
     {collection: 'usuarios'});
 
 

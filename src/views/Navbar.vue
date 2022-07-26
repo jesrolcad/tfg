@@ -6,6 +6,7 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><router-link to="/"><span class="nav-link active" style="font-size: 20px; font-family: montserratbold;font-weight: normal !important;">Inicio</span></router-link></li>
                     <li class="nav-item"><router-link to="/programas"><span class="nav-link active" style="font-size: 20px; font-family: montserratbold;font-weight: normal !important;">Programas</span></router-link></li>
+                    <li v-if="rol == 'Admin'" class="nav-item"><router-link to="/estadisticas"><span class="nav-link active" style="font-size: 20px; font-family: montserratbold;font-weight: normal !important;">Estadisticas</span></router-link></li>
                     <li class="nav-item"><router-link to="/perfil"><span class="nav-link active" style="font-size: 20px; font-family: montserratbold;font-weight: normal !important;">Perfil</span></router-link></li>
                     <!-- <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#" style="font-size: 20px; font-family: montserratbold;"><span style="font-weight: normal !important;">Perfil</span></a>
                         <div class="dropdown-menu"><a class="dropdown-item" href="#">First Item</a><a class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third Item</a></div>
@@ -16,3 +17,15 @@
     </nav>
 </div>
 </template>
+<script>
+export default {
+    data(){
+        return{
+            rol: sessionStorage.getItem('role')
+        }
+    },
+    created(){
+        console.log(this.rol)
+    }
+}
+</script>

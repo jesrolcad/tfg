@@ -12,13 +12,12 @@ const ListaSchema = new Schema({
         type: Array
     },
 
-    
     usuario: {
         type: mongoose.Types.ObjectId,
         ref: 'Usuario',
         required: [true, "Una lista debe ser creada por un usuario"],
-    }}, 
-    
+    }},
+    {timestamps:true},
     {collection: 'listas'});
 
- module.exports = mongoose.model('Lista', ListaSchema) 
+ module.exports = mongoose.model('Lista', ListaSchema)

@@ -106,6 +106,7 @@ export default {
 
         else if (json.status == 200) {
           sessionStorage.setItem("token", json.token);
+          sessionStorage.setItem("role", json.role);
           this.v$.$reset();
           this.$router.push({ name: 'Programas' });
         }
