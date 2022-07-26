@@ -53,5 +53,63 @@ module.exports.getActorByName = async (req,res) => {
             }
         }
       ]);
-    res.json(personajes);
+
+      const boolean= await Actor.aggregate([
+        [
+          {
+            '$match': {
+              'nombre': nombre
+            }
+          }, {
+            '$set': {
+              'movie': {
+                '$cond': {
+                  'if': {
+                    '$regexFind': {
+                      'input': '$titulo_url',
+                      'regex': '/movie/'
+                    }
+                  },
+                  'then': true,
+                  'else': false
+                }
+              }
+            }
+          }, {
+            '$set': {
+              'serie': {
+                '$cond': {
+                  'if': {
+                    '$regexFind': {
+                      'input': '$titulo_url',
+                      'regex': '/tv/'
+                    }
+                  },
+                  'then': true,
+                  'else': false
+                }
+              }
+            }
+          }, {
+            '$group': {
+              '_id': 'nuevo_id',
+              'movie': {
+                '$addToSet': '$movie'
+              },
+              'serie': {
+                '$addToSet': '$serie'
+              }
+            }
+          }
+        ]
+      ]);
+    let movie = false;
+    if(boolean[0].movie.includes(true)){
+      movie=true;
+    }
+    let serie = false;
+    if(boolean[0].serie.includes(true)){
+      serie = true;
+    }
+    res.status(200).json({personajes:personajes, movie: movie, serie:serie});
 }

@@ -94,7 +94,7 @@
                                             v-on:click="submit();">Registrarme</button>
                                     </div>
 
-                                    <p class="text-center text-muted mt-1 mb-0">¿Ya tienes cuenta?<a href="/login"
+                                    <p class="text-center text-muted mt-1 mb-0">¿Ya tienes cuenta?<a href="/"
                                             class="fw-bold text-body"><br><u>Inicia sesión</u></a></p>
 
                                 </form>

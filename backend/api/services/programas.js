@@ -12,6 +12,18 @@ module.exports.getAllProgramas = async (req,res) => {
     }
 }
 
+module.exports.getProgramaByName = async (req,res) => {
+    if(req.body.titulo.length==0){
+        req.body.titulo =""
+    }
+    const programaBuscado = await Programa.find({$text: {$search: req.body.titulo}}).select({ "titulo": 1, "tipo":1, "fecha":1, "imagen":1, "_id": 1});
+    if(programaBuscado.length > 0) {
+        res.status(200).json(programaBuscado);
+    }else {
+        res.status(200).json({"mensaje": "No se han encontrado programas para la búsqueda."});
+    }
+}
+
 module.exports.getProgramaById = async (req,res) => {
     const programa= await Programa.findById(req.params.id);
     res.json(programa);

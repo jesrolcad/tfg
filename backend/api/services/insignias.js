@@ -21,7 +21,7 @@ module.exports.addInsignia= async function(userId, insignia){
 
 module.exports.getInsigniasUsuario=async function (req,res) {
     let insignias= await this.insigniasUsuario(req.user._id);
-    let insigniasPerfil = await Insignia.aggregate(
+    /*let insigniasPerfil = await Insignia.aggregate(
         [
             {
                 '$match': {
@@ -29,8 +29,13 @@ module.exports.getInsigniasUsuario=async function (req,res) {
                 }
             }
         ]
-    )
-    res.status(200).json(insigniasPerfil);
+    )*/
+    res.status(200).json(insignias);
+}
+
+module.exports.getAllInsignias = async function (req, res) {
+    let insigniasAll = await Insignia.find();
+    res.status(200).json(insigniasAll);
 }
 
 module.exports.getProgramasVistos = async function (req,res) {
@@ -102,13 +107,13 @@ module.exports.getListasPropias = async function (req,res) {
             ]
         )
         if(listasPropias.length!=0){
-            if(parseInt(listasPropias[0].listasPropias)== 1){
+            if(parseInt(listasPropias[0].listasPropias)== 1 && !ListBeginner){
                 this.addInsignia(req.user._id, "List Beginner");
                 res.status(200).json({'key': 1,'insignia': 'List Beginner'})
-            }else if(parseInt(listasPropias[0].listasPropias)== 3){
+            }else if(parseInt(listasPropias[0].listasPropias)== 3 && !ListExpert){
                 this.addInsignia(req.user._id, "List Expert");
                 res.status(200).json({'key': 3,'insignia': 'List Expert'})
-            }else if(parseInt(listasPropias[0].listasPropias)== 5){
+            }else if(parseInt(listasPropias[0].listasPropias)== 5 && !ListExpert){
                 this.addInsignia(req.user._id, "List Freak");
                 res.status(200).json({'key': 5,'insignia': 'List Freak'})
             }else{

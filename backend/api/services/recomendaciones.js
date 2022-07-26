@@ -2,12 +2,12 @@ const Programa=require('../../models/Programa');
 const Puntuacion = require('../../models/Puntuacion');
 const mongoose = require('mongoose');
 
-module.exports.getSugerencias = async function (req, res) {
+module.exports.puntuadosUsuario= async function (userId) {
     const puntuadosUsuario = await Puntuacion.aggregate(
         [
                 {
                 '$match': {
-                    'usuario': mongoose.Types.ObjectId(req.user._id)
+                    'usuario': mongoose.Types.ObjectId(userId)
                 }
                 }, {
                 '$project': {
@@ -29,10 +29,14 @@ module.exports.getSugerencias = async function (req, res) {
                 }
         ]
     );
+    return puntuadosUsuario;
+}
+
+module.exports.puntuacionPrograma= async function (idPrograma) {
     const puntuacionPrograma = await Puntuacion.aggregate([
         {
             '$match': {
-                'programa': mongoose.Types.ObjectId(req.body.idPrograma)
+                'programa': mongoose.Types.ObjectId(idPrograma)
             }
         }, {
             '$group': {
@@ -43,15 +47,27 @@ module.exports.getSugerencias = async function (req, res) {
             }
         }
     ]);
+    return puntuacionPrograma;
+}
+
+module.exports.numPuntuacionesPrograma = async function (idPrograma) {
     const numPuntuacionesPrograma = await Puntuacion.aggregate([
         {
             '$match': {
-                'programa': mongoose.Types.ObjectId(req.body.idPrograma)
+                'programa': mongoose.Types.ObjectId(idPrograma)
             }
         }, {
             '$count': 'count'
         }
     ]);
+    return numPuntuacionesPrograma;
+}
+
+module.exports.getSugerencias = async function (req, res) {
+    let puntuadosUsuario = await this.puntuadosUsuario(req.user._id);
+    let puntuacionPrograma = await this.puntuacionPrograma(req.body.idPrograma);
+    let numPuntuacionesPrograma = await this.numPuntuacionesPrograma(req.body.idPrograma);
+
     if(puntuacionPrograma.length == 0 || numPuntuacionesPrograma.length == 0){
         res.status(200).json({"mensaje": "El programa no ha sido votado y no es posible realizar sugerencias"})
     }else if(req.body.generos.length == 0){
@@ -140,37 +156,11 @@ module.exports.getSugerencias = async function (req, res) {
     }
 };
 
-module.exports.getRecomendacionesUsuario = async function (req, res) {
-    const puntuadosUsuario = await Puntuacion.aggregate(
-        [
-                {
-                '$match': {
-                    'usuario': mongoose.Types.ObjectId(req.user._id)
-                }
-                }, {
-                '$project': {
-                    'programa': 1,
-                    '_id': 0
-                }
-                }, {
-                '$group': {
-                    '_id': 'new',
-                    'programa': {
-                    '$addToSet': '$programa'
-                    }
-                }
-                }, {
-                '$project': {
-                    '_id': 0,
-                    'programa': 1
-                }
-                }
-        ]
-    );
+module.exports.generosUsuario = async function (userId) {
     const generosUsuario= await Puntuacion.aggregate([
         {
             '$match': {
-                'usuario': mongoose.Types.ObjectId(req.user._id),
+                'usuario': mongoose.Types.ObjectId(userId),
                 'puntuacion': {
                 '$gte': 4
                 }
@@ -217,6 +207,13 @@ module.exports.getRecomendacionesUsuario = async function (req, res) {
             }
             }
         ]);
+    return generosUsuario;
+}
+
+module.exports.getRecomendacionesUsuario = async function (req, res) {
+    let puntuadosUsuario = await this.puntuadosUsuario(req.user._id);
+    let generosUsuario= await this.generosUsuario(req.user._id);
+
     if(puntuadosUsuario.length == 0 || generosUsuario.length == 0){
         res.status(200).json({"mensaje": "No se han podido realizar sugerencias para usted debido a que no ha añadido ninguna puntuación"})
     }else{
