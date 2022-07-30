@@ -16,7 +16,7 @@ require("dotenv").config();
 const path = require('path');
 
 //Server is listening
-app.listen(5000, () => {
+const server = app.listen(5000, () => {
     console.log('listening on port 5000')
 })
 
@@ -24,6 +24,7 @@ app.listen(5000, () => {
 mongoose.Promise = global.Promise;
 
 const connection_string = process.env.CONNECTION_STRING;
+
 mongoose.connect(connection_string, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -56,3 +57,4 @@ app.use('/estadisticas', router_estadisticas);
 
 
 
+module.exports = {app, server};

@@ -14,7 +14,7 @@ module.exports.login = function login(req, res) {
    const errors = validationResult(req);
 
    if (!errors.isEmpty()) {
-      return res.json({ status:400, errors: errors.array() });
+      return res.status(400).json({ status:400, errors: errors.array() });
    }
 
    let body = req.body;
@@ -67,7 +67,7 @@ module.exports.registro = async function registro(req, res) {
    const errors = validationResult(req);
 
    if (!errors.isEmpty()) {
-      return res.json({status:400, errors: errors.array() });
+      return res.status(400).json({status:400, errors: errors.array() });
 
    }
    let body = req.body;
