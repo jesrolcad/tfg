@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js --ignore 'src/public'",
+    "dev": "set NODE_ENV=development && nodemon src/index.js --ignore 'src/public'",
     "test": "set NODE_ENV=test && jest --coverage --collectCoverageFrom='./api/services/**' --forceExit"
   },
   "author": "",
@@ -24,4 +24,6 @@
     "mongodb-memory-server": "^8.8.0",
     "supertest": "^6.2.4"
   }
+
+  
 }

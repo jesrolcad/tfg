@@ -24,14 +24,16 @@ const server = app.listen(5000, () => {
 mongoose.Promise = global.Promise;
 
 const connection_string = process.env.CONNECTION_STRING;
+const node_env = process.env.NODE_ENV.trim();
 
-mongoose.connect(connection_string, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-.then(() => {console.log("MongoDB connection established")})
-.catch((error) => {console.error("MongoDB connection failed:",error.message)})
-
+if(node_env == 'development'){
+    mongoose.connect(connection_string, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    .then(() => {console.log("MongoDB connection established")})
+    .catch((error) => {console.error("MongoDB connection failed:",error.message)})
+}
 
 app.use(express.urlencoded({ extended: true }));
 

@@ -9,7 +9,7 @@ const { validationResult } = require('express-validator');
 
 app.use(express.json());
 
-module.exports.login = function login(req, res) {
+module.exports.login = async function login(req, res) {
 
    const errors = validationResult(req);
 
