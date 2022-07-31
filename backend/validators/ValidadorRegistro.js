@@ -3,7 +3,7 @@ const Usuario = require('../models/Usuario');
 
 module.exports.registroSchema = [
     
-body('nombre').exists({checkFalsy: true}).withMessage("El nombre es obligatorio").isLength({min: 5, max:50})
+body('nombre').exists({checkFalsy: true}).withMessage("El nombre es obligatorio").trim().isLength({min: 5, max:50})
 .withMessage("El nombre y apellidos deben tener entre 5 y 50 caracteres").matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/).withMessage("El nombre y apellidos solo deben contener letras"),
 body('nombreUsuario').exists({checkFalsy: true}).withMessage("El nombre de usuario es obligatorio")
 .isAlpha().withMessage("El nombre de usuario solo puede contener letras")
@@ -19,5 +19,6 @@ body('email').isEmail().withMessage("No sigue el formato adecuado").custom(async
     if(user){
       return Promise.reject('Correo electrónico en uso');
     }})}),
-body('password').isLength({ min: 8 }).withMessage("La contraseña debe tener como mínimo 8 caracteres")
+body('password').exists({checkFalsy: true}).withMessage("La contraseña es obligatoria").isLength({ min: 8 }).withMessage("La contraseña debe tener como mínimo 8 caracteres")
+.matches(/[a-zA-Z0-9]{8,}/).withMessage("La contraseña solo puede contener letras y/o números")
 ]
