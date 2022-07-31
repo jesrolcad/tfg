@@ -15,10 +15,11 @@ const connectDB = async () => {
 
         mongoose.connect(dbUrl, {
             useNewUrlParser: true,
-            useUnifiedTopology: true,
+            useUnifiedTopology: true
         });
         console.log(dbUrl);
         console.log('MongoDB connected');
+
     } 
     
     
@@ -53,8 +54,6 @@ const setupUsuarios = async () => {
         })
 
         await usuario1.save();
-
-        //return user;
 
     } catch (err) {
         console.log(err);
