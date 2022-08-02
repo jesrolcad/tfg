@@ -32,12 +32,9 @@ module.exports.getGenerosLista = async (lista) => {
          const genero = programa.generos[j];
          if (!generos.includes(genero)) {
             generos.push(genero);
-
          }
       }
-
    }
-
    if (generos.length > 0) {
 
       if (generos.length == 1) {
@@ -46,18 +43,13 @@ module.exports.getGenerosLista = async (lista) => {
       let generosList = [];
       for (let k = 0; k < generos.length; k++) {
          generosList.push(generos[k]);
-
          if (k == 2) {
             break;
          }
-
       }
-
       if (generos.length > 2) {
          generosList.push("...");
-
       }
-
       return generosList;
    } else {
       return ["Sin géneros"];
@@ -100,7 +92,6 @@ module.exports.getLista = async (req, res) => {
       } else {
          res.sendStatus(401);
       }
-
    } else {
       return res.status(400).json({
          status: 400,
@@ -108,7 +99,6 @@ module.exports.getLista = async (req, res) => {
          msg: "La lista no existe"
       });
    }
-
 }
 
 module.exports.createLista = async (req, res) => {

@@ -44,15 +44,6 @@ const disconnectDB = async () => {
     }
 };
 
-const dropCollections = async () => {
-    if (mongod) {
-        const collections = await mongoose.connection.db.collections();
-        for (let collection of collections) {
-            collection.deleteMany();
-        }
-    }
-};
-
 //Creating some initial data for the tests
 const setupData = async () => {
 
@@ -73,9 +64,6 @@ const setupData = async () => {
             email: "anotherTest@user.com",
             password: bcrypt.hashSync('12345678', 10)
         }).save();
-
-        // await usuario1.save();
-        // await usuario2.save();
 
         //PROGRAMAS
         const programa1 = await new Programa({
@@ -122,6 +110,27 @@ const setupData = async () => {
             actoresIds: []
         }).save();
 
+        const programa3 = await new Programa({
+            tipo: "Serie",
+            titulo: "Prueba Lista",
+            titulo_url: "https://www.themoviedb.org/movie/10013",
+            imagen: "https://www.themoviedb.org/t/p/w220_and_h330_face/7v8VjNe3eTr83ocRBQ8ItEtjsSQ.jpg",
+            fecha: "2020-07-17",
+            generos: [
+                "Ciencia ficción"
+            ],
+            clasificacion_edad: "PG-13",
+            duracion: "1h 36m",
+            descripcion: `Descripción de prueba 2`,
+
+            estado: "Estrenada",
+            idioma_original: "Inglés",
+            plataformas: [
+                "Netflix"
+            ],
+            actoresIds: []
+        }).save();
+
         //LISTAS
         const programasVistosUsuario1 = await new Lista({
             nombre: "Programas vistos",
@@ -134,7 +143,31 @@ const setupData = async () => {
             nombre: "Programas vistos",
             programas: [programa1._id],
             usuario: usuario2._id
-        })
+        }).save();
+
+        const listaVacia = await new Lista({
+            nombre: "listaVacía",
+            programas: [],
+            usuario: usuario1._id
+        }).save();
+
+        const listaConUnPrograma = await new Lista({
+            nombre: "listaConUnPrograma",
+            programas: [programa1._id],
+            usuario: usuario1._id
+        }).save();
+
+        const listaConUnGenero = await new Lista({
+            nombre: "listaConUnGénero",
+            programas: [programa3._id],
+            usuario: usuario1._id
+        }).save();
+
+        const listaConVariosProgramas = await new Lista({
+            nombre: "listaConVariosProgramas",
+            programas: [programa1._id, programa2._id],
+            usuario: usuario1._id
+        }).save();
 
         //PUNTUACIONES
         const puntuacion1 = await new Puntuacion({
@@ -150,4 +183,4 @@ const setupData = async () => {
     }
 }
 
-module.exports = { connectDB, disconnectDB, setupData, dropCollections };
+module.exports = { connectDB, disconnectDB, setupData };

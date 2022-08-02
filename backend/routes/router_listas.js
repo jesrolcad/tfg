@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const listaService = require('../api/services/listas');
-const ValidadorLista = require("../validators/ValidadorLista");
+const ValidadorLista = require("../api/validators/ValidadorLista");
 const verifyLoggedInUser = require("../api/middlewares/verifyLoggedInUser");
 
 router.get('/listas', verifyLoggedInUser.authenticateToken, (req, res) => {
