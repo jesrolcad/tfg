@@ -1,7 +1,7 @@
 const supertest = require('supertest');
 const { app, server } = require('../../index');
 const request = supertest(app);
-const { connectDB, disconnectDB, setupUsuarios } = require('../mock_database_configuration');
+const { connectDB, disconnectDB, setupData } = require('../mock_database_configuration');
 const mongoose =  require('mongoose');
 const Usuario = require('../../models/Usuario');
 const {casosNegativosLogin, casosPositivosRegistro, casosNegativosRegistro} = require('./casos');
@@ -9,7 +9,7 @@ const {casosNegativosLogin, casosPositivosRegistro, casosNegativosRegistro} = re
 describe('TESTS USUARIOS', () => {
     beforeAll(async () => {
         connectDB();
-        await setupUsuarios();
+        await setupData();
     });
     
     afterAll(() => {
@@ -34,15 +34,13 @@ describe('TESTS USUARIOS', () => {
 
         describe('CASOS NEGATIVOS', () => {
 
-            //for case of cases
+        
             for (const caso of casosNegativosLogin) {
                 it(caso.key, async () => {
                     const response = await request.post('/usuarios/login').send({
                         nombreUsuario: caso.nombreUsuario,
                         password: caso.password
                     })
-                    console.log(caso.key);
-                    console.log(response.body);
                     expect(response.status).toBe(400);
                 })
             }

@@ -20,4 +20,4 @@ const ListaSchema = new Schema({
     {timestamps:true},
     {collection: 'listas'});
 
- module.exports = mongoose.model('Lista', ListaSchema)
+module.exports = mongoose.model('Lista', ListaSchema)

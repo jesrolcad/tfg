@@ -3,36 +3,52 @@ const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const router_programas =  require('./routes/router_programas');
-const router_actores =  require('./routes/router_actores');
+const router_programas = require('./routes/router_programas');
+const router_actores = require('./routes/router_actores');
 const router_usuarios = require('./routes/router_usuarios');
 const router_listas = require('./routes/router_listas');
 const router_recomendaciones = require('./routes/router_recomendaciones');
 const router_puntuaciones = require('./routes/router_puntuaciones');
 const router_insignias = require('./routes/router_insignias');
-const router_estadisticas= require('./routes/router_estadisticas');
+const router_estadisticas = require('./routes/router_estadisticas');
 
 require("dotenv").config();
 const path = require('path');
 
+const node_env = process.env.NODE_ENV.trim();
+const connection_string = process.env.CONNECTION_STRING;
+
+let server = '';
+
 //Server is listening
-const server = app.listen(5000, () => {
-    console.log('listening on port 5000')
-})
+if (node_env === 'test') {
+
+    server = app.listen(0, () => {
+        console.log('listening on port ' + server.address().port);
+    })
+
+} else {
+
+    server = app.listen(5000, () => {
+        console.log('listening on port 5000');
+    })
+
+}
+
 
 //Conexion MongoDB
 mongoose.Promise = global.Promise;
 
-const connection_string = process.env.CONNECTION_STRING;
-const node_env = process.env.NODE_ENV.trim();
 
-if(node_env == 'development'){
+
+
+if (node_env == 'development') {
     mongoose.connect(connection_string, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
-    .then(() => {console.log("MongoDB connection established")})
-    .catch((error) => {console.error("MongoDB connection failed:",error.message)})
+        .then(() => { console.log("MongoDB connection established") })
+        .catch((error) => { console.error("MongoDB connection failed:", error.message) })
 }
 
 app.use(express.urlencoded({ extended: true }));
@@ -59,4 +75,4 @@ app.use('/estadisticas', router_estadisticas);
 
 
 
-module.exports = {app, server};
+module.exports = { app, server };
