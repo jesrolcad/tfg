@@ -1,5 +1,23 @@
-// OBTENER PUNTUACIÓN 
-const casosNegativosPuntuacionPrograma = [
+// OBTENER PUNTUACIÓN PUNTUACIÓN Y PUNTUACIÓN MEDIA
+
+const casosPositivosObtenerPuntuacionPrograma = [
+    {
+        key: 'USUARIO HA DADO PUNTUACIÓN AL PROGRAMA',
+        posicionPrograma: 0,
+        puntuacionEsperada: 5,
+        numPuntuacionesEsperadas: 1
+    }, 
+
+    {
+        key: 'USUARIO NO HA DADO PUNTUACIÓN AL PROGRAMA',
+        posicionPrograma: 1,
+        puntuacionEsperada: 0,
+        numPuntuacionesEsperadas: 0
+    }
+]
+
+
+const casosNegativosObtenerPuntuacionPrograma = [
     
     {
         key: 'EL ID DEL PROGRAMA NO ES VÁLIDO',
@@ -74,4 +92,5 @@ const casosNegativosPuntuarPrograma = [
 
 ]
 
-module.exports = {casosNegativosPuntuacionPrograma, casosPositivosPuntuarPrograma, casosNegativosPuntuarPrograma}
+module.exports = {casosPositivosObtenerPuntuacionPrograma, casosNegativosObtenerPuntuacionPrograma,
+    casosPositivosPuntuarPrograma, casosNegativosPuntuarPrograma}
