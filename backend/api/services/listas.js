@@ -174,7 +174,8 @@ module.exports.deleteLista = async (req, res) => {
 module.exports.deleteProgramaLista = async (req, res) => {
 
 
-   Lista.findById(req.params.idLista, async function (err, lista) {
+   let lista = await Lista.findById(req.params.idLista);
+
       if (lista) {
 
          if (lista.usuario == req.user._id) {
@@ -186,7 +187,8 @@ module.exports.deleteProgramaLista = async (req, res) => {
                   msg: "El id del programa no es válido"
                });
             }
-            let programa = Programa.findById(req.params.idPrograma);
+
+            let programa = await Programa.findById(req.params.idPrograma);
 
             if (!programa) {
                return res.status(400).json({ status: 400, key: "programaInexistente", msg: "El programa no existe" });
@@ -197,12 +199,12 @@ module.exports.deleteProgramaLista = async (req, res) => {
             let index = programas.indexOf(req.params.idPrograma);
             if (index > -1) {
                programas.splice(index, 1);
-               lista.save();
+               await lista.save();
                //find Programas vistos
                if (lista.nombre === "Programas vistos") {
                   let puntuacion = await Puntuacion.findOne({ programa: req.params.idPrograma, usuario: req.user._id });
                   if (puntuacion) {
-                     puntuacion.remove();
+                     await puntuacion.remove();
                   }
 
                }
@@ -220,14 +222,13 @@ module.exports.deleteProgramaLista = async (req, res) => {
          res.status(400).json({ status: 400, key: "listaInexistente", msg: "La lista no existe" });
       }
 
-   });
-
 }
 
 //Validar que es el usuario que ha iniciado sesión
 module.exports.addProgramaLista = async (req, res) => {
 
-   Lista.findById(req.params.idLista, async function (err, lista) {
+   let lista = await Lista.findById(req.params.idLista);
+
       if (lista) {
 
          if (lista.usuario == req.user._id) {
@@ -238,7 +239,7 @@ module.exports.addProgramaLista = async (req, res) => {
                   msg: "El id del programa no es válido"
                });
             }
-            let programa = Programa.findById(req.params.idPrograma);
+            let programa = await Programa.findById(req.params.idPrograma);
 
             if (!programa) {
                return res.status(400).json({ status: 400, key: "programaInexistente", msg: "El programa no existe" });
@@ -257,7 +258,4 @@ module.exports.addProgramaLista = async (req, res) => {
       } else {
          return res.status(400).json({ status: 400, key: "listaInexistente", msg: "La lista " + lista.nombre + " no existe" });
       }
-
-   })
-
 }

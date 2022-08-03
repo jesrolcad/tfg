@@ -65,6 +65,13 @@ const setupData = async () => {
             password: bcrypt.hashSync('12345678', 10)
         }).save();
 
+        const usuario3 = await new Usuario({
+            nombre: "usuarioo",
+            nombreUsuario: 'usuarioLista',
+            email: "usuario3@gmail.com",
+            password: bcrypt.hashSync('12345678', 10)
+        }).save();
+
         //PROGRAMAS
         const programa1 = await new Programa({
             tipo: "Película",
@@ -145,6 +152,12 @@ const setupData = async () => {
             usuario: usuario2._id
         }).save();
 
+        const enSeguimientoUsuario2 = await new Lista({
+            nombre: "En seguimiento",
+            programas: [],
+            usuario: usuario2._id
+        }).save();
+
         const listaVacia = await new Lista({
             nombre: "listaVacía",
             programas: [],
@@ -166,7 +179,21 @@ const setupData = async () => {
         const listaConVariosProgramas = await new Lista({
             nombre: "listaConVariosProgramas",
             programas: [programa1._id, programa2._id],
-            usuario: usuario1._id
+            usuario: usuario2._id
+        }).save();
+
+        //Listas para las pruebas
+
+        const lista1 = await new Lista({
+            nombre: "lista1Usuario3",
+            programas: [],
+            usuario: usuario3._id
+        }).save();
+
+        const lista2 = await new Lista({
+            nombre: "lista2Usuario3",
+            programas: [programa1._id],
+            usuario: usuario3._id
         }).save();
 
         //PUNTUACIONES

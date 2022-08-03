@@ -111,4 +111,79 @@ const casosNegativosCrearLista = [
 
 ]
 
-module.exports = {casosPositivosGetGenerosLista, casosNegativosObtenerLista, casosPositivosCrearLista, casosNegativosCrearLista}
+const casosNegativosEliminarLista = [
+    {
+        key: 'ELIMINAR LISTA DE PROGRAMAS VISTOS',
+        nombreLista: "Programas vistos",
+        statusEsperado: 400
+    },
+
+    {
+        key: 'ELIMINAR LISTA DE EN SEGUIMIENTO',
+        nombreLista: "En seguimiento",
+        statusEsperado: 400
+
+    },
+
+    {
+        key: 'ELIMINAR LISTA DE OTRO USUARIO',
+        nombreLista: "listaConUnPrograma",
+        statusEsperado: 401
+    },
+
+    {
+        key: 'ELIMINAR LISTA INEXISTENTE',
+        idLista: '62ab0378fca44224c2b226c7',
+        statusEsperado: 400
+    }, 
+
+    {
+        key: 'ELIMINAR LISTA CON ID NO VÁLIDO',
+        idLista: '1',
+        statusEsperado: 400
+
+    }
+]
+
+const casosNegativosAgregarProgramaLista = [
+
+    {
+        key: 'AÑADIR PROGRAMA A LISTA DE OTRO USUARIO',
+        statusEsperado: 401,
+        otroUser: true
+    },
+
+    {
+        key: 'AÑADIR PROGRAMA A LISTA INEXISTENTE',
+        statusEsperado: 400,
+        idLista: "62ab0378fca44224c2b226c7"
+    },
+
+    {
+        key: 'AÑADIR PROGRAMA INEXISTENTE A LISTA',
+        statusEsperado: 400,
+        idPrograma: "62ab0378fca44224c2b226c7"
+    },
+
+    {
+        key: 'AÑADIR PROGRAMA A LISTA CON ID NO VÁLIDO',
+        statusEsperado: 400,
+        idLista: "1"
+    },
+
+    {
+        key: 'AÑADIR PROGRAMA CON ID NO VÁLIDO A LISTA',
+        statusEsperado: 400,
+        idPrograma: "1"
+    },
+
+    {
+        key: 'AÑADIR PROGRAMA DUPLICADO A LISTA',
+        statusEsperado: 400,
+        programaDuplicado: true
+    }
+]
+
+module.exports = {casosPositivosGetGenerosLista, casosNegativosObtenerLista,
+    casosPositivosCrearLista, casosNegativosCrearLista, casosNegativosEliminarLista,
+    casosNegativosAgregarProgramaLista}
