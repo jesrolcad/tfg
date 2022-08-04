@@ -71,9 +71,10 @@ module.exports.registro = async function registro(req, res) {
 
    }
    let body = req.body;
-   let { nombre, nombreUsuario, email, password } = body;
+   let { nombre, fechaNacimiento, nombreUsuario, email, password } = body;
    let usuario = new Usuario({
       nombre,
+      fechaNacimiento,
       nombreUsuario,
       email,
       password: bcrypt.hashSync(password, 10)

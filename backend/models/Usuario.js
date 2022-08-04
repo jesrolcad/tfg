@@ -16,6 +16,12 @@ const UsuarioSchema = new Schema({
         required: [true, "El nombre de usuario es obligatorio"],
     },
 
+    fechaNacimiento: {
+        type: Date,
+        required: [true, "La fecha de nacimiento es obligatoria"],
+        max: [Date.now(), "La fecha de nacimiento no puede ser posterior al día de hoy"]
+    },
+
     email: {
         type: String,
         unique: true,
