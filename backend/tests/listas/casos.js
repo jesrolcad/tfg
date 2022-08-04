@@ -184,6 +184,71 @@ const casosNegativosAgregarProgramaLista = [
     }
 ]
 
+
+const casosPositivosEliminarProgramaLista = [
+
+    {
+        key: 'ELIMINAR PROGRAMA DE LISTA CONCRETA',
+        nombreLista: 'lista2Usuario3'
+    }, 
+
+    {
+        key: 'ELIMINAR PROGRAMA DE PROGRAMAS VISTOS (PROGRAMA CON PUNTUACIÓN)',
+        nombreLista: 'Programas vistos'
+    },
+
+    {
+        key: 'ELIMINAR PROGRAMA DE PROGRAMAS VISTOS (PROGRAMA SIN PUNTUACIÓN)',
+        nombreLista: 'Programas vistos',
+        log: true
+    }
+]
+
+const casosNegativosEliminarProgramaLista = [
+
+        {
+            key: 'ELIMINAR PROGRAMA DE LISTA DE OTRO USUARIO',
+            statusEsperado: 401,
+            otroUser: true
+        },
+    
+        {
+            key: 'ELIMINAR PROGRAMA DE LISTA INEXISTENTE',
+            statusEsperado: 400,
+            idLista: "62ab0378fca44224c2b226c7"
+        },
+    
+        {
+            key: 'ELIMINAR PROGRAMA INEXISTENTE DE LISTA',
+            statusEsperado: 400,
+            idPrograma: "62ab0378fca44224c2b226c7"
+        },
+    
+        {
+            key: 'ELIMINAR PROGRAMA DE LISTA CON ID NO VÁLIDO',
+            statusEsperado: 400,
+            idLista: "1"
+        },
+    
+        {
+            key: 'ELIMINAR PROGRAMA CON ID NO VÁLIDO DE LISTA',
+            statusEsperado: 400,
+            idPrograma: "1"
+        },
+    
+        {
+            key: 'ELIMINAR PROGRAMA DUPLICADO DE LISTA',
+            statusEsperado: 400,
+            programaDuplicado: true
+        },
+
+        {
+            key: 'ELIMINAR PROGRAMA QUE NO ESTÁ EN LA LISTA',
+            statusEsperado: 400,
+            programaNoEnLista: true
+        }
+]
+
 module.exports = {casosPositivosGetGenerosLista, casosNegativosObtenerLista,
     casosPositivosCrearLista, casosNegativosCrearLista, casosNegativosEliminarLista,
-    casosNegativosAgregarProgramaLista}
+    casosNegativosAgregarProgramaLista, casosPositivosEliminarProgramaLista, casosNegativosEliminarProgramaLista}

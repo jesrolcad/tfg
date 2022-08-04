@@ -178,7 +178,7 @@ const setupData = async () => {
 
         const listaConVariosProgramas = await new Lista({
             nombre: "listaConVariosProgramas",
-            programas: [programa1._id, programa2._id],
+            programas: [programa1._id, programa2._id, programa3._id],
             usuario: usuario2._id
         }).save();
 
@@ -196,11 +196,23 @@ const setupData = async () => {
             usuario: usuario3._id
         }).save();
 
+        const programasVistosUser3 = await new Lista({
+            nombre: "Programas vistos",
+            programas: [programa1._id, programa2._id],
+            usuario: usuario3._id
+        }).save();
+
         //PUNTUACIONES
         const puntuacion1 = await new Puntuacion({
             usuario: usuario2._id,
             programa: programa1._id,
             puntuacion: 5
+        }).save();
+
+        const puntuacionUser3 = await new Puntuacion({
+            usuario: usuario3._id,
+            programa: programa1._id,
+            puntuacion: 1
         }).save();
 
 

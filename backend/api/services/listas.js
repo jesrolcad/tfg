@@ -173,6 +173,13 @@ module.exports.deleteLista = async (req, res) => {
 //Validar que es el usuario que ha iniciado sesión
 module.exports.deleteProgramaLista = async (req, res) => {
 
+   if (!mongoose.Types.ObjectId.isValid(req.params.idLista)) {
+      return res.status(400).json({
+         status: 400,
+         key: "idListaInvalida",
+         msg: "El id de la lista no es válido"
+      });
+   }
 
    let lista = await Lista.findById(req.params.idLista);
 
@@ -227,6 +234,15 @@ module.exports.deleteProgramaLista = async (req, res) => {
 //Validar que es el usuario que ha iniciado sesión
 module.exports.addProgramaLista = async (req, res) => {
 
+   if (!mongoose.Types.ObjectId.isValid(req.params.idLista)) {
+      return res.status(400).json({
+         status: 400,
+         key: "idListaInvalida",
+         msg: "El id de la lista no es válida"
+      });
+
+   }
+
    let lista = await Lista.findById(req.params.idLista);
 
       if (lista) {
@@ -256,6 +272,6 @@ module.exports.addProgramaLista = async (req, res) => {
             return res.status(401).json({ status: 401, msg: "No eres propietario de esta lista" });
          }
       } else {
-         return res.status(400).json({ status: 400, key: "listaInexistente", msg: "La lista " + lista.nombre + " no existe" });
+         return res.status(400).json({ status: 400, key: "listaInexistente", msg: "La lista no existe" });
       }
 }

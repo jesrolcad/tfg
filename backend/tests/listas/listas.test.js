@@ -6,9 +6,9 @@ const Lista = require('../../models/Lista');
 const Usuario = require('../../models/Usuario');
 const Programa = require('../../models/Programa');
 const listaService = require('../../api/services/listas');
-const { casosPositivosGetGenerosLista, casosNegativosObtenerLista,
-    casosPositivosCrearLista, casosNegativosCrearLista, casosNegativosEliminarLista,
-    casosNegativosAgregarProgramaLista} = require('./casos');
+const { casosPositivosGetGenerosLista, casosNegativosObtenerLista, casosPositivosCrearLista, 
+    casosNegativosCrearLista, casosNegativosEliminarLista, casosNegativosAgregarProgramaLista, 
+    casosPositivosEliminarProgramaLista, casosNegativosEliminarProgramaLista} = require('./casos');
 
 
 describe('TESTS LISTAS', () => {
@@ -244,47 +244,54 @@ describe('TESTS LISTAS', () => {
 
         })
 
-        // describe('CASOS NEGATIVOS', () => {
+        describe('CASOS NEGATIVOS', () => {
 
-        //     for(const caso of casosNegativosAgregarProgramaLista) {
+            for (const caso of casosNegativosAgregarProgramaLista) {
 
-        //         it(caso.key, async () => {
-        //             const response_login = await request.post('/usuarios/login').send({
-        //                 nombreUsuario: 'usuarioLista',
-        //                 password: '12345678'
-        //             })
+                it(caso.key, async () => {
+                    const response_login = await request.post('/usuarios/login').send({
+                        nombreUsuario: 'usuarioLista',
+                        password: '12345678'
+                    })
 
-        //             const token = response_login.body.token;
+                    const token = response_login.body.token;
 
-        //             let idPrograma = 0
-        //             let idLista = 0
+                    let idPrograma = 0
+                    let idLista = 0
 
-        //             if(caso.otroUser){
+                    if (caso.otroUser) {
 
-        //                 const programa = await Programa.find();
-        //                 idPrograma = programa._id;
-        //                 const lista = await Lista.findOne({nombre: 'Programas vistos'});
-        //                 idLista = lista._id;
+                        const programa = await Programa.findOne();
+                        idPrograma = programa._id;
+                        const lista = await Lista.findOne({ nombre: 'Programas vistos' });
+                        idLista = lista._id;
 
-        //             } else if(caso.programaDuplicado) {
-                            
-        //                 idPrograma = await Programa.findOne({titulo: 'La maldición (Cursed)'})._id;
-        //                 idLista = await Lista.findOne({nombre: 'lista2Usuario3'})._id;
-    
-        //             } else if(caso.idLista){
-        //                 idLista = caso.idLista
-        //                 idPrograma = await Programa.findOne()._id
+                    }
+                    
+                    if (caso.programaDuplicado) {
 
-        //             } else if(caso.idPrograma) {
-        //                 idLista = await Lista.findOne({nombre: 'lista2Usuario3'})._id
-        //                 idPrograma = caso.idPrograma
-        //             }
+                        const programa = await Programa.findOne({ titulo: 'La maldición (Cursed)' });
+                        idPrograma = programa._id;
+                        const lista = await Lista.findOne({ nombre: 'lista2Usuario3' });
+                        idLista = lista._id;
 
-        //             const response = await request.put('/lista/' + idLista + '/agregar/' + idPrograma).set('Authorization', token);
-        //             expect(response.status).toBe(caso.statusEsperado);
-        //         })
-        //     }
-        // })
+                    }
+                    else if (caso.idLista) {
+                        idLista = caso.idLista;
+                        const programa = await Programa.findOne({titulo: 'La maldición (Cursed)' });
+                        idPrograma = programa._id;
+
+                    } else if (caso.idPrograma) {
+                        const lista = await Lista.findOne({ nombre: 'lista2Usuario3' });
+                        idLista = lista._id;
+                        idPrograma = caso.idPrograma;
+                    }
+
+                    const response = await request.put('/lista/' + idLista + '/agregar/' + idPrograma).set('Authorization', token);
+                    expect(response.status).toBe(caso.statusEsperado);
+                })
+            }
+        })
 
     })
 
@@ -292,31 +299,84 @@ describe('TESTS LISTAS', () => {
 
         describe('CASOS POSITIVOS', () => {
 
-            it('USUARIO ELIMINA PROGRAMA DE LISTA', async () => {
+            for(const caso of casosPositivosEliminarProgramaLista){
+                it(caso.key, async () => {
 
-                const response_login = await request.post('/usuarios/login').send({
-                    nombreUsuario: 'usuarioLista',
-                    password: '12345678'
+                    const response_login = await request.post('/usuarios/login').send({
+                        nombreUsuario: 'usuarioLista',
+                        password: '12345678'
+                    })
+
+                    const usuario = await Usuario.findOne({nombreUsuario: 'usuarioLista'});
+
+                    const token = response_login.body.token;
+                    const lista = await Lista.findOne({ nombre: caso.nombreLista, usuario: usuario._id});
+                    let tam = lista.programas.length;
+
+                    const response = await request.put('/lista/' + lista._id + '/borrar/' + lista.programas[0]).set('Authorization', token);
+                    expect(response.body.status).toBe(204);
+
+                    const listaActualizada = await Lista.findOne({ nombre: caso.nombreLista, usuario: usuario._id });
+                    if(caso.log){
+                        console.log("IMPRIMIENDO RESULTADOS");
+                        console.log(lista);
+                        console.log(listaActualizada);
+                    }
+                    expect(listaActualizada.programas.length).toBe(tam-1);
+
+                    
                 })
-
-                const token = response_login.body.token;
-                const lista = await Lista.findOne({ nombre: "lista2Usuario3" });
-                const programa = await Programa.findById(lista.programas[0]);
-                console.log(programa._id);
-
-                const response = await request.put('/lista/' + lista._id + '/borrar/' + programa._id).set('Authorization', token);
-
-
-                console.log(response.body);
-
-                expect(response.body.status).toBe(204);
-
-                const listaActualizada = await Lista.findOne({ nombre: "lista2Usuario3" });
-                expect(listaActualizada.programas.length).toBe(0);
             }
-            )
+        })
 
+        describe('CASOS NEGATIVOS', () => {
 
+            for (const caso of casosNegativosEliminarProgramaLista) {
+
+                console.log(caso.key);
+
+                it(caso.key, async () => {
+                    const response_login = await request.post('/usuarios/login').send({
+                        nombreUsuario: 'usuarioLista',
+                        password: '12345678'
+                    })
+
+                    const token = response_login.body.token;
+
+                    let idPrograma = 0
+                    let idLista = 0
+
+                    if (caso.otroUser) {
+
+                        const programa = await Programa.findOne();
+                        idPrograma = programa._id;
+                        const lista = await Lista.findOne({ nombre: 'Programas vistos' });
+                        idLista = lista._id;
+
+                    }
+                    else if (caso.idLista) {
+                        idLista = caso.idLista;
+                        const programa = await Programa.findOne({ titulo: 'La maldición (Cursed)' });
+                        idPrograma = programa._id;
+
+                    } else if (caso.idPrograma) {
+                        const lista = await Lista.findOne({ nombre: 'lista2Usuario3' });
+                        idLista = lista._id;
+                        idPrograma = caso.idPrograma;
+
+                    } else if(caso.programaNoEnLista){
+                        const lista = await Lista.findOne({ nombre: 'lista2Usuario3' });
+                        idLista = lista._id;
+                        const programa = await Programa.findOne({});
+                        idPrograma = programa._id;
+
+                    }
+
+                    const response = await request.put('/lista/' + idLista + '/borrar/' + idPrograma).set('Authorization', token);
+                    expect(response.status).toBe(caso.statusEsperado);
+                    console.log(response.body.msg);
+                })
+            }
 
         })
 
