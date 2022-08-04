@@ -228,6 +228,8 @@ export default {
                                 icon: true, rtl: false
                             });
 
+                        this.getListas();
+
                     } else {
                         toast.error(data.msg,
                             {
@@ -280,6 +282,7 @@ export default {
         // }
 
     },
+    
 
     components: {
         CrearLista

@@ -1,8 +1,7 @@
 const supertest = require('supertest');
 const { app, server } = require('../../index');
 const request = supertest(app);
-const { connectDB, disconnectDB, dropCollections, setupData } = require('../mock_database_configuration');
-const mongoose = require('mongoose');
+const { connectDB, disconnectDB, setupData } = require('../mock_database_configuration');
 const Usuario = require('../../models/Usuario');
 const Lista = require('../../models/Lista');
 const Programa = require('../../models/Programa');

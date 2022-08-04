@@ -32,12 +32,9 @@ module.exports.getGenerosLista = async (lista) => {
          const genero = programa.generos[j];
          if (!generos.includes(genero)) {
             generos.push(genero);
-
          }
       }
-
    }
-
    if (generos.length > 0) {
 
       if (generos.length == 1) {
@@ -46,18 +43,13 @@ module.exports.getGenerosLista = async (lista) => {
       let generosList = [];
       for (let k = 0; k < generos.length; k++) {
          generosList.push(generos[k]);
-
          if (k == 2) {
             break;
          }
-
       }
-
       if (generos.length > 2) {
          generosList.push("...");
-
       }
-
       return generosList;
    } else {
       return ["Sin géneros"];
@@ -100,7 +92,6 @@ module.exports.getLista = async (req, res) => {
       } else {
          res.sendStatus(401);
       }
-
    } else {
       return res.status(400).json({
          status: 400,
@@ -108,7 +99,6 @@ module.exports.getLista = async (req, res) => {
          msg: "La lista no existe"
       });
    }
-
 }
 
 module.exports.createLista = async (req, res) => {
@@ -183,8 +173,16 @@ module.exports.deleteLista = async (req, res) => {
 //Validar que es el usuario que ha iniciado sesión
 module.exports.deleteProgramaLista = async (req, res) => {
 
+   if (!mongoose.Types.ObjectId.isValid(req.params.idLista)) {
+      return res.status(400).json({
+         status: 400,
+         key: "idListaInvalida",
+         msg: "El id de la lista no es válido"
+      });
+   }
 
-   Lista.findById(req.params.idLista, async function (err, lista) {
+   let lista = await Lista.findById(req.params.idLista);
+
       if (lista) {
 
          if (lista.usuario == req.user._id) {
@@ -196,7 +194,8 @@ module.exports.deleteProgramaLista = async (req, res) => {
                   msg: "El id del programa no es válido"
                });
             }
-            let programa = Programa.findById(req.params.idPrograma);
+
+            let programa = await Programa.findById(req.params.idPrograma);
 
             if (!programa) {
                return res.status(400).json({ status: 400, key: "programaInexistente", msg: "El programa no existe" });
@@ -207,12 +206,12 @@ module.exports.deleteProgramaLista = async (req, res) => {
             let index = programas.indexOf(req.params.idPrograma);
             if (index > -1) {
                programas.splice(index, 1);
-               lista.save();
+               await lista.save();
                //find Programas vistos
                if (lista.nombre === "Programas vistos") {
                   let puntuacion = await Puntuacion.findOne({ programa: req.params.idPrograma, usuario: req.user._id });
                   if (puntuacion) {
-                     puntuacion.remove();
+                     await puntuacion.remove();
                   }
 
                }
@@ -230,14 +229,22 @@ module.exports.deleteProgramaLista = async (req, res) => {
          res.status(400).json({ status: 400, key: "listaInexistente", msg: "La lista no existe" });
       }
 
-   });
-
 }
 
 //Validar que es el usuario que ha iniciado sesión
 module.exports.addProgramaLista = async (req, res) => {
 
-   Lista.findById(req.params.idLista, async function (err, lista) {
+   if (!mongoose.Types.ObjectId.isValid(req.params.idLista)) {
+      return res.status(400).json({
+         status: 400,
+         key: "idListaInvalida",
+         msg: "El id de la lista no es válida"
+      });
+
+   }
+
+   let lista = await Lista.findById(req.params.idLista);
+
       if (lista) {
 
          if (lista.usuario == req.user._id) {
@@ -248,7 +255,7 @@ module.exports.addProgramaLista = async (req, res) => {
                   msg: "El id del programa no es válido"
                });
             }
-            let programa = Programa.findById(req.params.idPrograma);
+            let programa = await Programa.findById(req.params.idPrograma);
 
             if (!programa) {
                return res.status(400).json({ status: 400, key: "programaInexistente", msg: "El programa no existe" });
@@ -265,9 +272,6 @@ module.exports.addProgramaLista = async (req, res) => {
             return res.status(401).json({ status: 401, msg: "No eres propietario de esta lista" });
          }
       } else {
-         return res.status(400).json({ status: 400, key: "listaInexistente", msg: "La lista " + lista.nombre + " no existe" });
+         return res.status(400).json({ status: 400, key: "listaInexistente", msg: "La lista no existe" });
       }
-
-   })
-
 }

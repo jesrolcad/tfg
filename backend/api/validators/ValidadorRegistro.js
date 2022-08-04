@@ -1,5 +1,5 @@
 const {body} = require('express-validator');
-const Usuario = require('../models/Usuario');
+const Usuario = require('../../models/Usuario');
 
 module.exports.registroSchema = [
     
