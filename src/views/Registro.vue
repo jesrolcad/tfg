@@ -35,7 +35,18 @@
                                         <input type="date" class="form-control form-control-lg"
                                             v-model="v$.user.fechaNacimiento.$model" placeholder="dd/mm/yyyy" />
                                         <div v-if="v$.user.fechaNacimiento.$dirty">
-                                            <div v-for="error of v$.user.fechaNacimiento.$silentErrors" :key="error.$message">
+                                            <div v-if="v$.user.fechaNacimiento.maxDateValidator.$invalid">
+                                                <p class="text-danger">La fecha de nacimiento no puede ser posterior al
+                                                    día de hoy
+                                                </p>
+                                            </div>
+                                            <div v-if="v$.user.fechaNacimiento.minAgeValidator.$invalid">
+                                                <p class="text-danger">Debes tener 16 años o más para registrarte en la
+                                                    aplicación
+                                                </p>
+                                            </div>
+                                            <div v-for="error of v$.user.fechaNacimiento.$silentErrors"
+                                                :key="error.$message">
                                                 <div>
                                                     <p class="text-danger">{{ error.$message }}</p>
                                                 </div>
@@ -128,6 +139,7 @@
 
 import useVuelidate from '@vuelidate/core'
 import { required, minLength, maxLength, email, alpha, helpers } from '@vuelidate/validators'
+import moment from 'moment'
 
 const alphaValidatorWithSpace = value => {
     return /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(value)
@@ -135,6 +147,27 @@ const alphaValidatorWithSpace = value => {
 
 const passwordValidatorRegex = value => {
     return /[a-zA-Z0-9]{8,}/.test(value)
+}
+
+const maxDateValidator = value => {
+    let date = moment(new Date(value)).locale('es').format('YYYY-MM-DD')
+    let today = moment().locale('es').format('YYYY-MM-DD')
+    return date < today
+}
+
+const minAgeValidator = value => {
+    let fechaNacimiento = new Date(value);
+    let fechaActual = new Date();
+    let edad = fechaActual.getFullYear() - fechaNacimiento.getFullYear();
+
+    if (fechaActual.getMonth() < fechaNacimiento.getMonth()) {
+        edad--;
+    }
+
+    if (fechaActual.getMonth() === fechaNacimiento.getMonth() && fechaActual.getDate() < fechaNacimiento.getDate()) {
+        edad--;
+    }
+    return edad >= 16
 }
 
 export default {
@@ -160,15 +193,20 @@ export default {
     methods: {
         register() {
             let uri = 'http://localhost:5000/usuarios/registro';
+            console.log(this.user.fechaNacimiento);
             fetch(uri, {
                 method: 'POST',
-                body: JSON.stringify({ nombre: this.user.nombre, email: this.user.email, nombreUsuario: this.user.nombreUsuario, password: this.user.password }),
+                body: JSON.stringify({
+                    nombre: this.user.nombre, fechaNacimiento: this.user.fechaNacimiento,
+                    email: this.user.email, nombreUsuario: this.user.nombreUsuario, password: this.user.password
+                }),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }).then(res => res.json()).then(json => {
                 if (json.status == 400) {
                     this.errors = json.errors;
+                    console.log(this.errors);
                     return Promise.reject("Petición inválida");
                 }
 
@@ -214,6 +252,8 @@ export default {
 
                 fechaNacimiento: {
                     required: helpers.withMessage("La fecha de nacimiento es obligatoria", required),
+                    maxDateValidator,
+                    minAgeValidator,
                     $autoDirty: true
                 },
 
@@ -226,7 +266,7 @@ export default {
                     required: helpers.withMessage("El nombre de usuario es obligatorio", required),
                     minLength: helpers.withMessage("El nombre de usuario debe tener 5 caracteres como mínimo", minLength(5)),
                     maxLength: helpers.withMessage("El nombre de usuario debe tener como máximo 30 caracteres", maxLength(30)),
-                    alpha: helpers.withMessage("El nombre de usuario solo puede contener letras y números", alpha), $autoDirty: true
+                    alpha: helpers.withMessage("El nombre de usuario solo puede contener letras", alpha), $autoDirty: true
                 },
 
                 password: {
