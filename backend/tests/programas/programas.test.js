@@ -2,10 +2,9 @@ const supertest = require('supertest');
 const { app, server } = require('../../index');
 const request = supertest(app);
 const { connectDB, disconnectDB, setupData } = require('../mock_database_configuration');
-const Usuario = require('../../models/Usuario');
-const Lista = require('../../models/Lista');
 const Programa = require('../../models/Programa');
-const programaService = require('../../api/services/programas');
+const { casosPositivosObtenerProgramaNombre, casosNegativosObtenerProgramaId } = require('./casos');
+
 
 describe('TESTS PROGRAMAS', () => {
 
@@ -22,7 +21,7 @@ describe('TESTS PROGRAMAS', () => {
 
         token = response_login.body.token;
 
-        
+
 
     });
 
@@ -32,10 +31,9 @@ describe('TESTS PROGRAMAS', () => {
     });
 
     describe('TESTS OBTENER TODOS LOS PROGRAMAS', () => {
-        
 
         it('CASO ÚNICO: OBTENER TODOS LOS PROGRAMAS', async () => {
-        
+
             const response = await request.get('/programas/all').set('Authorization', token);
             expect(response.status).toBe(200);
             expect(response.body).not.toBeNull();
@@ -47,19 +45,53 @@ describe('TESTS PROGRAMAS', () => {
 
         describe('CASOS POSITIVOS', () => {
 
-            it('BODY CON TITULO', async () => {
+            for (const caso of casosPositivosObtenerProgramaNombre) {
 
-                const response = await request.post('/programas/nombre').set('Authorization', token).send({
-                    titulo: 'Prueba'
-                });
+                it(caso.key, async () => {
+
+                    const response = await request.post('/programas/nombre/').set('Authorization', token).send({
+                        titulo: caso.titulo
+                    });
+                    expect(response.status).toBe(200);
+                    expect(response.body).not.toBeNull();
+
+                    if(caso.envioTitulo) {
+                    expect(response.body[0].titulo).toBe(caso.tituloEsperado);
+                    } else {
+                        expect(response.body.mensaje).not.toBeNull();
+                    }
+                })
+            }
+        })
+    })
+
+    describe('TESTS OBTENER PROGRAMA POR ID', () => {
+
+        describe('CASOS POSITIVOS', () => {
+
+            it('OBTENER PROGRAMA CON ID CORRECTO', async () => {
+
+                let programa = await Programa.findOne();
+                const response = await request.get('/programas/' + programa._id).set('Authorization', token);
                 expect(response.status).toBe(200);
                 expect(response.body).not.toBeNull();
-                expect(response.body[0].titulo).toBe('Prueba Lista');
             })
-
-
         })
 
+        describe('CASOS NEGATIVOS', () => {
+
+            for(const caso of casosNegativosObtenerProgramaId){
+
+                it(caso.key, async () => {
+
+                    const response = await request.get('/programas/' + caso.idPrograma).set('Authorization', token);
+                    expect(response.status).toBe(caso.statusEsperado);
+                    expect(response.body.key).toBe(caso.keyEsperada);
+                }
+                )
+            }
+
+        })
     })
 
 })
