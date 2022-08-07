@@ -156,17 +156,11 @@ const maxDateValidator = value => {
 }
 
 const minAgeValidator = value => {
-    let fechaNacimiento = new Date(value);
-    let fechaActual = new Date();
-    let edad = fechaActual.getFullYear() - fechaNacimiento.getFullYear();
+    let fechaNacimiento = moment(value);
+    let fechaActual = moment();
 
-    if (fechaActual.getMonth() < fechaNacimiento.getMonth()) {
-        edad--;
-    }
+    let edad = fechaActual.diff(fechaNacimiento, 'years');
 
-    if (fechaActual.getMonth() === fechaNacimiento.getMonth() && fechaActual.getDate() < fechaNacimiento.getDate()) {
-        edad--;
-    }
     return edad >= 16
 }
 

@@ -8,7 +8,7 @@ const {casosNegativosLogin, casosPositivosRegistro, casosNegativosRegistro} = re
 
 describe('TESTS USUARIOS', () => {
     beforeAll(async () => {
-        connectDB();
+        await connectDB();
         await setupData();
     });
     
@@ -53,9 +53,12 @@ describe('TESTS USUARIOS', () => {
 
             for(const caso of casosPositivosRegistro){
 
+                console.log(caso.fechaNacimiento);
+
                 it(caso.key, async () => {
                     const response = await request.post('/usuarios/registro').send({
                         nombre: caso.nombre,
+                        fechaNacimiento: caso.fechaNacimiento,
                         nombreUsuario: caso.nombreUsuario,
                         email: caso.email,
                         password: caso.password
@@ -82,6 +85,7 @@ describe('TESTS USUARIOS', () => {
                     it(caso.key, async () => {
                         const response = await request.post('/usuarios/registro').send({
                             nombre: caso.nombre,
+                            fechaNacimiento: caso.fechaNacimiento,
                             nombreUsuario: caso.nombreUsuario,
                             email: caso.email,
                             password: caso.password
@@ -89,10 +93,7 @@ describe('TESTS USUARIOS', () => {
                         expect(response.status).toBe(400);
                     })
                 }
-
         })
-        
-    
     })
 
     describe('TESTS DEL PERFIL', () => {
@@ -122,25 +123,22 @@ describe('TESTS USUARIOS', () => {
                     expect(response_perfil.status).toBe(401);
                 })
             })
-
-
     })
-
     })
 
 
 
-    //casos negativos:
-        /* --------------------------------
-        Formulario vacío
-        Nombre vacío
-        Nombre de usuario vacío
-        Email vacío
-        Contraseña vacía
-        Nombre de usuario ya existente
-        Email ya existente
-        ---------------------------------
-        */
+    // casos negativos:
+    //     /* --------------------------------
+    //     Formulario vacío
+    //     Nombre vacío
+    //     Nombre de usuario vacío
+    //     Email vacío
+    //     Contraseña vacía
+    //     Nombre de usuario ya existente
+    //     Email ya existente
+    //     ---------------------------------
+    //     */
 
     //     describe('CASOS NEGATIVOS', () => {
     //         const casos = [{key: 'FORMULARIO VACIO', nombre:'', nombreUsuario:'', email:'', password:''},

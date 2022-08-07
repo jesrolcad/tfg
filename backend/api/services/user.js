@@ -38,7 +38,6 @@ module.exports.login = async function login(req, res) {
       }
       //Valida que la contraseña escrita por el usuario, sea la almacenada en la db
       if (!bcrypt.compareSync(body.password, usuarioDB.password)) {
-         console.log("ENTRA AQUÍ");
          return res.status(400).json({
             status: 400,
             ok: false,
@@ -92,6 +91,7 @@ module.exports.registro = async function registro(req, res) {
 //get my profile
 module.exports.perfil = function perfil(req, res) {
    let usuario = req.user;
+   console.log(usuario);
    return res.status(200).json({
       usuario: usuario
    });
