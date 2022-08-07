@@ -8,27 +8,27 @@ router_programas.get('/all', verifyLoggedInUser.authenticateToken, (req,res) => 
 });
 
 
-router_programas.get('/generos',async(req,res) => {
+router_programas.get('/generos', verifyLoggedInUser.authenticateToken, async(req,res) => {
     programaService.getGeneros(req,res);
 });
 
-router_programas.post('/busquedagenero', async(req,res) => {
+router_programas.post('/busquedagenero', verifyLoggedInUser.authenticateToken, async(req,res) => {
     programaService.buscarPorGenero(req,res);
 });
 
-router_programas.post('/busquedaplataforma',async(req,res) => {
+router_programas.post('/busquedaplataforma', verifyLoggedInUser.authenticateToken, async(req,res) => {
     programaService.buscarPorPlataforma(req,res);
 });
 
-router_programas.post('/busquedatipo',async(req,res) => {
+router_programas.post('/busquedatipo', verifyLoggedInUser.authenticateToken, async(req,res) => {
     programaService.buscarPorTipo(req,res);
 });
 
-router_programas.post('/filtrados',async(req,res) => {
+router_programas.post('/filtrados', verifyLoggedInUser.authenticateToken, async(req,res) => {
     programaService.getProgramasFiltados(req,res);
 });
 
-router_programas.post('/nombre',async(req,res) => {
+router_programas.post('/nombre', verifyLoggedInUser.authenticateToken, async(req,res) => {
     programaService.getProgramaByName(req,res);
 });
 

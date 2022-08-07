@@ -25,7 +25,6 @@ const connectDB = async () => {
 
     }
 
-
     catch (err) {
         console.log(err);
         process.exit(1);
@@ -76,6 +75,8 @@ const setupData = async () => {
         }).save();
 
         //PROGRAMAS
+
+        
         const programa1 = await new Programa({
             tipo: "Película",
             titulo: "La maldición (Cursed)",
