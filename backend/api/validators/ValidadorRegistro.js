@@ -1,5 +1,6 @@
 const { body } = require('express-validator');
 const Usuario = require('../../models/Usuario');
+const moment = require('moment');
 
 module.exports.registroSchema = [
 
@@ -36,17 +37,11 @@ module.exports.registroSchema = [
     }
   })
     .custom(async value => {
-      let fechaNacimiento = new Date(value);
-      let fechaActual = new Date();
-      let edad = fechaActual.getFullYear() - fechaNacimiento.getFullYear();
+      let fechaNacimiento = moment(value);
+      let fechaActual = moment();
 
-      if (fechaActual.getMonth() < fechaNacimiento.getMonth()) {
-        edad--;
-      }
-
-      if (fechaActual.getMonth() === fechaNacimiento.getMonth() && fechaActual.getDate() < fechaNacimiento.getDate()) {
-        edad--;
-      }
+      let edad = fechaActual.diff(fechaNacimiento, 'years');
+      console.log(edad);
 
       if (edad < 16) {
         return Promise.reject("Debes tener 16 años o más para usar la aplicación");

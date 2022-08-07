@@ -11,8 +11,9 @@
             <font-awesome-icon icon="fa-solid fa-user" size="2xl" />
             <div style="margin-top:18%">
               <h5 class="my-3">{{ perfil.usuario.nombre }}</h5>
-              <p class="text-muted mb-1">{{ perfil.usuario.nombreUsuario }}</p>
-              <p class="text-muted mb-4">{{ perfil.usuario.email }}</p>
+              <p class="text-muted"><b>Nombre de usuario:</b> {{ perfil.usuario.nombreUsuario }}</p>
+              <p class="text-muted"><b>Email:</b> {{ perfil.usuario.email }}</p>
+              <p class="text-muted"><b>Fecha de nacimiento:</b> {{ moment(perfil.usuario.fechaNacimiento).locale('es').format("DD/MM/YYYY")}}</p>
             </div>
           </div>
         </div>
@@ -35,6 +36,7 @@ import Navbar from './Navbar.vue'
 import RecomendacionesUsuario from './RecomendacionesUsuario.vue'
 import Listas from './Listas.vue'
 import InsigniasShow from './InsigniasShow.vue'
+import moment from 'moment'
 
 export default {
   data() {
@@ -57,9 +59,9 @@ export default {
         .then(res => res.json())
         .then(data => {
           this.perfil = data;
-          console.log(this.perfil);
         })
-    }
+    },
+    moment
 
   },
   components: {

@@ -53,6 +53,7 @@ const setupData = async () => {
 
         const usuario1 = await new Usuario({
             nombre: "Usuario Test",
+            fechaNacimiento: "2000-06-07",
             nombreUsuario: 'userTester',
             email: "test@user.com",
             password: bcrypt.hashSync('12345678', 10)
@@ -60,6 +61,7 @@ const setupData = async () => {
 
         const usuario2 = await new Usuario({
             nombre: "Usuario Testt",
+            fechaNacimiento: "2000-06-07",
             nombreUsuario: 'anotherUserTester',
             email: "anotherTest@user.com",
             password: bcrypt.hashSync('12345678', 10)
@@ -67,6 +69,7 @@ const setupData = async () => {
 
         const usuario3 = await new Usuario({
             nombre: "usuarioo",
+            fechaNacimiento: "2000-06-07",
             nombreUsuario: 'usuarioLista',
             email: "usuario3@gmail.com",
             password: bcrypt.hashSync('12345678', 10)
