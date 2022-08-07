@@ -76,6 +76,8 @@ const setupData = async () => {
         }).save();
 
         //PROGRAMAS
+
+        
         const programa1 = await new Programa({
             tipo: "Película",
             titulo: "La maldición (Cursed)",

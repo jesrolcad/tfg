@@ -17,6 +17,8 @@ const ProgramaSchema = new Schema ({
 },
 {collection: 'programas'});
 
+ProgramaSchema.index({titulo: 'text'});
+
 const Programa = mongoose.model("Programa", ProgramaSchema);
 
 module.exports = Programa;
