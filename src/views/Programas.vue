@@ -13,15 +13,12 @@
         </div>
     </div>
     <div v-else-if="programas.mensaje" class="card-group" style="justify-content: space-evenly;">
-        dentro del if 4
         {{programas.mensaje}}
     </div>
     <div v-else-if="programasFiltrados.mensaje" class="card-group" style="justify-content: space-evenly;">
-        dentro del if 5
         {{programasFiltrados.mensaje}}
     </div>
     <div v-else class="card-group" style="justify-content: space-evenly;" >
-        dentro del if 6
         <div class="col-3" v-for="programa of displayedProgramasF" :key="programa._id">
             <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
                         :src="programa.imagen || 'placeholder.png'"> </router-link>

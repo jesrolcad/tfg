@@ -8,7 +8,7 @@ router_programas.get('/all', verifyLoggedInUser.authenticateToken, (req,res) => 
 });
 
 
-router_programas.get('/generos', verifyLoggedInUser.authenticateToken, async(req,res) => {
+router_programas.get('/generos', async(req,res) => {
     programaService.getGeneros(req,res);
 });
 
@@ -24,7 +24,7 @@ router_programas.post('/busquedatipo', verifyLoggedInUser.authenticateToken, asy
     programaService.buscarPorTipo(req,res);
 });
 
-router_programas.post('/filtrados', verifyLoggedInUser.authenticateToken, async(req,res) => {
+router_programas.post('/filtrados', async(req,res) => {
     programaService.getProgramasFiltados(req,res);
 });
 

@@ -92,9 +92,20 @@ module.exports.getProgramasFiltados = async (req, res) => {
     let plataformas = req.body.plataformas;
     let generos = req.body.generos;
     let tipo = req.body.tipo;
-    if (tipo.length == 0) {
-        tipo = ['Película', 'Serie']
+
+    if(!plataformas){
+        plataformas = [];
     }
+
+    if(!generos){
+        generos = [];
+    }
+
+    if(!tipo || tipo.length == 0){
+        tipo = ['Película', 'Serie']
+
+    }
+
     let filtrados;
 
     if (plataformas.length == 0 & generos.length != 0) {
