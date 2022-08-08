@@ -74,7 +74,8 @@ export default {
     },
     methods:{
         getPersonaje(){
-            fetch('http://localhost:5000/actores/'+ this.id)
+            fetch('http://localhost:5000/actores/'+ this.id,
+            {headers: {'Authorization': sessionStorage.getItem("token"), 'Accept': 'application/json','Content-type':'application/json'}})
                 .then(res=> res.json())
                 .then(data => {
                     this.personajes=data.personajes;
