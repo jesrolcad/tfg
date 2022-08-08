@@ -35,4 +35,63 @@ const casosNegativosObtenerProgramaId = [
     
 ]
 
-module.exports = {casosPositivosObtenerProgramaNombre, casosNegativosObtenerProgramaId}
+const casosPositivosProgramasFiltrados = [
+
+    {
+        key: "TIPO, GÉNERO Y PLATAFORMA VACÍOS",
+        tipo: "",
+        genero: "",
+        plataforma: "",
+        numProgramasEncontrados: 3
+    }, 
+
+    {
+        key: "GÉNERO Y PLATAFORMAS VACÍOS",
+        tipo: "Serie",
+        genero: "",
+        plataforma: "",
+        numProgramasEncontrados: 2
+    },
+
+    {
+        key: "TIPO Y PLATAFORMA VACÍOS",
+        tipo: "",
+        genero: "Terror",
+        plataforma: "",
+        numProgramasEncontrados: 1
+    },
+
+    {
+        key: "TIPO Y GÉNERO VACÍOS",
+        tipo: "",
+        genero: "",
+        plataforma: "HBO",
+        numProgramasEncontrados: 1
+    },
+
+    {
+        key:"PLATAFORMA VACÍA",
+        tipo: "Serie",
+        genero: "Ciencia ficción",
+        plataforma: "",
+        numProgramasEncontrados: 2
+    }, 
+
+    {
+        key:"GÉNERO VACÍO",
+        tipo: "Serie",
+        genero: "",
+        plataforma: "Netflix",
+        numProgramasEncontrados: 2
+    }, 
+
+    {
+        key:"TIPO VACÍO",
+        tipo: "",
+        genero: "Ciencia ficción",
+        plataforma: "Netflix",
+        numProgramasEncontrados: 2
+    }
+]
+
+module.exports = {casosPositivosObtenerProgramaNombre, casosNegativosObtenerProgramaId, casosPositivosProgramasFiltrados}
