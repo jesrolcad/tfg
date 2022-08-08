@@ -233,7 +233,7 @@ export default {
             fetch(this.baseURL + '/actores/programa',
                 {
                     method: 'POST',
-                    headers: { 'Accept': 'application/json', 'Content-type': 'application/json' },
+                    headers: { 'Authorization': sessionStorage.getItem("token"), 'Accept': 'application/json', 'Content-type': 'application/json' },
                     body: JSON.stringify(this.actores)
                 })
                 .then(res => res.json())

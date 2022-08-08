@@ -82,10 +82,16 @@ module.exports.getGeneros = async (req, res) => {
         [{ '$project': { '_id': 0, 'generos': 1 } },
         { '$unwind': { 'path': '$generos' } },
         { "$group": { "_id": "nuevo_id", "generos": { "$addToSet": "$generos" } } },
-        { '$project': { '_id': 0, 'generos': 1 } }
-        ]
+        { '$project': { '_id': 0, 'generos': 1 } },
+        {'$unwind': {'path': '$generos'}},
+        {'$sort': {'generos': 1}}]
     );
-    res.json(generosRes);
+    let generos= [];
+    for(var i = 0; i < generosRes.length ; i++){
+        generos.push(generosRes[i]['generos']);
+    }
+    console.log(generos);
+    res.json(generos);
 }
 
 module.exports.getProgramasFiltados = async (req, res) => {

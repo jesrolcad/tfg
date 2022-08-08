@@ -113,16 +113,17 @@ created(){
 },
 methods:{
     getGeneros(){
-        fetch(this.baseURL+'/programas/generos')
+        fetch(this.baseURL+'/programas/generos',
+        {headers: {'Authorization': sessionStorage.getItem("token"), 'Accept': 'application/json','Content-type':'application/json'}})
             .then(res=> res.json())
             .then(data => {
-                this.allgeneros=data[0]["generos"];
+                this.allgeneros=data;
             });
     },
     async filtrarProgramas(){
         await fetch(this.baseURL+ '/programas/filtrados',
                 {   method: 'POST',
-                    headers: {'Accept': 'application/json','Content-type':'application/json'},
+                    headers: {'Authorization': sessionStorage.getItem("token"), 'Accept': 'application/json','Content-type':'application/json'},
                     body: JSON.stringify({"tipo":this.tipo,"generos":this.generos,"plataformas":this.plataformas})
                 })
                 .then(res=> res.json())
