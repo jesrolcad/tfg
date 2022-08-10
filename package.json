@@ -5,7 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "webpack --mode production",
+    "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
+    "test": "jest --coverage --collectCoverageFrom='./src/views/**' --forceExit",
     "webpack": "webpack --watch --mode development"
   },
   "dependencies": {
@@ -15,6 +17,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "^3.0.1",
+    "@vue/test-utils": "^2.0.2",
     "@vuelidate/core": "^2.0.0-alpha.41",
     "@vuelidate/validators": "^2.0.0-alpha.29",
     "babel-preset-es2015": "^6.24.1",
@@ -29,6 +32,7 @@
     "error-stack-parser": "^2.1.4",
     "express": "^4.18.1",
     "express-session": "^1.17.3",
+    "flush-promises": "^1.0.2",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.3",
     "mongoose": "^6.3.6",
@@ -45,15 +49,24 @@
     "vue3-carousel": "^0.1.40"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.2",
+    "@babel/core": "^7.18.10",
     "@babel/eslint-parser": "^7.18.2",
+    "@babel/plugin-syntax-jsx": "^7.18.6",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-react": "^7.18.6",
+    "@vue/babel-preset-jsx": "^1.3.1",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-unit-jest": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "@vue/test-utils": "^2.0.0-0",
+    "@vue/vue3-jest": "^27.0.0-alpha.1",
+    "babel-jest": "^27.5.1",
     "babel-loader": "^8.2.5",
     "babel-preset-env": "^1.7.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.7.1",
+    "jest": "^27.5.1",
     "vue-loader": "^17.0.0",
     "vue-template-compiler": "^2.6.14",
     "webpack": "^5.73.0",
@@ -74,12 +87,36 @@
     "rules": {
       "vue/multi-word-component-names": 0,
       "vue/require-v-for-key": 0
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "src/views"
+    ],
+    "preset": "@vue/cli-plugin-unit-jest"
+  }
 }

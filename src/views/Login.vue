@@ -1,4 +1,5 @@
 <template>
+
   <body>
     <section class="position-relative py-4 py-xl-5">
       <div class="container" style="margin-left:90px">
@@ -111,11 +112,13 @@ export default {
           this.$router.push({ name: 'Programas' });
         }
 
+      }).catch(error => {
+        console.log(error);
       });
     },
 
-     async submit() {
-      const isFormCorrect =  await this.v$.$validate();
+    async submit() {
+      const isFormCorrect = await this.v$.$validate();
       if (isFormCorrect) {
         //reset validations
         this.login();
@@ -128,7 +131,6 @@ export default {
         this.usuarioIncorrecto = false;
         this.mensaje = ''
       }
-
 
     }
 
