@@ -12,4 +12,24 @@ const casosDeleteValidation = [
     }
 ]
 
-module.exports = {casosDeleteValidation}
+const casosNegativosLoginSubmit = [
+    {
+        key: "FORMULARIO VACÍO",
+        nombreUsuario: "",
+        password: "",
+    },
+
+    {
+        key: "USUARIO VACÍO",
+        nombreUsuario: "",
+        password: "randomPassword",
+    },
+
+    {
+        key: "CONTRASEÑA VACÍA",
+        nombreUsuario: "randomUser",
+        password: "",
+    }
+]
+
+module.exports = {casosDeleteValidation, casosNegativosLoginSubmit}
