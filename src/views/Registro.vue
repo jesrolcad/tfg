@@ -232,6 +232,10 @@ export default {
             }
         },
 
+        sumTwoNumbers(a, b) {
+            return a + b;
+        }
+
     },
 
     validations() {

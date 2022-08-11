@@ -106,6 +106,7 @@ export default {
         }
 
         else if (json.status == 200) {
+          console.log("STATUS 200");
           sessionStorage.setItem("token", json.token);
           sessionStorage.setItem("role", json.role);
           this.v$.$reset();
@@ -122,7 +123,6 @@ export default {
       if (isFormCorrect) {
         //reset validations
         this.login();
-
       }
     },
 
