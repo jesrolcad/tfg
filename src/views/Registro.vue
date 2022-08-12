@@ -187,7 +187,6 @@ export default {
     methods: {
         register() {
             let uri = 'http://localhost:5000/usuarios/registro';
-            console.log(this.user.fechaNacimiento);
             fetch(uri, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -200,17 +199,15 @@ export default {
             }).then(res => res.json()).then(json => {
                 if (json.status == 400) {
                     this.errors = json.errors;
-                    console.log(this.errors);
                     return Promise.reject("Petición inválida");
                 }
-
-
-                // }
 
             }).then(data => {
                 this.user = data;
                 this.$router.push({ name: 'Home' });
 
+            }).catch(err => {
+                console.log(err);
             })
         },
 
@@ -223,19 +220,8 @@ export default {
         },
 
         deleteValidation(field) {
-            if (this.errors.length > 0) {
-                for (let i = 0; i < this.errors.length; i++) {
-                    if (this.errors[i].param == field) {
-                        this.errors.splice(i, 1);
-                    }
-                }
-            }
+            this.errors = this.errors.filter(err => err.param != field);
         },
-
-        sumTwoNumbers(a, b) {
-            return a + b;
-        }
-
     },
 
     validations() {

@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import Login from 'Login.vue'
 import flushPromises from 'flush-promises'
-const {casosDeleteValidation, casosNegativosLoginSubmit} = require('./casos.js')
+const {casosDeleteValidationLogin, casosNegativosLoginSubmit} = require('./casos.js')
 
 describe('TESTS DE LOGIN DE USUARIOS', () => {
 
@@ -74,7 +74,7 @@ describe('TESTS DE LOGIN DE USUARIOS', () => {
 
     describe('TESTS MÉTODO DELETEVALIDATION', () => {
 
-        for(const caso of casosDeleteValidation){
+        for(const caso of casosDeleteValidationLogin){
             it(caso.key, async () => {
 
                 const wrapper = mount(Login);
@@ -130,13 +130,9 @@ describe('TESTS DE LOGIN DE USUARIOS', () => {
                     wrapper.vm.user.password = caso.password;
                     wrapper.vm.submit();
                     await flushPromises();
-                    
-                    //findAll text-danger
                     const textDanger = wrapper.findAll('.text-danger');
-                    for(const t of textDanger){
-                        console.log(t.text());
-                    }
-        
+            
+                    expect(textDanger.length).toBe(caso.numMensajesValidacion);
                     expect(mockLogin).toHaveBeenCalledTimes(0);
                 })
 
