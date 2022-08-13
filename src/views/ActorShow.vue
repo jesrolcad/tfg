@@ -5,7 +5,7 @@
         <img v-if="!personajes[0].imagen_actor" class="rounded shadow mb-5" style="margin-left:20px;margin-right:5px;height:200px; width:150px" src="../../public/placeholder.png">
     {{id}}</h1>
     <div v-if="movie" style="margin-left:20px;margin-top: 35px;justify-content: space-evenly;">
-        <h1>Películas</h1>
+        <h1>Películas <font-awesome-icon icon="fa-solid fa-film" /></h1>
         <div class="table-responsive">
             <table class="table table-borderless">
                 <thead class="thead">
@@ -27,7 +27,7 @@
         </div>
     </div>
     <div v-if="serie" style="margin-left:20px;margin-top: 35px;justify-content: space-evenly;">
-        <h1>Series</h1>
+        <h1>Series <font-awesome-icon icon="fa-solid fa-clapperboard" /></h1>
         <div class="table-responsive">
             <table class="table table-borderless">
                 <thead class="thead">

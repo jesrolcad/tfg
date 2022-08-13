@@ -7,6 +7,8 @@
             <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
                         :src="programa.imagen || 'placeholder.png'"> </router-link>
             <div class="card-body" style="margin: 10px">
+                <font-awesome-icon v-if="programa.tipo=='Serie'" icon="fa-solid fa-clapperboard" />
+                <font-awesome-icon v-if="programa.tipo=='Película'" icon="fa-solid fa-film" />
                 <h4 class="card-title">{{programa.titulo}}</h4>
                 <small>{{moment(programa.fecha).locale('es').format("D MMM YYYY")}}</small>
             </div>
