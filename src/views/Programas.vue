@@ -57,6 +57,7 @@
     import Footer from './Footer.vue'
     import Filtros from './Filtros.vue'
     import moment from 'moment'
+    //import emitter from '../emitter'
 
     class Programa{
         constructor(_id,tipo,titulo,fecha,imagen){
@@ -77,6 +78,7 @@
                 perPage: 21,
                 pages: [],
                 programasFiltrados:[],
+                buscados:[]
             }
         },
         created(){
@@ -130,7 +132,14 @@
             },
             displayedProgramasF: function () {
             return this.paginate(this.programasFiltrados);
-            }
+            },
+            /*buscador: function () {
+                emitter.on('busqueda', (e) => {
+                    console.log("App:on('busqueda')", e);
+                    this.buscados=e;
+                });
+                return this.buscados;
+            }*/
         }
     }
 

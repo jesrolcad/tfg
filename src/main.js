@@ -13,10 +13,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
 import { faUserSecret, faList, faUser, faEye, faBookmark, faPlus, faTrashCan, faCheck, faAngleRight, faArrowLeft
-    , faTrophy } from '@fortawesome/free-solid-svg-icons'
+    , faTrophy, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
-library.add(faUserSecret, faList, faUser, faEye, faBookmark, faPlus, faTrashCan, faCheck, faAngleRight, faArrowLeft, faTrophy)
+library.add(faUserSecret, faList, faUser, faEye, faBookmark, faPlus, faTrashCan, faCheck, faAngleRight, faArrowLeft, faTrophy, faMagnifyingGlass)
 
 const options = {
     transition: "Vue-Toastification__fade",

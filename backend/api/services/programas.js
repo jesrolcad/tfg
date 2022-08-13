@@ -9,7 +9,7 @@ module.exports.getAllProgramas = async (req, res) => {
     if (programas.length > 0) {
         res.status(200).json(programas);
     } else {
-        res.status(200).json({ "mensaje": "No se han encontrado programas" });
+        res.status(200).json({"mensaje": "No se han encontrado programas"});
     }
 }
 
@@ -90,7 +90,6 @@ module.exports.getGeneros = async (req, res) => {
     for(var i = 0; i < generosRes.length ; i++){
         generos.push(generosRes[i]['generos']);
     }
-    console.log(generos);
     res.json(generos);
 }
 
