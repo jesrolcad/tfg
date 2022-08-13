@@ -63,7 +63,8 @@ const setupData = async () => {
             fechaNacimiento: "2000-06-07",
             nombreUsuario: 'anotherUserTester',
             email: "anotherTest@user.com",
-            password: bcrypt.hashSync('12345678', 10)
+            password: bcrypt.hashSync('12345678', 10),
+            insignias: ["List Beginner"]
         }).save();
 
         const usuario3 = await new Usuario({
@@ -74,6 +75,32 @@ const setupData = async () => {
             password: bcrypt.hashSync('12345678', 10)
         }).save();
 
+        const usuario4 = await new Usuario({
+            nombre: "usuarioIns",
+            fechaNacimiento: "2000-03-30",
+            nombreUsuario: 'usuarioInsignia',
+            email: "usuario4@gmail.com",
+            password: bcrypt.hashSync('12345678', 10)
+        }).save();
+
+        const usuario5 = await new Usuario({
+            nombre: "usuarioInAll",
+            fechaNacimiento: "2000-03-30",
+            nombreUsuario: 'usuarioAllInsignias',
+            email: "usuario5@gmail.com",
+            password: bcrypt.hashSync('12345678', 10),
+            insignias: ['Bronce Watcher','Silver Watcher','Gold Watcher','Amateur Genre Watcher','Intermediate Genre Watcher',
+            'Professional Genre Watcher','Actor/Actress Fan','Actor/Actress Lover','Actor/Actress Addict','List Beginner',
+            'List Expert','List Freak','Bronce List','Silver List','Gold List']
+        }).save();
+        
+        const usuario6 = await new Usuario({
+            nombre: "usuarioSinLP",
+            fechaNacimiento: "2000-03-30",
+            nombreUsuario: 'usuarioSinListaP',
+            email: "usuario6@gmail.com",
+            password: bcrypt.hashSync('12345678', 10)
+        }).save();
         //PROGRAMAS
 
         
@@ -205,6 +232,32 @@ const setupData = async () => {
             programas: [programa1._id, programa2._id],
             usuario: usuario3._id
         }).save();
+
+        //Listas para las insignias
+        const lista3 = await new Lista({
+            nombre: "lista3Usuario3",
+            programas: [programa1._id,programa2._id],
+            usuario: usuario3._id
+        }).save();
+
+        const lista4 = await new Lista({
+            nombre: "lista4Usuario3",
+            programas: [programa1._id,programa3._id],
+            usuario: usuario3._id
+        }).save();
+
+        const lista5 = await new Lista({
+            nombre: "lista5Usuario3",
+            programas: [programa3._id],
+            usuario: usuario3._id
+        }).save();
+
+        const listaPropia4 = await new Lista({
+            nombre: "listaPropia4",
+            programas: [programa3._id],
+            usuario: usuario4._id
+        }).save();
+        
 
         //PUNTUACIONES
         const puntuacion1 = await new Puntuacion({
