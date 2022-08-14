@@ -1,6 +1,5 @@
 import Perfil from 'Perfil.vue'
 import { shallowMount } from '@vue/test-utils'
-import flushPromises from 'flush-promises'
 
 
 describe('TESTS PERFIL', () => {
@@ -26,7 +25,7 @@ describe('TESTS PERFIL', () => {
 
             fetch.mockResponse(JSON.stringify(mockResponse));
 
-            const wrapper = shallowMount(Perfil)
+            const wrapper = shallowMount(Perfil);
             wrapper.vm.getPerfil();
             let perfil = wrapper.vm.perfil;
 
