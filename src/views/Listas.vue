@@ -126,12 +126,12 @@ export default {
     },
 
     methods: {
-        async getListas() {
-            await fetch(this.baseURL + "/listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
+        getListas() {
+            fetch(this.baseURL + "/listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
                 .then(res => res.json())
                 .then(data => {
                     this.listas = data;
-                })
+                }).catch(err => console.log(err));
         },
 
         borrarLista(id) {
@@ -161,7 +161,7 @@ export default {
                         });
                 }
 
-            });
+            }).catch(err => console.log(err));
         },
 
         addListaPerfil() {
@@ -202,7 +202,7 @@ export default {
                         });
                 }
                 this.showModalProgramas = true;
-            });
+            }).catch(err => console.log(err));
 
         },
 
@@ -239,7 +239,7 @@ export default {
                             });
                     }
 
-                });
+                }).catch(err => console.log(err));
 
         },
 
