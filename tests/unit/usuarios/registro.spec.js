@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import Registro from 'Registro.vue'
 import flushPromises from 'flush-promises'
-import {casosDeleteValidationRegistro, casosPositivosSubmitRegistro} from './casos'
+import {casosDeleteValidationRegistro, casosPositivosSubmitRegistro, casosNegativosSubmitRegistro} from './casos'
 
 describe('TESTS DE REGISTRO DE USUARIOS', () => {
 
@@ -69,11 +69,7 @@ describe('TESTS DE REGISTRO DE USUARIOS', () => {
                 expect(mockRouter.push).toHaveBeenCalledTimes(0);
                 expect(wrapper.vm.errors.length).toBe(2);
             })
-
         })
-
-
-
     })
 
     describe('TESTS MÉTODO SUBMIT', () => {
@@ -88,9 +84,7 @@ describe('TESTS DE REGISTRO DE USUARIOS', () => {
                 it(caso.key, async () => {
         
                     const mockRegister = jest.spyOn(Registro.methods, 'register');
-                    
                     fetch.mockResponse(JSON.stringify(mockResponse));
-
                     const wrapper = mount(Registro);
 
                     wrapper.vm.user.nombre = caso.nombre;
@@ -107,6 +101,32 @@ describe('TESTS DE REGISTRO DE USUARIOS', () => {
 
                 })
             }
+        })
+
+        describe('CASOS NEGATIVOS', () => {
+
+            for(const caso of casosNegativosSubmitRegistro){
+
+                it(caso.key, async () => {
+
+                        const mockRegister = jest.spyOn(Registro.methods, 'register');
+                        fetch.mockResponse(JSON.stringify(caso.response));
+                        const wrapper = mount(Registro);
+    
+                        wrapper.vm.user.nombre = caso.nombre;
+                        wrapper.vm.user.fechaNacimiento = caso.fechaNacimiento;
+                        wrapper.vm.user.email = caso.email;
+                        wrapper.vm.user.nombreUsuario = caso.nombreUsuario;
+                        wrapper.vm.user.password = caso.password;
+                        wrapper.vm.submit();
+                        const isFormCorrect = await wrapper.vm.v$.$validate();
+                        await flushPromises();
+    
+                        expect(isFormCorrect).toBe(false);
+                        expect(mockRegister).toHaveBeenCalledTimes(0);                                    
+                })
+            }
+
         })
 
 

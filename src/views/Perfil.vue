@@ -50,8 +50,6 @@ export default {
     this.getPerfil();
   },
 
-
-
   methods: {
 
     getPerfil() {
@@ -70,11 +68,7 @@ export default {
     Listas,
     InsigniasShow
   }
-
-
 }
-
-
 </script>
 
 <style>
