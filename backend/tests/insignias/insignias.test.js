@@ -3,6 +3,7 @@ const { app, server } = require('../../index');
 const request = supertest(app);
 const { connectDB, disconnectDB, setupData } = require('../mock_database_configuration');
 const Lista = require('../../models/Lista');
+const Insignia = require('../../models/Insignia');
 const { casosPositivosGetInsigniasUsuario, casosPositivosGetInsigniasListasPropias,
     casosPositivosGetInsigniasProgramasLP, casosPositivosGetInsigniasActores,
     casosPositivosGetInsigniasProgramasV, casosPositivosGetInsigniasGeneros} = require('./casos');
@@ -231,4 +232,41 @@ describe('TESTS INSIGNIAS', () => {
                 }
             })
     })
+
+    describe('TESTS ALL INSIGNIAS', () => {
+
+        it('CASO ÚNICO', async () => {
+            const response_login =  await request.post('/usuarios/login').send({
+                nombreUsuario: 'userTester',
+                password: '12345678'
+            })
+            const token = response_login.body.token;
+            const mock= jest.spyOn(Insignia, 'find').mockImplementation(()=>{
+                return [
+            {"_id": {"$oid": "62dd35dedc39231374227bdb"},"nombre": "List Beginner","insignia": "https://i.imgur.com/o7qifAw.png"},
+            {"_id": {"$oid": "62dd35dedc39231374227bdb"},"nombre": "List Beginner","insignia": "https://i.imgur.com/o7qifAw.png"},
+            {"_id": {"$oid": "62dd35dedc39231374227bdb"},"nombre": "List Beginner","insignia": "https://i.imgur.com/o7qifAw.png"},
+            {"_id": {"$oid": "62dd35dedc39231374227bdb"},"nombre": "List Beginner","insignia": "https://i.imgur.com/o7qifAw.png"},
+            {"_id": {"$oid": "62dd35dedc39231374227bdb"},"nombre": "List Beginner","insignia": "https://i.imgur.com/o7qifAw.png"},
+            {"_id": {"$oid": "62dd35dedc39231374227bdb"},"nombre": "List Beginner","insignia": "https://i.imgur.com/o7qifAw.png"},
+            {"_id": {"$oid": "62dd35dedc39231374227bdb"},"nombre": "List Beginner","insignia": "https://i.imgur.com/o7qifAw.png"},
+            {"_id": {"$oid": "62dd35dedc39231374227bdb"},"nombre": "List Beginner","insignia": "https://i.imgur.com/o7qifAw.png"},
+            {"_id": {"$oid": "62dd35dedc39231374227bdb"},"nombre": "List Beginner","insignia": "https://i.imgur.com/o7qifAw.png"},
+            {"_id": {"$oid": "62dd35dedc39231374227bdb"},"nombre": "List Beginner","insignia": "https://i.imgur.com/o7qifAw.png"},
+            {"_id": {"$oid": "62dd35dedc39231374227bdb"},"nombre": "List Beginner","insignia": "https://i.imgur.com/o7qifAw.png"},
+            {"_id": {"$oid": "62dd35dedc39231374227bdb"},"nombre": "List Beginner","insignia": "https://i.imgur.com/o7qifAw.png"},
+            {"_id": {"$oid": "62dd35dedc39231374227bdb"},"nombre": "List Beginner","insignia": "https://i.imgur.com/o7qifAw.png"},
+            {"_id": {"$oid": "62dd35dedc39231374227bdb"},"nombre": "List Beginner","insignia": "https://i.imgur.com/o7qifAw.png"},
+            {"_id": {"$oid": "62dd35dedc39231374227bdb"},"nombre": "List Beginner","insignia": "https://i.imgur.com/o7qifAw.png"}
+                ]
+            });
+
+            const response = await request.get('/insignias/all').set('Authorization', token);
+
+            expect(response.status).toBe(200);
+            expect(response.body.length).toBe(15);
+        })
+
+    })
+
 })
