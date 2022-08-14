@@ -201,9 +201,10 @@ describe('TESTS PROGRAMAS', () => {
         it('CASO GENERAL: GÉNEROS DISPONIBLES', async () => {
 
             const response = await request.get('/programas/generos').set('Authorization', token);
+            console.log(response.body)
             expect(response.status).toBe(200);
             expect(response.body).not.toBeNull();
-            expect(response.body[0].generos.length).toBe(4);
+            expect(response.body.length).toBe(4);
         
         })
     })
