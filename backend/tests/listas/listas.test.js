@@ -6,9 +6,9 @@ const Lista = require('../../models/Lista');
 const Usuario = require('../../models/Usuario');
 const Programa = require('../../models/Programa');
 const listaService = require('../../api/services/listas');
-const { casosPositivosGetGenerosLista, casosNegativosObtenerLista, casosPositivosCrearLista, 
-    casosNegativosCrearLista, casosNegativosEliminarLista, casosNegativosAgregarProgramaLista, 
-    casosPositivosEliminarProgramaLista, casosNegativosEliminarProgramaLista} = require('./casos');
+const { casosPositivosGetGenerosLista, casosNegativosObtenerLista, casosPositivosCrearLista,
+    casosNegativosCrearLista, casosNegativosEliminarLista, casosNegativosAgregarProgramaLista,
+    casosPositivosEliminarProgramaLista, casosNegativosEliminarProgramaLista } = require('./casos');
 
 
 describe('TESTS LISTAS', () => {
@@ -267,7 +267,7 @@ describe('TESTS LISTAS', () => {
                         idLista = lista._id;
 
                     }
-                    
+
                     if (caso.programaDuplicado) {
 
                         const programa = await Programa.findOne({ titulo: 'La maldición (Cursed)' });
@@ -278,7 +278,7 @@ describe('TESTS LISTAS', () => {
                     }
                     else if (caso.idLista) {
                         idLista = caso.idLista;
-                        const programa = await Programa.findOne({titulo: 'La maldición (Cursed)' });
+                        const programa = await Programa.findOne({ titulo: 'La maldición (Cursed)' });
                         idPrograma = programa._id;
 
                     } else if (caso.idPrograma) {
@@ -299,7 +299,7 @@ describe('TESTS LISTAS', () => {
 
         describe('CASOS POSITIVOS', () => {
 
-            for(const caso of casosPositivosEliminarProgramaLista){
+            for (const caso of casosPositivosEliminarProgramaLista) {
                 it(caso.key, async () => {
 
                     const response_login = await request.post('/usuarios/login').send({
@@ -307,24 +307,24 @@ describe('TESTS LISTAS', () => {
                         password: '12345678'
                     })
 
-                    const usuario = await Usuario.findOne({nombreUsuario: 'usuarioLista'});
+                    const usuario = await Usuario.findOne({ nombreUsuario: 'usuarioLista' });
 
                     const token = response_login.body.token;
-                    const lista = await Lista.findOne({ nombre: caso.nombreLista, usuario: usuario._id});
+                    const lista = await Lista.findOne({ nombre: caso.nombreLista, usuario: usuario._id });
                     let tam = lista.programas.length;
 
                     const response = await request.put('/lista/' + lista._id + '/borrar/' + lista.programas[0]).set('Authorization', token);
                     expect(response.body.status).toBe(204);
 
                     const listaActualizada = await Lista.findOne({ nombre: caso.nombreLista, usuario: usuario._id });
-                    if(caso.log){
+                    if (caso.log) {
                         console.log("IMPRIMIENDO RESULTADOS");
                         console.log(lista);
                         console.log(listaActualizada);
                     }
-                    expect(listaActualizada.programas.length).toBe(tam-1);
+                    expect(listaActualizada.programas.length).toBe(tam - 1);
 
-                    
+
                 })
             }
         })
@@ -364,7 +364,7 @@ describe('TESTS LISTAS', () => {
                         idLista = lista._id;
                         idPrograma = caso.idPrograma;
 
-                    } else if(caso.programaNoEnLista){
+                    } else if (caso.programaNoEnLista) {
                         const lista = await Lista.findOne({ nombre: 'lista2Usuario3' });
                         idLista = lista._id;
                         const programa = await Programa.findOne({});
@@ -379,7 +379,6 @@ describe('TESTS LISTAS', () => {
             }
 
         })
-
     })
 
 })

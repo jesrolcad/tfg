@@ -55,14 +55,14 @@ import CrearLista from "./CrearLista.vue";
                 await fetch(this.baseURL + "/listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
                     .then(response => response.json())
                     .then(data => {
-                       
+                    
                         let listas = data.filter(l => l.lista.nombre !== "Programas vistos" && l.lista.nombre !== "En seguimiento");
                         this.listasPersonalizadas = listas;
 
                     });
             }, 
 
-             async addProgramaToLista(id){
+            async addProgramaToLista(id){
                 await fetch(this.baseURL + '/lista/' + id + '/agregar/' + this.idPrograma, 
                 {
                 headers: { 'Authorization': sessionStorage.getItem("token"), 'Content-Type': 'application/json' },
@@ -83,7 +83,7 @@ import CrearLista from "./CrearLista.vue";
                             draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                             icon: true, rtl: false
                             });
-                        this.$emit('escucharAdd');
+                            this.$emit('escucharAdd');
 
                         } else {
                             toast.error(data.msg,

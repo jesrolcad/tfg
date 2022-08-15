@@ -226,7 +226,7 @@ const setupData = async () => {
 
         const puntuacionUser3 = await new Puntuacion({
             usuario: usuario3._id,
-            programa: programa1._id,
+            programa: programa3._id,
             puntuacion: 1
         }).save();
 
