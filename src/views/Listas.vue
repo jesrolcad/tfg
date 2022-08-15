@@ -136,7 +136,6 @@ export default {
         },
 
         borrarLista(id) {
-            console.log("ENTRA EN EL BORRARLISTA");
             fetch(this.baseURL + "/lista/" + id, {
                 method: "DELETE",
                 headers: {
@@ -146,10 +145,7 @@ export default {
             }).then(response => response.json()).then(data => {
                 const toast = useToast();
                 if (data.status == 200) {
-                    console.log("ENTRA EN EL STATUS 200 DEL BORRARLISTA");
                     this.getListas();
-                    console.log("SALE DEL GETLISTAS");
-
                     toast.success(data.msg,
                         {
                             position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
@@ -169,7 +165,7 @@ export default {
         },
 
         addListaPerfil() {
-            this.showModal = false;
+            // this.showModal = false;
             this.getListas();
         },
 

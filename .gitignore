@@ -25,3 +25,4 @@ backend/.env
 backend/index.js
 backend/index.js
 backend/coverage/*
+coverage/*

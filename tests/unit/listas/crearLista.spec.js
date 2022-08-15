@@ -29,9 +29,6 @@ describe('TESTS DE CREAR LISTA', () => {
                     wrapper.vm.nombre = 'Prueba';
                     wrapper.vm.crearLista();
                     await flushPromises();
-
-                    console.log(wrapper.vm.lista);
-
                     expect(wrapper.vm.lista.nombre).toBe('Prueba');
                 }
                 )

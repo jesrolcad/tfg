@@ -1,4 +1,4 @@
-import { mount, shallowMount } from '@vue/test-utils';
+import {shallowMount } from '@vue/test-utils';
 import { createRouter, createWebHistory } from 'vue-router'
 import { routes } from "@/router"
 import Listas from 'Listas.vue';
