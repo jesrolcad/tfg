@@ -68,6 +68,9 @@ module.exports.getSugerencias = async function (req, res) {
     let puntuacionPrograma = await this.puntuacionPrograma(req.body.idPrograma);
     let numPuntuacionesPrograma = await this.numPuntuacionesPrograma(req.body.idPrograma);
 
+    let programasNin= puntuadosUsuario[0].programa;
+    programasNin.push(mongoose.Types.ObjectId(req.body.idPrograma));
+
     if(puntuacionPrograma.length == 0 || numPuntuacionesPrograma.length == 0){
         res.status(200).json({"mensaje": "El programa no ha sido votado y no es posible realizar sugerencias"})
     }else if(req.body.generos.length == 0){
@@ -77,7 +80,7 @@ module.exports.getSugerencias = async function (req, res) {
             {
                 '$match': {
                     '_id': {
-                    '$nin': puntuadosUsuario[0].programa
+                    '$nin': programasNin
                     },
                     'generos': {
                     '$in': req.body.generos
@@ -215,7 +218,7 @@ module.exports.getRecomendacionesUsuario = async function (req, res) {
     let generosUsuario= await this.generosUsuario(req.user._id);
 
     if(puntuadosUsuario.length == 0 || generosUsuario.length == 0){
-        res.status(200).json({"mensaje": "No se han podido realizar sugerencias para usted debido a que no ha añadido ninguna puntuación"})
+        res.status(200).json({"mensaje": "No se han podido realizar sugerencias, puntue más programas para tener su recomendación."})
     }else{
         const recomendaciones= await Programa.aggregate([
             {

@@ -243,7 +243,6 @@ const setupDataActor = async () => {
     try {
 
         //USUARIOS
-
         const usuario1 = await new Usuario({
             nombre: "Usuario Test",
             fechaNacimiento: "2000-06-07",
@@ -252,8 +251,41 @@ const setupDataActor = async () => {
             password: bcrypt.hashSync('12345678', 10)
         }).save();
 
+        const usuario2 = await new Usuario({
+            nombre: "Usuario Testt",
+            fechaNacimiento: "2000-06-07",
+            nombreUsuario: 'anotherUserTester',
+            email: "anotherTest@user.com",
+            password: bcrypt.hashSync('12345678', 10),
+        }).save();
+
+        const usuario3 = await new Usuario({
+            nombre: "usuarioo",
+            fechaNacimiento: "2000-06-07",
+            nombreUsuario: 'usuario3',
+            email: "usuario3@gmail.com",
+            password: bcrypt.hashSync('12345678', 10),
+        }).save();
+
+        const usuario4 = await new Usuario({
+            nombre: "usuarioo4",
+            fechaNacimiento: "2000-03-30",
+            nombreUsuario: 'usuario4',
+            email: "usuario4@gmail.com",
+            password: bcrypt.hashSync('12345678', 10),
+        }).save();
+
+        const usuario5 = await new Usuario({
+            nombre: "usuarioo5",
+            fechaNacimiento: "2000-03-30",
+            nombreUsuario: 'usuario5',
+            email: "usuario5@gmail.com",
+            password: bcrypt.hashSync('12345678', 10),
+        }).save();
+
         //PROGRAMAS
         const programa1 = await new Programa({
+            _id:"62ab039cfca44224c2b24c12",
             tipo: "Serie",
             titulo: "El inocente",
             titulo_url: "https://www.themoviedb.org/tv/119988",
@@ -310,6 +342,7 @@ const setupDataActor = async () => {
           }).save();
 
         const programa2 = await new Programa({
+            _id:"62ab039cfca44224c2b249e2",
             tipo: "Serie",
             titulo: "Outer Banks",
             titulo_url: "https://www.themoviedb.org/tv/100757",
@@ -357,12 +390,13 @@ const setupDataActor = async () => {
           }).save();
 
         const programa3 = await new Programa({
+            _id:"62ab0378fca44224c2b24322",
             tipo:"Película",
             titulo:"Hogar",
             titulo_url: "https://www.themoviedb.org/movie/674944",
             imagen:"https://www.themoviedb.org/t/p/w220_and_h330_face/gShIscjUsRrrJ0LeKbaN…",
             fecha:"2020-03-25",
-            generos:[],
+            generos:["Suspense","Drama"],
             clasificacion_edad:"16",
             duracion:"1h 43m",
             descripcion:"Narra la historia de Javier Muñoz, un ejecutivo publicitario de éxito,…",
@@ -373,6 +407,7 @@ const setupDataActor = async () => {
         }).save();
 
         const programa4 = await new Programa({
+            _id: "62ab0378fca44224c2b243b7",
             tipo:"Película",
             titulo:"El Proyecto Adam",
             titulo_url:"https://www.themoviedb.org/movie/696806",
@@ -385,6 +420,23 @@ const setupDataActor = async () => {
             estado:"Estrenada",
             idioma_original:"Inglés",
             plataformas:[],
+            actoresIds:[]
+        }).save();
+
+        const programa5 = await new Programa({
+            _id: "62ab0378fca44224c2b22619",
+            tipo:"Película",
+            titulo:"Arriba y abajo (High Heels and Low Lifes)",
+            titulo_url:"https://www.themoviedb.org/movie/10034",
+            imagen:"https://www.themoviedb.org/t/p/w220_and_h330_face/jyC13aGpVP4ogf8jSVfW…",
+            fecha:"2001-07-16",
+            generos:["Action & Adventure","Drama","Crimen"],
+            clasificacion_edad:"R",
+            duracion:"1h 26m",
+            descripcion:"Dos amigas londinenses se encontrarán a la gresca con unos criminales …",
+            estado:"Estrenada",
+            idioma_original:"Inglés",
+            plataformas:["Disney"],
             actoresIds:[]
         }).save();
 
@@ -471,6 +523,68 @@ const setupDataActor = async () => {
             "personaje": "Adam Reed",
             "titulo": "El Proyecto Adam",
             "titulo_url": "https://www.themoviedb.org/movie/696806"
+        }).save();
+
+        //LISTAS PROGRAMAS VISTOS
+        const programasVistosUsuario1 = await new Lista({
+            nombre: "Programas vistos",
+            programas: [programa1._id],
+            usuario: usuario1._id
+        }).save();
+
+        const programasVistosUsuario2 = await new Lista({
+            nombre: "Programas vistos",
+            programas: [programa2._id, programa4._id],
+            usuario: usuario2._id
+        }).save();
+
+        const programasVistosUsuario3 = await new Lista({
+            nombre: "Programas vistos",
+            programas: [programa2._id, programa5._id],
+            usuario: usuario3._id
+        }).save();
+
+        const programasVistosUsuario5 = await new Lista({
+            nombre: "Programas vistos",
+            programas: [programa4._id],
+            usuario: usuario5._id
+        }).save();
+
+        //PUNTUACIONES
+        const puntuacion1 = await new Puntuacion({
+            usuario: usuario2._id,
+            programa: programa2._id,
+            puntuacion: 5
+        }).save();
+
+        const puntuacion2 = await new Puntuacion({
+            usuario: usuario3._id,
+            programa: programa2._id,
+            puntuacion: 3
+        }).save();
+
+        const puntuacion3 = await new Puntuacion({
+            usuario: usuario2._id,
+            programa: programa4._id,
+            puntuacion: 2
+        }).save();
+
+        const puntuacion4 = await new Puntuacion({
+            usuario: usuario3._id,
+            programa: programa5._id,
+            puntuacion: 1
+        }).save();
+
+        const puntuacion5 = await new Puntuacion({
+            usuario: usuario1._id,
+            programa: programa1._id,
+            puntuacion: 4
+        }).save();
+
+        const puntuacion6 = await new Puntuacion({
+            usuario: usuario5._id,
+            programa: programa4._id,
+            puntuacion: 4
         }).save();
 
 
