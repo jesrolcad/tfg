@@ -113,7 +113,7 @@ module.exports.getListasPropias = async function (req,res) {
             }else if(parseInt(listasPropias[0].listasPropias)== 3 && !ListExpert){
                 this.addInsignia(req.user._id, "List Expert");
                 res.status(200).json({'key': 3,'insignia': 'List Expert'})
-            }else if(parseInt(listasPropias[0].listasPropias)== 5 && !ListExpert){
+            }else if(parseInt(listasPropias[0].listasPropias)== 5 && !ListFreak){
                 this.addInsignia(req.user._id, "List Freak");
                 res.status(200).json({'key': 5,'insignia': 'List Freak'})
             }else{
@@ -143,6 +143,9 @@ module.exports.getProgramasListasPropias = async function (req,res) {
                             '$nin': ['Programas vistos', 'En seguimiento']
                         }
                     }
+                },
+                {
+                    '$project': {'_id': 0,'programas': 1}
                 }
             ]
         )
