@@ -13,8 +13,6 @@ module.exports.ListaSchema = [
         }
     })
     .custom(async (value, {req}) => {
-        //nombre must be unique
-        console.log(req);
         const lista = await Lista.findOne({ nombre: value, usuario: req.user._id });
         if (lista) {
             return Promise.reject('El nombre de la lista ya existe');
