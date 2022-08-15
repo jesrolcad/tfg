@@ -127,6 +127,7 @@ export default {
 
     methods: {
         getListas() {
+            console.log("ENTRA EN EL GETLISTAS");
             fetch(this.baseURL + "/listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
                 .then(res => res.json())
                 .then(data => {
@@ -135,6 +136,7 @@ export default {
         },
 
         borrarLista(id) {
+            console.log("ENTRA EN EL BORRARLISTA");
             fetch(this.baseURL + "/lista/" + id, {
                 method: "DELETE",
                 headers: {
@@ -144,7 +146,9 @@ export default {
             }).then(response => response.json()).then(data => {
                 const toast = useToast();
                 if (data.status == 200) {
+                    console.log("ENTRA EN EL STATUS 200 DEL BORRARLISTA");
                     this.getListas();
+                    console.log("SALE DEL GETLISTAS");
 
                     toast.success(data.msg,
                         {
@@ -262,7 +266,6 @@ export default {
             } else {
                 return '';
             }
-
         }
 
         // getPreviousPage(){

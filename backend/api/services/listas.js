@@ -57,7 +57,7 @@ module.exports.getGenerosLista = async (lista) => {
 
 }
 
-//Validar que un usuario solo accede a su lista
+
 module.exports.getLista = async (req, res) => {
 
    //if idLista is not ObjectId
