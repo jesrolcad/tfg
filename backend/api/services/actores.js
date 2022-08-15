@@ -1,13 +1,37 @@
 const Actor=require('../../models/Actor');
+const mongoose = require('mongoose');
+const { ids } = require('webpack');
 
 module.exports.getActoresPrograma = async (req,res) => {
-    const actores_ids=req.body;
-    const result=[];
-    for (const id of actores_ids) {
+    if( req.body instanceof Array ) {
+      const actores_ids=req.body;
+      if(actores_ids.length==0){
+        return res.status(400).json({
+          status: 400,
+          key: "idsVacios",
+          msg: "No se han enviado ids de actores"
+        });
+      }
+      const result=[];
+      for (const id of actores_ids) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+              status: 400,
+              key: "idActorInvalido",
+              msg: "El id de actor no es válido"
+            });
+        }
         const actor= await Actor.findById(id);
         result.push(actor);
+      }
+      res.status(200).json(result);
+    }else{
+      return res.status(400).json({
+        status: 400,
+        key: "bodyInvalido",
+        msg: "El body no es válido, debe ser un Array"
+      });
     }
-    res.json(result);
 }
 
 module.exports.getActorByName = async (req,res) => {
@@ -53,7 +77,9 @@ module.exports.getActorByName = async (req,res) => {
             }
         }
       ]);
-
+      if(personajes.length==0){
+        return res.status(400).json({mensaje:"No se encontraron personajes del actor."});
+      }
       const boolean= await Actor.aggregate([
         [
           {

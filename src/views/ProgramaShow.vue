@@ -142,7 +142,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="actoresR.length !== 0" class="row" style="margin-top:15%">
+                <div v-if="actoresR.length !== 0 && !actoresR.msg" class="row" style="margin-top:15%">
                     <h1 style="width: 87px;">Reparto:</h1>
                     <div class="card-group" style="justify-content: space-evenly;" >
                         <div class="col-3" v-for="actor of actoresR" :key="actor._id">
@@ -160,7 +160,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="actoresR.length === 0" class="row" style="margin-top:100px">
+                <div v-if="actoresR.length === 0 || actoresR.msg" class="row" style="margin-top:100px">
                     <h1 style="font-family:montserratbold; font-size: 30px;">Reparto no disponible</h1>
                 </div>
             </div>
