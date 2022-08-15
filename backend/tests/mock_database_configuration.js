@@ -63,7 +63,8 @@ const setupData = async () => {
             fechaNacimiento: "2000-06-07",
             nombreUsuario: 'anotherUserTester',
             email: "anotherTest@user.com",
-            password: bcrypt.hashSync('12345678', 10)
+            password: bcrypt.hashSync('12345678', 10),
+            insignias: ["List Beginner"]
         }).save();
 
         const usuario3 = await new Usuario({
@@ -71,12 +72,22 @@ const setupData = async () => {
             fechaNacimiento: "2000-06-07",
             nombreUsuario: 'usuarioLista',
             email: "usuario3@gmail.com",
+            password: bcrypt.hashSync('12345678', 10),
+            insignias: ['Bronce Watcher','Silver Watcher','Gold Watcher','Amateur Genre Watcher','Intermediate Genre Watcher',
+            'Professional Genre Watcher','Actor/Actress Fan','Actor/Actress Lover','Actor/Actress Addict','List Beginner',
+            'List Expert','List Freak','Bronce List','Silver List','Gold List']
+        }).save();
+
+        const usuario4 = await new Usuario({
+            nombre: "Usuario Test4",
+            fechaNacimiento: "2000-06-07",
+            nombreUsuario: 'usuarioCuatro',
+            email: "usuarioCuatro@user.com",
             password: bcrypt.hashSync('12345678', 10)
         }).save();
 
         //PROGRAMAS
 
-        
         const programa1 = await new Programa({
             tipo: "Película",
             titulo: "La maldición (Cursed)",
