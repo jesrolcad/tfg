@@ -170,7 +170,7 @@ module.exports.deleteLista = async (req, res) => {
 
 //  
 
-//Validar que es el usuario que ha iniciado sesión
+
 module.exports.deleteProgramaLista = async (req, res) => {
 
    if (!mongoose.Types.ObjectId.isValid(req.params.idLista)) {
@@ -186,7 +186,6 @@ module.exports.deleteProgramaLista = async (req, res) => {
       if (lista) {
 
          if (lista.usuario == req.user._id) {
-            //if idPrograma is not ObjectId
             if (!mongoose.Types.ObjectId.isValid(req.params.idPrograma)) {
                return res.status(400).json({
                   status: 400,
@@ -231,7 +230,7 @@ module.exports.deleteProgramaLista = async (req, res) => {
 
 }
 
-//Validar que es el usuario que ha iniciado sesión
+
 module.exports.addProgramaLista = async (req, res) => {
 
    if (!mongoose.Types.ObjectId.isValid(req.params.idLista)) {

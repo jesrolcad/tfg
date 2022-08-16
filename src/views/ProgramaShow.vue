@@ -1,10 +1,11 @@
 <template>
-    <Navbar style="margin-bottom:20px;"/>
+    <Navbar style="margin-bottom:20px;" />
     <div class="Programa">
 
         <body style="justify-content: space-evenly; margin-top: 90px">
             <button @click="goBack" class="btn btn-primary btn-lg btn-block">
-            <font-awesome-icon icon="fa-arrow-left" style="color:white" class="fa-xl" /></button>
+                <font-awesome-icon icon="fa-arrow-left" style="color:white" class="fa-xl" />
+            </button>
             <div class="container">
                 <div class="row">
                     <div class="col-md-8">
@@ -16,13 +17,18 @@
                                     en:</h4>
                                 <div class="row gx-2" style="justify-content: space-evenly;">
                                     <div v-if="(programa.plataformas).indexOf('Netflix') !== -1" class="col-xl-3">
-                                    <img src='..\..\public\1.png'></div>
-                                    <div v-if="(programa.plataformas).indexOf('Amazon Prime Video') !== -1" class="col-xl-3">
-                                    <img src='..\..\public\2.png'></div>
+                                        <img src='..\..\public\1.png'>
+                                    </div>
+                                    <div v-if="(programa.plataformas).indexOf('Amazon Prime Video') !== -1"
+                                        class="col-xl-3">
+                                        <img src='..\..\public\2.png'>
+                                    </div>
                                     <div v-if="(programa.plataformas).indexOf('HBO') !== -1" class="col-xl-3">
-                                    <img src='..\..\public\3.png'></div>
+                                        <img src='..\..\public\3.png'>
+                                    </div>
                                     <div v-if="(programa.plataformas).indexOf('Disney') !== -1" class="col-xl-3">
-                                    <img src='..\..\public\4.png'></div>
+                                        <img src='..\..\public\4.png'>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -41,9 +47,9 @@
                                     <div class="btn-group btn-group-lg" role="group"
                                         style="border-radius: 0px;margin-left: 4px;">
 
-                                        <Insignias :listener="trigger" :listenerL="triggerL"/>
-                                        <button class="border border-0 bg-transparent" v-if="!programaEstaVisto" v-on:click="setProgramaVisto();"
-                                            title="Añadir a programas vistos"
+                                        <Insignias :listener="trigger" :listenerL="triggerL" />
+                                        <button class="border border-0 bg-transparent" v-if="!programaEstaVisto"
+                                            v-on:click="setProgramaVisto();" title="Añadir a programas vistos"
                                             style="border-radius: 80px;margin-right: 10px;">
                                             <font-awesome-icon icon="fa-solid fa-eye" class=" lista-botones fa-xl" />
                                         </button>
@@ -67,17 +73,14 @@
                                                 class="fa-xl added-to-list" />
                                         </button>
 
-                                        <AddProgramaLista @escucharAdd="triggerAdd"/>
+                                        <AddProgramaLista @escucharAdd="triggerAdd" />
 
-                                        <Sugerencias :id="id" :generos="programa.generos"/>
+                                        <Sugerencias :id="id" :generos="programa.generos" />
 
                                         <form title="Puntuar programa" v-on:submit.prevent>
                                             <star-rating :star-size="33" :show-rating="false"
                                                 v-model:rating="this.puntuacion" v-on:click="puntuarPrograma();" />
                                         </form>
-                                        <!-- <button class="btn btn-primary"
-                                            type="button" style="border-radius: 112px;margin-left: 10px;"><i
-                                                class="far fa-star"></i></button> -->
                                     </div>
                                 </section>
 
@@ -144,14 +147,13 @@
                 </div>
                 <div v-if="actoresR.length !== 0" class="row" style="margin-top:15%">
                     <h1 style="width: 87px;">Reparto:</h1>
-                    <div class="card-group" style="justify-content: space-evenly;" >
+                    <div class="card-group" style="justify-content: space-evenly;">
                         <div class="col-3" v-for="actor of actoresR" :key="actor._id">
                             <router-link :to="`/actor/${actor.nombre}`">
                                 <img v-if="actor.imagen_actor" class="card-img-top" :src="actor.imagen_actor">
                             </router-link>
                             <router-link :to="`/actor/${actor.nombre}`">
-                                <img class="card-img-top" v-if="!actor.imagen_actor"
-                                    src='..\..\public\placeholder.png'>
+                                <img class="card-img-top" v-if="!actor.imagen_actor" src='..\..\public\placeholder.png'>
                             </router-link>
                             <div class="card-body" style="margin: 10px; height: max-content;">
                                 <h4 class="card-title">{{ actor.nombre }}</h4>
@@ -176,7 +178,7 @@ import AddProgramaLista from './AddProgramaLista.vue';
 import moment from 'moment';
 import { useToast } from "vue-toastification";
 import StarRating from 'vue-star-rating';
-import {VeProgress} from "vue-ellipse-progress";
+import { VeProgress } from "vue-ellipse-progress";
 import Insignias from './Insignias.vue';
 
 class Programa {
@@ -202,7 +204,6 @@ export default {
             actores: [],
             actoresR: [],
             listas: [],
-            lista: [],
             puntuacion: 0,
             puntuacionMedia: {},
             id: this.$route.params.id,
@@ -212,8 +213,8 @@ export default {
     },
 
     created() {
-        this.getPrograma(),
-            this.getListas(),
+        this.getPrograma()
+        this.getListas(),
             this.getPuntuacionPrograma(),
             this.getPuntuacionMediaPrograma()
     },
@@ -225,7 +226,11 @@ export default {
                 .then(data => {
                     this.programa = data;
                     this.actores = this.programa.actoresIds;
-                }).then(() => { this.getActores() });
+                }).then(() => { this.getActores() }).catch(err => {
+
+                    console.log("LA EXCEPCIÓN SE PRODUCE EN EL GETPROGRAMA");
+                    console.log(err);
+                });
         },
 
         moment,
@@ -239,6 +244,9 @@ export default {
                 .then(res => res.json())
                 .then(data => {
                     this.actoresR = data;
+                }).catch(err => {
+                    console.log("EXCEPCION EN EL GET ACTORES");
+                    console.log(err)
                 });
         },
 
@@ -251,115 +259,142 @@ export default {
                 .then(res => res.json())
                 .then(data => {
                     this.listas = data;
-                    console.log(this.listas);
-                })
+                }).catch(err => {
+                    console.log("LA EXCEPCIÓN SE PRODUCE EN EL GETLISTAS");
+                    console.log(err);
+                });
         },
 
         setProgramaVisto() {
-            //Se obtiene el json de programas
+            const toast = useToast();
             let jsonProgramasVistos = this.listas.find(l => l.lista.nombre === "Programas vistos");
             fetch(this.baseURL + '/lista/' + jsonProgramasVistos.lista._id + '/agregar/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token") },
                     method: 'PUT',
-                });
-            //Se obtiene la lista modificada y se añade el programa
-            let listaModificada = jsonProgramasVistos.lista;
-            listaModificada.programas.push(this.programa._id);
-            //Se actualiza la propiedad lista del json
-            jsonProgramasVistos.lista = listaModificada;
-            let index = this.listas.findIndex(l => l.lista.nombre === "Programas vistos");
-            //Se actualiza el json de las listas
-            this.listas[index] = jsonProgramasVistos;
-            const toast = useToast();
-            toast.success("Programa añadido a Programas vistos",
-                {
-                    position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                    draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                    icon: true, rtl: false
-                });
-            this.trigger= !this.trigger;
+                }).then(response => response.json()).then(data => {
+                    if (data.status === 204) {
+
+                        toast.success("Programa añadido a Programas vistos",
+                            {
+                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                                icon: true, rtl: false
+                            });
+
+                        this.trigger = !this.trigger;
+
+                        this.getListas();
+
+                    } else {
+                        toast.error(data.msg,
+                            {
+                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                                icon: true, rtl: false
+                            });
+
+                    }
+                }).catch(err => console.log(err));
+
+
+
         },
 
-        async deleteProgramaVisto() {
-            //Se obtiene el json de programas
+        deleteProgramaVisto() {
+            const toast = useToast();
+
             let jsonProgramasVistos = this.listas.find(l => l.lista.nombre === "Programas vistos");
-            await fetch(this.baseURL + '/lista/' + jsonProgramasVistos.lista._id + '/borrar/' + this.programa._id,
+            fetch(this.baseURL + '/lista/' + jsonProgramasVistos.lista._id + '/borrar/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token") },
                     method: 'PUT',
-                });
-            //Se obtiene la lista modificada y se añade el programa
-            let listaModificada = jsonProgramasVistos.lista;
-            let indexPrograma = listaModificada.programas.indexOf(this.programa._id);
-            listaModificada.programas.splice(indexPrograma, 1);
-            //Se actualiza la propiedad lista del json
-            jsonProgramasVistos.lista = listaModificada;
-            let index = this.listas.findIndex(l => l.lista.nombre === "Programas vistos");
-            //Se actualiza el json de las listas
-            this.listas[index] = jsonProgramasVistos;
+                }).then(response => response.json()).then(data => {
+                    if (data.status === 204) {
 
-            if (this.puntuacionMedia.numPuntuaciones > 0) {
-                this.getPuntuacionPrograma();
-                this.getPuntuacionMediaPrograma();
-            }
 
-            const toast = useToast();
-            toast.success("Programa eliminado de Programas vistos",
-                {
-                    position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                    draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                    icon: true, rtl: false
-                });
+                        toast.success("Programa eliminado de Programas vistos",
+                            {
+                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                                icon: true, rtl: false
+                            });
+
+                        if (this.puntuacionMedia.numPuntuaciones > 0) {
+                            this.getPuntuacionPrograma();
+                            this.getPuntuacionMediaPrograma();
+                        }
+
+                        this.getListas();
+                    } else {
+                        toast.error(data.msg,
+                            {
+                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                                icon: true, rtl: false
+                            });
+
+                    }
+                }).catch(err => console.log(err));
         },
 
         setProgramaSeguimiento() {
+            const toast = useToast();
             let jsonProgramasSeguimiento = this.listas.find(l => l.lista.nombre === "En seguimiento");
             fetch(this.baseURL + '/lista/' + jsonProgramasSeguimiento.lista._id + '/agregar/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token") },
                     method: 'PUT',
-                });
-            //Se obtiene la lista modificada y se añade el programa
-            let listaModificada = jsonProgramasSeguimiento.lista;
-            listaModificada.programas.push(this.programa._id);
-            //Se actualiza la propiedad lista del json
-            jsonProgramasSeguimiento.lista = listaModificada;
-            let index = this.listas.findIndex(l => l.lista.nombre === "En seguimiento");
-            //Se actualiza el json de las listas
-            this.listas[index] = jsonProgramasSeguimiento;
-            const toast = useToast();
-            toast.success("Programa añadido a En seguimiento",
-                {
-                    position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                    draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                    icon: true, rtl: false
-                });
+                }).then(response => response.json()).then(data => {
+                    if (data.status === 204) {
+
+                        toast.success("Programa añadido a En seguimiento",
+                            {
+                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                                icon: true, rtl: false
+                            });
+                        this.getListas();
+                    } else {
+                        toast.error(data.msg,
+                            {
+                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                                icon: true, rtl: false
+                            });
+
+                    }
+                }).catch(err => console.log(err));
+
         },
 
         deleteProgramaSeguimiento() {
+            const toast = useToast();
             let jsonProgramasSeguimiento = this.listas.find(l => l.lista.nombre === "En seguimiento");
-            fetch(this.baseURL+'/lista/' + jsonProgramasSeguimiento.lista._id + '/borrar/' + this.programa._id,
+            fetch(this.baseURL + '/lista/' + jsonProgramasSeguimiento.lista._id + '/borrar/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token") },
                     method: 'PUT',
-                });
-            //Se obtiene la lista modificada y se añade el programa
-            let listaModificada = jsonProgramasSeguimiento.lista;
-            let indexPrograma = listaModificada.programas.indexOf(this.programa._id);
-            listaModificada.programas.splice(indexPrograma, 1);
-            //Se actualiza la propiedad lista del json
-            jsonProgramasSeguimiento.lista = listaModificada;
-            let index = this.listas.findIndex(l => l.lista.nombre === "En seguimiento");
-            //Se actualiza el json de las listas
-            this.listas[index] = jsonProgramasSeguimiento;
-            const toast = useToast();
-            toast.success("Programa eliminado de En seguimiento",
-                {
-                    position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                    draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                    icon: true, rtl: false
-                });
+                }).then(response => response.json()).then(data => {
+                    if (data.status === 204) {
+
+                        toast.success("Programa eliminado de En seguimiento",
+                            {
+                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                                icon: true, rtl: false
+                            });
+                        this.getListas();
+                    } else {
+                        toast.error(data.msg,
+                            {
+                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                                icon: true, rtl: false
+                            });
+
+                    }
+                }).catch(err => console.log(err));
         },
 
         getPuntuacionPrograma() {
@@ -370,7 +405,10 @@ export default {
                 .then(res => res.json())
                 .then(json => {
                     this.puntuacion = json.puntuacion;
-                });
+                }).catch(err => {
+                    console.log("LA EXCEPCIÓN SE PRODUCE EN EL GETPUNTUACION");
+                    console.log(err);
+                })
         },
 
         getPuntuacionMediaPrograma() {
@@ -381,14 +419,17 @@ export default {
                 .then(res => res.json())
                 .then(json => {
                     this.puntuacionMedia = json.puntuacionMedia;
+                }).catch(err => {
+                    console.log("LA EXCEPCIÓN SE PRODUCE EN EL GETPUNTUACIONMEDIA");
+                    console.log(err);
+
+
                 });
         },
 
-        async puntuarPrograma() {
+        puntuarPrograma() {
             let jsonProgramasVistos = this.listas.find(l => l.lista.nombre === "Programas vistos");
-            console.log(jsonProgramasVistos);
-            console.log(this.programa._id);
-            await fetch('http://localhost:5000/puntuaciones/' + this.programa._id,
+            fetch('http://localhost:5000/puntuaciones/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token"), 'Content-Type': 'application/json' },
                     method: 'POST',
@@ -396,6 +437,7 @@ export default {
                         puntuacion: this.puntuacion
                     })
                 }).then(res => res.json()).then(json => {
+
                     if (json.status !== 400) {
 
                         const toast = useToast();
@@ -420,9 +462,9 @@ export default {
                                 icon: true, rtl: false
                             });
                     }
-                });
+                }).catch(err => console.log(err));
         },
-        triggerAdd(){
+        triggerAdd() {
             this.triggerL = !this.triggerL;
         }
     },
@@ -535,5 +577,4 @@ export default {
     position: relative;
     margin-bottom: -80px;
 }
-
 </style>
