@@ -28,6 +28,18 @@ router_estadisticas.get('/insignias',  verifyLoggedInUser.authenticateToken, ver
     estadisticasService.getUsuariosInsignia(req,res);
 })
 
+router_estadisticas.get('/listas', (req, res) => {
+    estadisticasService.getListasUsuarios(req,res);
+})
+
+router_estadisticas.get('/listas-programas', (req, res) => {
+    estadisticasService.getProgramasLP(req,res);
+})
+
+
+router_estadisticas.get('/edad', (req, res) => {
+    estadisticasService.getTipoProgramaEdad(req,res);
+})
 
 
 module.exports = router_estadisticas;
