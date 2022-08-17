@@ -281,10 +281,7 @@ describe('TESTS MÉTODOS DE LISTAS PROGRAMASHOW', () => {
                 } else {
                     expect(wrapper.vm.programaEstaEnSeguimiento).toBe(false);
                 }
-
             })
-
         }
-
     })
 })
