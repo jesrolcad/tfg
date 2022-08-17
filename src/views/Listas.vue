@@ -127,9 +127,11 @@ export default {
 
     methods: {
         getListas() {
+            console.log("ENTRA EN EL GETLISTAS");
             fetch(this.baseURL + "/listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data);
                     this.listas = data;
                 }).catch(err => console.log(err));
         },
@@ -145,7 +147,6 @@ export default {
                 const toast = useToast();
                 if (data.status == 200) {
                     this.getListas();
-
                     toast.success(data.msg,
                         {
                             position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
@@ -165,7 +166,7 @@ export default {
         },
 
         addListaPerfil() {
-            this.showModal = false;
+            // this.showModal = false;
             this.getListas();
         },
 
@@ -262,7 +263,6 @@ export default {
             } else {
                 return '';
             }
-
         }
 
         // getPreviousPage(){

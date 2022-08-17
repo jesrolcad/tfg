@@ -2,7 +2,7 @@
 
   <h4> Crear lista</h4>
 
-  <form v-on:submit.prevent>
+  <form ref="crearLista" v-on:submit.prevent>
     <!-- column with label, input and button -->
     <div class="columns mb-5">
       <div class="column is-half">
@@ -68,7 +68,8 @@ export default {
 
         if (data.status === 200) {
           this.lista = data.lista;
-          this.nombre = '';
+          this.nombre = "";
+          this.$refs.crearLista.reset();
           this.v$.$reset();
           toast.success(data.msg,
             {
@@ -76,7 +77,6 @@ export default {
               draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
               icon: true, rtl: false
             });
-
             this.$emit('escucharCrearLista', this.lista);
 
 

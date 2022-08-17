@@ -50,16 +50,15 @@ import CrearLista from "./CrearLista.vue";
 
         methods: {
 
-            async getListasPersonalizadas() {
-                //fetch to baseURL + /listas
-                await fetch(this.baseURL + "/listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
+            getListasPersonalizadas() {
+                fetch(this.baseURL + "/listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
                     .then(response => response.json())
                     .then(data => {
                     
                         let listas = data.filter(l => l.lista.nombre !== "Programas vistos" && l.lista.nombre !== "En seguimiento");
                         this.listasPersonalizadas = listas;
 
-                    });
+                    }).catch(err => console.log(err));
             }, 
 
             async addProgramaToLista(id){
@@ -75,7 +74,8 @@ import CrearLista from "./CrearLista.vue";
                         const toast = useToast();
                         
                         if(data.status === 204){
-                            this.showModal = false;
+                            this.getListasPersonalizadas();
+                            // this.showModal = false;
 
                             toast.success(data.msg,
                             {
@@ -95,13 +95,15 @@ import CrearLista from "./CrearLista.vue";
                         } 
                             
                     } 
-                    );
+                    ).catch(error => {
+                        console.log(error);
+                    });
 
             },
 
-            async deleteProgramaFromLista(id) {
+            deleteProgramaFromLista(id) {
 
-                await fetch(this.baseURL + '/lista/' + id + '/borrar/' + this.idPrograma, {
+                fetch(this.baseURL + '/lista/' + id + '/borrar/' + this.idPrograma, {
                     headers: { 'Authorization': sessionStorage.getItem("token"), },
                     method: "PUT"})
                     .then(response => response.json())
@@ -110,7 +112,8 @@ import CrearLista from "./CrearLista.vue";
                         const toast = useToast();
                         
                         if(data.status === 204){
-                            this.showModal = false;
+                            //this.showModal = false;
+                            this.getListasPersonalizadas();
 
                             toast.success(data.msg,
                             {
@@ -128,11 +131,15 @@ import CrearLista from "./CrearLista.vue";
                             });
                         }
                         
-                    });
+                    }).catch(err => {
+                        console.log(err);
+                    }
+                    );
             },
 
             addLista(value){
-                this.showModal = false;
+                // this.showModal = false;
+                this.getListasPersonalizadas();
                 this.listasPersonalizadas.push(value);
                 this.$emit("escucharAdd");
             }
