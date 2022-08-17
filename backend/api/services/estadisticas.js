@@ -239,30 +239,34 @@ module.exports.getTipoProgramaEdad= async function(req,res) {
         }
     ]
     );
-    let peliculas= 0;
-    let series= 0;
-    let edadPelis=[];
-    let edadSeries=[];
-    for(let i of list){
-        if(i['programas']=='Película'){
-            edadPelis.push(i['edad']);
-            peliculas+=1;
-        }else{
-            edadSeries.push(i['edad']);
-            series+=1;
+    if(list.length !=0){
+        let peliculas= 0;
+        let series= 0;
+        let edadPelis=[];
+        let edadSeries=[];
+        for(let i of list){
+            if(i['programas']=='Película'){
+                edadPelis.push(i['edad']);
+                peliculas+=1;
+            }else{
+                edadSeries.push(i['edad']);
+                series+=1;
+            }
         }
+        var repetidosPelis = {};
+        edadPelis.forEach(function(numero){
+            repetidosPelis[numero] = (repetidosPelis[numero] || 0) + 1;
+        });
+
+        var repetidosSeries = {};
+        edadSeries.forEach(function(numero){
+            repetidosSeries[numero] = (repetidosSeries[numero] || 0) + 1;
+        });
+
+        return res.json({repetidosPelis, repetidosSeries, peliculas, series})
+    }else{
+        return res.status(200).json({mensaje:"No hay estadisticas de la edad y los tipos de programa."});
     }
-    var repetidosPelis = {};
-    edadPelis.forEach(function(numero){
-        repetidosPelis[numero] = (repetidosPelis[numero] || 0) + 1;
-    });
-
-    var repetidosSeries = {};
-    edadSeries.forEach(function(numero){
-        repetidosSeries[numero] = (repetidosSeries[numero] || 0) + 1;
-    });
-
-    res.json({repetidosPelis, repetidosSeries, peliculas, series})
 }
 
 module.exports.getEdadMediaGenero= async function(req,res) {
