@@ -44,7 +44,7 @@ router_estadisticas.get('/edad-programa', verifyLoggedInUser.authenticateToken, 
     estadisticasService.getTipoProgramaEdad(req,res);
 })
 
-router_estadisticas.get('/edad-genero', (req, res) => {
+router_estadisticas.get('/edad-genero', verifyLoggedInUser.authenticateToken, verifyRoles("Admin"), (req, res) => {
     estadisticasService.getEdadMediaGenero(req,res);
 })
 
