@@ -73,7 +73,7 @@ export default {
           this.v$.$reset();
           toast.success(data.msg,
             {
-              position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+              position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
               draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
               icon: true, rtl: false
             });
@@ -83,7 +83,7 @@ export default {
         } else {
           data.errors.forEach(error => toast.error(error.msg,
             {
-              position: "top-right", closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+              position: "bottom-right", closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
               draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
               icon: true, rtl: false
             }));

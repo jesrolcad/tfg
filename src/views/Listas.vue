@@ -149,14 +149,14 @@ export default {
                     this.getListas();
                     toast.success(data.msg,
                         {
-                            position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                            position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                             draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                             icon: true, rtl: false
                         });
                 } else {
                     toast.error(data.msg,
                         {
-                            position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                            position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                             draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                             icon: true, rtl: false
                         });
@@ -197,7 +197,7 @@ export default {
                     const toast = useToast();
                     toast.error(data.msg,
                         {
-                            position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                            position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                             draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                             icon: true, rtl: false
                         });
@@ -224,7 +224,7 @@ export default {
 
                         toast.success(data.msg,
                             {
-                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                                 draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                                 icon: true, rtl: false
                             });
@@ -234,7 +234,7 @@ export default {
                     } else {
                         toast.error(data.msg,
                             {
-                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                                 draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                                 icon: true, rtl: false
                             });

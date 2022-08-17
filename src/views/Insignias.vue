@@ -46,7 +46,7 @@ export default{
 
                 toast.info("Ha obtenido la insignia: "+ this.programasVistos.insignia,
                     {
-                        position: "top-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                         draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                         icon: true, rtl: false
                     });
@@ -67,7 +67,7 @@ export default{
                 if(this.generosVistos.Amateur){
                     toast.info("Ha obtenido la insignia: Amateur Genre Watcher",
                     {
-                        position: "top-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                         draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                         icon: true, rtl: false
                     });
@@ -75,7 +75,7 @@ export default{
                 if(this.generosVistos.Intermediate){
                     toast.info("Ha obtenido la insignia: Intermediate Genre Watcher",
                     {
-                        position: "top-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                         draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                         icon: true, rtl: false
                     });
@@ -83,7 +83,7 @@ export default{
                 if(this.generosVistos.Professional){
                     toast.info("Ha obtenido la insignia: Professional Genre Watcher",
                     {
-                        position: "top-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                         draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                         icon: true, rtl: false
                     });
@@ -104,7 +104,7 @@ export default{
                 if(this.actoresVistos.Fan){
                     toast.info("Ha obtenido la insignia: Actor/Actress Fan",
                     {
-                        position: "top-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                         draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                         icon: true, rtl: false
                     });
@@ -112,7 +112,7 @@ export default{
                 if(this.actoresVistos.Lover){
                     toast.info("Ha obtenido la insignia: Actor/Actress Lover",
                     {
-                        position: "top-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                         draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                         icon: true, rtl: false
                     });
@@ -120,7 +120,7 @@ export default{
                 if(this.actoresVistos.Addict){
                     toast.info("Ha obtenido la insignia: Actor/Actress Addict",
                     {
-                        position: "top-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                         draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                         icon: true, rtl: false
                     });
@@ -143,7 +143,7 @@ export default{
 
                 toast.info("Ha obtenido la insignia: "+ this.listas.insignia,
                     {
-                        position: "top-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                         draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                         icon: true, rtl: false
                     });
@@ -164,7 +164,7 @@ export default{
                 if(this.programasListas.Bronce){
                     toast.info("Ha obtenido la insignia: Bronce List",
                     {
-                        position: "top-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                         draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                         icon: true, rtl: false
                     });
@@ -172,7 +172,7 @@ export default{
                 if(this.programasListas.Silver){
                     toast.info("Ha obtenido la insignia: Silver List",
                     {
-                        position: "top-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                         draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                         icon: true, rtl: false
                     });
@@ -180,7 +180,7 @@ export default{
                 if(this.programasListas.Gold){
                     toast.info("Ha obtenido la insignia: Gold List",
                     {
-                        position: "top-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                         draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                         icon: true, rtl: false
                     });
