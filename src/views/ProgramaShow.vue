@@ -274,7 +274,7 @@ export default {
 
                         toast.success("Programa añadido a Programas vistos",
                             {
-                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                                 draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                                 icon: true, rtl: false
                             });
@@ -286,7 +286,7 @@ export default {
                     } else {
                         toast.error(data.msg,
                             {
-                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                                 draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                                 icon: true, rtl: false
                             });
@@ -312,7 +312,7 @@ export default {
 
                         toast.success("Programa eliminado de Programas vistos",
                             {
-                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                                 draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                                 icon: true, rtl: false
                             });
@@ -326,7 +326,7 @@ export default {
                     } else {
                         toast.error(data.msg,
                             {
-                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                                 draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                                 icon: true, rtl: false
                             });
@@ -347,7 +347,7 @@ export default {
 
                         toast.success("Programa añadido a En seguimiento",
                             {
-                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                                 draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                                 icon: true, rtl: false
                             });
@@ -355,7 +355,7 @@ export default {
                     } else {
                         toast.error(data.msg,
                             {
-                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                                 draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                                 icon: true, rtl: false
                             });
@@ -377,7 +377,7 @@ export default {
 
                         toast.success("Programa eliminado de En seguimiento",
                             {
-                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                                 draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                                 icon: true, rtl: false
                             });
@@ -385,7 +385,7 @@ export default {
                     } else {
                         toast.error(data.msg,
                             {
-                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                                 draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                                 icon: true, rtl: false
                             });
@@ -441,7 +441,7 @@ export default {
 
                         toast.success("Programa puntuado correctamente",
                             {
-                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                                 draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                                 icon: true, rtl: false
                             });
@@ -451,7 +451,7 @@ export default {
                         const toast = useToast();
                         toast.error(json.message,
                             {
-                                position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                                position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                                 draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                                 icon: true, rtl: false
                             });

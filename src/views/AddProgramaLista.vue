@@ -79,7 +79,7 @@ import CrearLista from "./CrearLista.vue";
 
                             toast.success(data.msg,
                             {
-                            position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                            position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                             draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                             icon: true, rtl: false
                             });
@@ -88,7 +88,7 @@ import CrearLista from "./CrearLista.vue";
                         } else {
                             toast.error(data.msg,
                             {
-                            position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                            position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                             draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                             icon: true, rtl: false
                             });
@@ -117,7 +117,7 @@ import CrearLista from "./CrearLista.vue";
 
                             toast.success(data.msg,
                             {
-                            position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                            position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                             draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                             icon: true, rtl: false
                             });
@@ -125,7 +125,7 @@ import CrearLista from "./CrearLista.vue";
                         } else {
                             toast.error(data.msg,
                             {
-                            position: "top-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                            position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                             draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
                             icon: true, rtl: false
                             });
