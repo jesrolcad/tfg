@@ -4,7 +4,7 @@ import { routes } from "@/router"
 import Listas from 'Listas.vue';
 import flushPromises from 'flush-promises';
 
-const mockResponse = [
+const mockResponse =  [
     {
         lista: {
             nombre: 'Prueba',

@@ -215,8 +215,8 @@ export default {
     created() {
         this.getPrograma()
         this.getListas(),
-            this.getPuntuacionPrograma(),
-            this.getPuntuacionMediaPrograma()
+        this.getPuntuacionPrograma(),
+        this.getPuntuacionMediaPrograma()
     },
 
     methods: {
@@ -255,14 +255,13 @@ export default {
         },
 
         getListas() {
+            console.log("ENTRA EN EL GETLISTAS");
             fetch(this.baseURL + "/listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data);
                     this.listas = data;
-                }).catch(err => {
-                    console.log("LA EXCEPCIÓN SE PRODUCE EN EL GETLISTAS");
-                    console.log(err);
-                });
+                }).catch(err => console.log(err));
         },
 
         setProgramaVisto() {
@@ -428,7 +427,6 @@ export default {
         },
 
         puntuarPrograma() {
-            let jsonProgramasVistos = this.listas.find(l => l.lista.nombre === "Programas vistos");
             fetch('http://localhost:5000/puntuaciones/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token"), 'Content-Type': 'application/json' },
