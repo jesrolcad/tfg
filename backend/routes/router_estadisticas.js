@@ -28,17 +28,24 @@ router_estadisticas.get('/insignias',  verifyLoggedInUser.authenticateToken, ver
     estadisticasService.getUsuariosInsignia(req,res);
 })
 
-router_estadisticas.get('/listas', (req, res) => {
+router_estadisticas.get('/listas', verifyLoggedInUser.authenticateToken, verifyRoles("Admin"), (req, res) => {
     estadisticasService.getListasUsuarios(req,res);
 })
 
-router_estadisticas.get('/listas-programas', (req, res) => {
+router_estadisticas.get('/listas-programas', verifyLoggedInUser.authenticateToken, verifyRoles("Admin"), (req, res) => {
     estadisticasService.getProgramasLP(req,res);
 })
 
-
-router_estadisticas.get('/edad', (req, res) => {
+router_estadisticas.get('/edad', verifyLoggedInUser.authenticateToken, verifyRoles("Admin"), (req, res) => {
     estadisticasService.getTipoProgramaEdad(req,res);
+})
+
+router_estadisticas.get('/edad-programa', verifyLoggedInUser.authenticateToken, verifyRoles("Admin"), (req, res) => {
+    estadisticasService.getTipoProgramaEdad(req,res);
+})
+
+router_estadisticas.get('/edad-genero', (req, res) => {
+    estadisticasService.getEdadMediaGenero(req,res);
 })
 
 
