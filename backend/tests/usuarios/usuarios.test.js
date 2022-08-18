@@ -53,8 +53,6 @@ describe('TESTS USUARIOS', () => {
 
             for(const caso of casosPositivosRegistro){
 
-                console.log(caso.fechaNacimiento);
-
                 it(caso.key, async () => {
                     const response = await request.post('/usuarios/registro').send({
                         nombre: caso.nombre,

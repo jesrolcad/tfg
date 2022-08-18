@@ -36,9 +36,6 @@ router_estadisticas.get('/listas-programas', verifyLoggedInUser.authenticateToke
     estadisticasService.getProgramasLP(req,res);
 })
 
-router_estadisticas.get('/edad', verifyLoggedInUser.authenticateToken, verifyRoles("Admin"), (req, res) => {
-    estadisticasService.getTipoProgramaEdad(req,res);
-})
 
 router_estadisticas.get('/edad-programa', verifyLoggedInUser.authenticateToken, verifyRoles("Admin"), (req, res) => {
     estadisticasService.getTipoProgramaEdad(req,res);
