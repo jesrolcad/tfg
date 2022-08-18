@@ -39,9 +39,6 @@ if (node_env === 'test') {
 //Conexion MongoDB
 mongoose.Promise = global.Promise;
 
-
-
-
 if (node_env == 'development') {
     mongoose.connect(connection_string, {
         useNewUrlParser: true,
@@ -51,6 +48,12 @@ if (node_env == 'development') {
         .catch((error) => { console.error("MongoDB connection failed:", error.message) })
 }
 
+if(node_env === 'production') {
+    app.use(express.static(path.join(__dirname, 'dist')));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+    })
+}
 app.use(express.urlencoded({ extended: true }));
 
 //Static files
