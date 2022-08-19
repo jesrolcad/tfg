@@ -1,151 +1,139 @@
 <template>
-<Navbar />
-    <div class="Programas" >
-        <Filtros @escucharFiltros="filtrados" style="margin-top:10%"/>
-    <div v-if="programasFiltrados.length==0" class="card-group" style="justify-content: space-evenly;">
-        <div class="col-3" v-for="programa of displayedProgramas" :key="programa._id" >
-            <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
+    <Navbar />
+    <div class="Programas">
+        <Filtros @escucharFiltros="filtrados" style="margin-top:10%" />
+        <div v-if="programasFiltrados.length == 0" class="card-group" style="justify-content: space-evenly;">
+            <div class="col-3" v-for="programa of displayedProgramas" :key="programa._id">
+                <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
                         :src="programa.imagen || 'placeholder.png'"> </router-link>
-            <div class="card-body" style="margin: 10px">
-                <h4 class="card-title">{{programa.titulo}}</h4>
-                <small>{{moment(programa.fecha).locale('es').format("D MMM YYYY")}}</small>
+                <div class="card-body" style="margin: 10px">
+                    <h4 class="card-title">{{ programa.titulo }}</h4>
+                    <small>{{ moment(programa.fecha).locale('es').format("D MMM YYYY") }}</small>
+                </div>
             </div>
         </div>
-    </div>
-    <div v-else-if="programas.mensaje" class="card-group" style="justify-content: space-evenly;">
-        {{programas.mensaje}}
-    </div>
-    <div v-else-if="programasFiltrados.mensaje" class="card-group" style="justify-content: space-evenly;">
-        {{programasFiltrados.mensaje}}
-    </div>
-    <div v-else class="card-group" style="justify-content: space-evenly;" >
-        <div class="col-3" v-for="programa of displayedProgramasF" :key="programa._id">
-            <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
+        <div v-else-if="programas.mensaje" class="card-group" style="justify-content: space-evenly;">
+            {{ programas.mensaje }}
+        </div>
+        <div v-else-if="programasFiltrados.mensaje" class="card-group" style="justify-content: space-evenly;">
+            {{ programasFiltrados.mensaje }}
+        </div>
+        <div v-else class="card-group" style="justify-content: space-evenly;">
+            <div class="col-3" v-for="programa of displayedProgramasF" :key="programa._id">
+                <router-link :to="`/programa/${programa._id}`"><img class="card-img-top w-100 d-block"
                         :src="programa.imagen || 'placeholder.png'"> </router-link>
-            <div class="card-body" style="margin: 10px">
-                <h4 class="card-title">{{programa.titulo}}</h4>
-                <small style="font-family:abeezeeregular;">{{moment(programa.fecha).locale('es').format("D MMM YYYY")}}</small>
+                <div class="card-body" style="margin: 10px">
+                    <h4 class="card-title">{{ programa.titulo }}</h4>
+                    <small style="font-family:abeezeeregular;">{{ moment(programa.fecha).locale('es').format("D MMM YYYY")}}</small>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="btn-group col-md-2 offset-md-5">
-        <button
-            type="button"
-            class="btn btn-sm btn-outline-secondary"
-            v-if="page != 1"
-            @click="page--"
-        >Anterior</button>
-        <button
-            type="button"
-            class="btn btn-sm btn-outline-secondary"
-            v-for="pageNumber in pages.slice(page-1, page+5)"
-            @click="page = pageNumber"
-            :key="pageNumber"
-        >{{pageNumber}}</button>
-        <button
-            type="button"
-            @click="page++"
-            v-if="page < pages.length"
-            class="btn btn-sm btn-outline-secondary"
-        >Siguiente</button>
-    </div>
+        <div class="btn-group col-md-2 offset-md-5">
+            <button type="button" class="btn btn-sm btn-outline-secondary" v-if="page != 1"
+                @click="page--">Anterior</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary"
+                v-for="pageNumber in pages.slice(page - 1, page + 5)" @click="page = pageNumber"
+                :key="pageNumber">{{ pageNumber }}</button>
+            <button type="button" @click="page++" v-if="page < pages.length"
+                class="btn btn-sm btn-outline-secondary">Siguiente</button>
+        </div>
     </div>
     <Footer />
 </template>
 <script>
-    import Navbar from './Navbar.vue'
-    import Footer from './Footer.vue'
-    import Filtros from './Filtros.vue'
-    import moment from 'moment'
-    //import emitter from '../emitter'
+import Navbar from './Navbar.vue'
+import Footer from './Footer.vue'
+import Filtros from './Filtros.vue'
+import moment from 'moment'
+//import emitter from '../emitter'
 
-    class Programa{
-        constructor(_id,tipo,titulo,fecha,imagen){
-            this._id=_id;
-            this.tipo=tipo;
-            this.titulo=titulo;
-            this.fecha=fecha;
-            this.imagen= imagen;
-        }
+class Programa {
+    constructor(_id, tipo, titulo, fecha, imagen) {
+        this._id = _id;
+        this.tipo = tipo;
+        this.titulo = titulo;
+        this.fecha = fecha;
+        this.imagen = imagen;
     }
-    export default {
-        data(){
-            return{
-                programa: new Programa(),
-                programas:[],
-                baseURL: "http://localhost:5000",
-                page: 1,
-                perPage: 21,
-                pages: [],
-                programasFiltrados:[],
-                buscados:[]
-            }
-        },
-        created(){
-            this.getProgramas()
-        },
-        methods:{
-            getProgramas(){
-                fetch(this.baseURL+'/programas/all', {
-                    headers:{
-                            'Authorization':sessionStorage.getItem("token")
-                    }
-                })
-                    .then(res=> res.json())
-                    .then(data => {
-                        this.programas=data;
-                    });
-            },
-            moment,
-            setProgramas(programas) {
-                let numberOfPages = Math.ceil(programas.length / this.perPage);
-                for (let i = 1; i <= numberOfPages; i++) {
-                    this.pages.push(i);
-            }
-            },
-            paginate(programas) {
-                let page = this.page;
-                let perPage = this.perPage;
-                let from = (page * perPage) - perPage;
-                let to = (page * perPage);
-                return programas.slice(from, to);
-            },
-            filtrados(value){
-                this.programasFiltrados = value;
-            }
-        },
-        components: {
-            Navbar,
-            Footer,
-            Filtros,
-        },watch: {
-            programas(){
-                this.setProgramas(this.programas);
-            },
-            programasF(){
-                this.setProgramas(this.programasFiltrados);
-            }
-        },
-        computed: {
-            displayedProgramas: function () {
-            return this.paginate(this.programas);
-            },
-            displayedProgramasF: function () {
-            return this.paginate(this.programasFiltrados);
-            },
-            /*buscador: function () {
-                emitter.on('busqueda', (e) => {
-                    console.log("App:on('busqueda')", e);
-                    this.buscados=e;
+}
+export default {
+    data() {
+        return {
+            programa: new Programa(),
+            programas: [],
+            baseURL: "http://localhost:5000",
+            page: 1,
+            perPage: 21,
+            pages: [],
+            programasFiltrados: [],
+            buscados: []
+        }
+    },
+    created() {
+        this.getProgramas()
+    },
+    methods: {
+        getProgramas() {
+            fetch(this.baseURL + '/programas/all', {
+                headers: {
+                    'Authorization': sessionStorage.getItem("token")
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    this.programas = data;
                 });
-                return this.buscados;
-            }*/
+        },
+        moment,
+        setProgramas(programas) {
+            let numberOfPages = Math.ceil(programas.length / this.perPage);
+            for (let i = 1; i <= numberOfPages; i++) {
+                this.pages.push(i);
+            }
+        },
+        paginate(programas) {
+            let page = this.page;
+            let perPage = this.perPage;
+            let from = (page * perPage) - perPage;
+            let to = (page * perPage);
+            return programas.slice(from, to);
+        },
+        filtrados(value) {
+            this.programasFiltrados = value;
         }
+    },
+    components: {
+        Navbar,
+        Footer,
+        Filtros,
+    }, watch: {
+        programas() {
+            this.setProgramas(this.programas);
+        },
+        programasF() {
+            this.setProgramas(this.programasFiltrados);
+        }
+    },
+    computed: {
+        displayedProgramas: function () {
+            return this.paginate(this.programas);
+        },
+        displayedProgramasF: function () {
+            return this.paginate(this.programasFiltrados);
+        },
+        /*buscador: function () {
+            emitter.on('busqueda', (e) => {
+                console.log("App:on('busqueda')", e);
+                this.buscados=e;
+            });
+            return this.buscados;
+        }*/
     }
+}
 
 </script>
 <style scoped>
-.col-3{
+.col-3 {
     margin-top: 20px;
     margin-bottom: 20px;
     margin-right: 20px;
@@ -154,7 +142,8 @@
     box-shadow: 0px 0px 5px var(--bs-gray-400);
     border-style: none;
 }
-.card-img-top{
+
+.card-img-top {
     border-radius: 20px;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
