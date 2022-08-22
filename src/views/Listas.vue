@@ -220,8 +220,8 @@ export default {
                     const toast = useToast();
 
                     if (data.status === 204) {
-                        this.showModalProgramas = false;
-
+                        //this.showModalProgramas = false;
+                        this.getLista(idLista);
                         toast.success(data.msg,
                             {
                                 position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
