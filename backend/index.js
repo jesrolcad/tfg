@@ -29,7 +29,7 @@ if (node_env === 'test') {
 
 } else {
 
-    server = app.listen(5000, () => {
+    server = app.listen(process.env.PORT || 5000, () => {
         console.log('listening on port 5000');
     })
 
@@ -39,7 +39,7 @@ if (node_env === 'test') {
 //Conexion MongoDB
 mongoose.Promise = global.Promise;
 
-if (node_env == 'development') {
+if (node_env == 'development' || node_env === 'production') {
     mongoose.connect(connection_string, {
         useNewUrlParser: true,
         useUnifiedTopology: true
