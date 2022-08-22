@@ -272,7 +272,7 @@ export default {
                 }).then(response => response.json()).then(data => {
                     if (data.status === 204) {
 
-                        toast.success("Programa añadido a Programas vistos",
+                        toast.success("Programa añadido a Programas vistos. En caso de equivocación, puedes eliminar el programa de la lista desde tu perfil.",
                             {
                                 position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                                 draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
@@ -345,7 +345,7 @@ export default {
                 }).then(response => response.json()).then(data => {
                     if (data.status === 204) {
 
-                        toast.success("Programa añadido a En seguimiento",
+                        toast.success("Programa añadido a En seguimiento. En caso de equivocación, puedes eliminar el programa de la lista desde tu perfil.",
                             {
                                 position: "bottom-right", timeout: 1994, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
                                 draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
