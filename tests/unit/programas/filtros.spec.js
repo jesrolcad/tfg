@@ -1,8 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import Filtros from 'Filtros.vue';
 import flushPromises from 'flush-promises';
-import { createRouter, createWebHistory } from 'vue-router'
-import { routes } from "@/router"
 
 const mockGenerosInicial = ['Terror', 'Fantasía'];
 
