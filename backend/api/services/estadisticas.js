@@ -185,6 +185,9 @@ module.exports.getProgramasLP= async function(req, res) {
             sum+=num;
         }
         let media= Math.round((sum/listas)*100)/100;
+        listasProgramas.sort(function(first, second) {
+            return first._id - second._id;
+        })
         return res.status(200).json({listasProgramas:listasProgramas,media:media, listas:listas});
     }else{
         return res.status(200).json({mensaje:"No existen usuarios con listas personalizadas."})
@@ -240,30 +243,30 @@ module.exports.getTipoProgramaEdad= async function(req,res) {
     ]
     );
     if(list.length !=0){
-        let peliculas= 0;
-        let series= 0;
-        let edadPelis=[];
-        let edadSeries=[];
+        let edad=[];
         for(let i of list){
-            if(i['programas']=='Película'){
-                edadPelis.push(i['edad']);
-                peliculas+=1;
-            }else{
-                edadSeries.push(i['edad']);
-                series+=1;
+            edad.push(i['edad'])
+        }
+        let edadArray= [...new Set(edad)];
+        var result = {};
+        let peliculas=0;
+        let series=0;
+        for(let j in edadArray){
+            let edadIndex=edadArray[j];
+            let lista=[0,0]
+            for(let i of list){
+                if(i['programas']=='Película' && i['edad']==edadIndex){
+                    lista[0] = lista[0]+1
+                    result[edadIndex] = lista
+                    peliculas+=1;
+                }else if(i['programas']=='Serie' && i['edad']==edadIndex){
+                    lista[1] = lista[1]+1
+                    series+=1;
+                    result[edadIndex] = lista
+                }
             }
         }
-        var repetidosPelis = {};
-        edadPelis.forEach(function(numero){
-            repetidosPelis[numero] = (repetidosPelis[numero] || 0) + 1;
-        });
-
-        var repetidosSeries = {};
-        edadSeries.forEach(function(numero){
-            repetidosSeries[numero] = (repetidosSeries[numero] || 0) + 1;
-        });
-
-        return res.json({repetidosPelis, repetidosSeries, peliculas, series})
+        return res.json({result, peliculas, series})
     }else{
         return res.status(200).json({mensaje:"No hay estadisticas de la edad y los tipos de programa."});
     }

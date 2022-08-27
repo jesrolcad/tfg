@@ -76,7 +76,7 @@ describe('TESTS PUNTUACIONES', () => {
                             const token = response_login.body.token;
                 
                             let programas = await Programa.find();
-                            console.log(programas);
+
                             const response = await request.get('/puntuaciones/media/' + programas[caso.posicionPrograma]._id).set('Authorization', token);
                             expect(response.status).toBe(200);
                             expect(response.body.puntuacionMedia.media).toBe(caso.puntuacionEsperada);

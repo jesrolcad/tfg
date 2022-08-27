@@ -13,7 +13,7 @@ const routes = [
     {path:'/actor/:id', name:'Actor',component: () => import(/* webpackChunkName: "Programa" */'../views/ActorShow.vue'), meta: {auth: true}},
     {path: '/perfil', name:'Perfil', component: () => import(/* webpackChunkName: "Programa" */'../views/Perfil.vue'), meta: {auth: true}},
     {path: '/estadisticas', name:'Estadisticas', component: () => import(/* webpackChunkName: "Programa" */'../views/Estadisticas.vue'), meta: {auth: true, role: true}},
-    {path: '/buscador', name:'Buscador', component: () => import(/* webpackChunkName: "Programa" */'../views/Buscador.vue'), meta: {auth: true, role: true}}
+    {path: '/buscador', name:'Buscador', component: () => import(/* webpackChunkName: "Programa" */'../views/Buscador.vue'), meta: {auth: true}}
 ]
 
 const router = createRouter({

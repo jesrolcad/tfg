@@ -32,7 +32,7 @@ describe('TESTS ACTORES', () => {
                     it(caso.key, async () => {
                         const response = await request.post('/actores/programa').set('Authorization', token)
                             .send(caso.listaActoresIds);
-                        console.log(response.body)
+
                         expect(response.status).toBe(200);
                         expect(response.body).not.toBeNull();
                         expect(response.body.length).toBe(caso.listaActoresIds.length);

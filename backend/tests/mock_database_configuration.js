@@ -248,15 +248,20 @@ const setupDataActor = async () => {
             fechaNacimiento: "2000-06-07",
             nombreUsuario: 'userTester',
             email: "test@user.com",
-            password: bcrypt.hashSync('12345678', 10)
+            password: bcrypt.hashSync('12345678', 10),
+            roles: "Admin",
+            createdAt:"2022-06-04",
+            insignias:['List Beginner','Bronce Watcher']
         }).save();
 
         const usuario2 = await new Usuario({
             nombre: "Usuario Testt",
-            fechaNacimiento: "2000-06-07",
+            fechaNacimiento: "2002-06-07",
             nombreUsuario: 'anotherUserTester',
             email: "anotherTest@user.com",
             password: bcrypt.hashSync('12345678', 10),
+            createdAt:"2022-06-04",
+            insignias:['List Beginner','Bronce Watcher', 'Actor/Actress Fan']
         }).save();
 
         const usuario3 = await new Usuario({
@@ -265,14 +270,18 @@ const setupDataActor = async () => {
             nombreUsuario: 'usuario3',
             email: "usuario3@gmail.com",
             password: bcrypt.hashSync('12345678', 10),
+            createdAt:"2022-07-04",
+            insignias:['Bronce List','Amateur Genre Watcher']
         }).save();
 
         const usuario4 = await new Usuario({
             nombre: "usuarioo4",
-            fechaNacimiento: "2000-03-30",
+            fechaNacimiento: "2002-03-30",
             nombreUsuario: 'usuario4',
             email: "usuario4@gmail.com",
             password: bcrypt.hashSync('12345678', 10),
+            createdAt:"2022-07-04",
+            insignias:['Bronce List','List Beginner','List Expert']
         }).save();
 
         const usuario5 = await new Usuario({
@@ -281,6 +290,8 @@ const setupDataActor = async () => {
             nombreUsuario: 'usuario5',
             email: "usuario5@gmail.com",
             password: bcrypt.hashSync('12345678', 10),
+            createdAt:"2022-08-04",
+            insignias:['Bronce List','Silver List']
         }).save();
 
         //PROGRAMAS

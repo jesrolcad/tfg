@@ -100,7 +100,7 @@ describe('TESTS PROGRAMAS', () => {
                     genero: 'Ciencia ficción'
                 });
 
-                console.log(response.body);
+
                 expect(response.status).toBe(200);
                 expect(response.body).not.toHaveProperty('mensaje');
                 expect(response.body.result.length).toBe(2);
@@ -201,7 +201,7 @@ describe('TESTS PROGRAMAS', () => {
         it('CASO GENERAL: GÉNEROS DISPONIBLES', async () => {
 
             const response = await request.get('/programas/generos').set('Authorization', token);
-            console.log(response.body)
+
             expect(response.status).toBe(200);
             expect(response.body).not.toBeNull();
             expect(response.body.length).toBe(4);
