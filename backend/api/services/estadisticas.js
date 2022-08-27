@@ -185,6 +185,9 @@ module.exports.getProgramasLP= async function(req, res) {
             sum+=num;
         }
         let media= Math.round((sum/listas)*100)/100;
+        listasProgramas.sort(function(first, second) {
+            return first._id - second._id;
+        })
         return res.status(200).json({listasProgramas:listasProgramas,media:media, listas:listas});
     }else{
         return res.status(200).json({mensaje:"No existen usuarios con listas personalizadas."})
