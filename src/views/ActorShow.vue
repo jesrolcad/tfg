@@ -63,6 +63,7 @@ import { boolean } from 'webidl-conversions'
 export default {
     data() {
         return{
+            baseURL: 'https://whattowatch-app.herokuapp.com',
             id: this.$route.params.id,
             personajes:[],
             movie: {type: boolean},
@@ -74,7 +75,7 @@ export default {
     },
     methods:{
         getPersonaje(){
-            fetch('http://localhost:5000/actores/'+ this.id,
+            fetch(this.baseURL+'/actores/'+ this.id,
             {headers: {'Authorization': sessionStorage.getItem("token"), 'Accept': 'application/json','Content-type':'application/json'}})
                 .then(res=> res.json())
                 .then(data => {

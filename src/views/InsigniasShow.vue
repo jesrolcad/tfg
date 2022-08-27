@@ -46,7 +46,7 @@ import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
 export default{
     data() {
     return {
-        baseURL: "http://localhost:5000",
+        baseURL: 'https://whattowatch-app.herokuapp.com',
         insignias: [],
         insigniasALL: []
         }

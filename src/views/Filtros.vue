@@ -109,7 +109,7 @@
 export default {
     data() {
         return {
-            baseURL: "http://localhost:5000",
+           baseURL: 'https://whattowatch-app.herokuapp.com',
             tipo: [],
             allgeneros: [],
             generos: [],

@@ -48,6 +48,7 @@ export default {
   },
   data() {
     return {
+      baseURL: 'https://whattowatch-app.herokuapp.com',
       nombre: '',
       lista: {}
     }
@@ -56,7 +57,7 @@ export default {
   
   methods: {
     crearLista() {
-      fetch('http://localhost:5000/lista/crear', {
+      fetch(this.baseURL+'/lista/crear', {
         headers: { 'Authorization': sessionStorage.getItem("token"), 'Content-Type': 'application/json' },
         method: "POST",
         body: JSON.stringify({

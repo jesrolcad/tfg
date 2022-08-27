@@ -40,7 +40,7 @@ import CrearLista from "./CrearLista.vue";
     export default {
         data() {
             return {
-                baseURL : "http://localhost:5000",
+                baseURL: 'https://whattowatch-app.herokuapp.com',
                 showModal: false,
                 listasPersonalizadas: [],
                 idPrograma: this.$route.params.id,

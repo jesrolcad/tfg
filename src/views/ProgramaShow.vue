@@ -198,7 +198,7 @@ class Programa {
 export default {
     data() {
         return {
-            baseURL: "http://localhost:5000",
+            baseURL: 'https://whattowatch-app.herokuapp.com',
             programa: new Programa(),
             programas: [],
             actores: [],
@@ -395,7 +395,7 @@ export default {
         },
 
         getPuntuacionPrograma() {
-            fetch('http://localhost:5000/puntuaciones/' + this.id, {
+            fetch(this.baseURL +'/puntuaciones/' + this.id, {
                 headers: { 'Authorization': sessionStorage.getItem("token") },
                 method: 'GET',
             })
@@ -409,7 +409,7 @@ export default {
         },
 
         getPuntuacionMediaPrograma() {
-            fetch('http://localhost:5000/puntuaciones/media/' + this.id, {
+            fetch(this.baseURL +'/puntuaciones/media/' + this.id, {
                 headers: { 'Authorization': sessionStorage.getItem("token") },
                 method: 'GET',
             })
@@ -423,7 +423,7 @@ export default {
         },
 
         puntuarPrograma() {
-            fetch('http://localhost:5000/puntuaciones/' + this.programa._id,
+            fetch(this.baseURL +'/puntuaciones/' + this.programa._id,
                 {
                     headers: { 'Authorization': sessionStorage.getItem("token"), 'Content-Type': 'application/json' },
                     method: 'POST',

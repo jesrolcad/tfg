@@ -172,6 +172,7 @@ export default {
     },
     data() {
         return {
+            baseURL: 'https://whattowatch-app.herokuapp.com',
             errors: [],
             user: {
                 nombre: '',
@@ -186,7 +187,7 @@ export default {
 
     methods: {
         register() {
-            let uri = 'http://localhost:5000/usuarios/registro';
+            let uri = this.baseURL+'/usuarios/registro';
             fetch(uri, {
                 method: 'POST',
                 body: JSON.stringify({

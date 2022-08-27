@@ -194,7 +194,7 @@ ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale, BarElement, 
 export default {
     data() {
         return {
-            baseURL: "http://localhost:5000",
+            baseURL: 'https://whattowatch-app.herokuapp.com',
             contador:[],
             usuarios:[],
             programas:[],

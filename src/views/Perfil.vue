@@ -42,7 +42,7 @@ export default {
   data() {
     return {
       perfil: '',
-      baseURL: "http://localhost:5000"
+      baseURL: 'https://whattowatch-app.herokuapp.com'
     }
   },
 

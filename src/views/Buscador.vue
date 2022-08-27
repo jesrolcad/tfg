@@ -52,7 +52,7 @@ import Footer from './Footer.vue'
 export default {
     data() {
     return {
-        baseURL: "http://localhost:5000",
+        baseURL: 'https://whattowatch-app.herokuapp.com',
         titulo: [],
         buscados:[],
         page: 1,

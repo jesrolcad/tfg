@@ -36,7 +36,7 @@ import moment from 'moment'
 export default {
     data(){
         return{
-            baseURL: "http://localhost:5000",
+            baseURL: 'https://whattowatch-app.herokuapp.com',
             sugeridos :[],
             showModal: false,
         }

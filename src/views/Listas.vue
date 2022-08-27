@@ -109,14 +109,14 @@ import CrearLista from "./CrearLista.vue";
 export default {
     data() {
         return {
+            baseURL: 'https://whattowatch-app.herokuapp.com',
             showModal: false,
             showModalProgramas: false,
             elementosPorPagina: 5,
             datosPaginados: [],
             paginaActual: 1,
             listas: [],
-            lista: {},
-            baseURL: "http://localhost:5000"
+            lista: {}
         }
     },
 

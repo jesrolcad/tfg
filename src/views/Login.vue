@@ -78,6 +78,7 @@ export default {
   },
   data() {
     return {
+      baseURL: 'https://whattowatch-app.herokuapp.com',
       usuarioIncorrecto: false,
       mensaje: '',
       user: {
@@ -90,7 +91,7 @@ export default {
   },
   methods: {
     login() {
-      let uri = 'http://localhost:5000/usuarios/login';
+      let uri = this.baseURL+'/usuarios/login';
       fetch(uri, {
         method: 'POST',
         body: JSON.stringify({ nombreUsuario: this.user.nombreUsuario, password: this.user.password }),

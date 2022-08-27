@@ -61,7 +61,7 @@ export default {
         return {
             programa: new Programa(),
             programas: [],
-            baseURL: "http://localhost:5000",
+            baseURL: 'https://whattowatch-app.herokuapp.com',
             page: 1,
             perPage: 21,
             pages: [],
