@@ -67,10 +67,15 @@ module.exports.getSugerencias = async function (req, res) {
     let puntuadosUsuario = await this.puntuadosUsuario(req.user._id);
     let puntuacionPrograma = await this.puntuacionPrograma(req.body.idPrograma);
     let numPuntuacionesPrograma = await this.numPuntuacionesPrograma(req.body.idPrograma);
+    let programasNin=[];
 
-    let programasNin= puntuadosUsuario[0].programa;
-    programasNin.push(mongoose.Types.ObjectId(req.body.idPrograma));
-
+    if(puntuadosUsuario.length > 0){
+        programasNin= puntuadosUsuario[0].programa;
+        programasNin.push(mongoose.Types.ObjectId(req.body.idPrograma));
+    }else{
+        programasNin.push(mongoose.Types.ObjectId(req.body.idPrograma));
+    }
+    
     if(puntuacionPrograma.length == 0 || numPuntuacionesPrograma.length == 0){
         res.status(200).json({"mensaje": "El programa no ha sido votado y no es posible realizar sugerencias"})
     }else if(req.body.generos.length == 0){
