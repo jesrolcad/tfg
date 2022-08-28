@@ -24,11 +24,18 @@ module.exports={
                 use: [
                     'style-loader',
                     'css-loader',
-                    'sass-loader',
+                    {
+                        loader:'resolve-url-loader',
+                        options: {     removeCR: true   }
+                    },
+                    {
+                        loader:'sass-loader',
+                        options: {sourceMap: true}
+                    },
                 ],
             },
             {   test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-                use: ['url-loader?limit=100000'] 
+                use: ['url-loader?limit=100000']
             }
         ]
     },
