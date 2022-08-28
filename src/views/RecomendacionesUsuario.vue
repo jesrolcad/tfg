@@ -27,8 +27,7 @@ export default{
         }
     },
     created(){
-        this.getRecomendado(),
-        console.log(this.recomendados);
+        this.getRecomendado()
     },
     methods: {
         async getRecomendado() {
