@@ -555,6 +555,12 @@ const setupDataActor = async () => {
             usuario: usuario3._id
         }).save();
 
+        const programasVistosUsuario4 = await new Lista({
+            nombre: "Programas vistos",
+            programas: [],
+            usuario: usuario4._id
+        }).save();
+
         const programasVistosUsuario5 = await new Lista({
             nombre: "Programas vistos",
             programas: [programa4._id],

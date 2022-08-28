@@ -1,6 +1,7 @@
 const Programa=require('../../models/Programa');
 const Puntuacion = require('../../models/Puntuacion');
 const mongoose = require('mongoose');
+const Lista= require('../../models/Lista');
 
 module.exports.puntuadosUsuario= async function (userId) {
     const puntuadosUsuario = await Puntuacion.aggregate(
@@ -221,15 +222,21 @@ module.exports.generosUsuario = async function (userId) {
 module.exports.getRecomendacionesUsuario = async function (req, res) {
     let puntuadosUsuario = await this.puntuadosUsuario(req.user._id);
     let generosUsuario= await this.generosUsuario(req.user._id);
+    let vistosUsuarios = await Lista.findOne({usuario:req.user._id,nombre:"Programas vistos"});
+    let vistos=[];
+    for (let i=0;i<vistosUsuarios.programas.length;i++) {
+        vistos.push(mongoose.Types.ObjectId(vistosUsuarios.programas[i]));
+    }
 
     if(puntuadosUsuario.length == 0 || generosUsuario.length == 0){
         res.status(200).json({"mensaje": "No se han podido realizar sugerencias, puntue más programas para tener su recomendación."})
     }else{
+        vistos.concat(puntuadosUsuario[0].programa);
         const recomendaciones= await Programa.aggregate([
             {
             '$match': {
-                '_id': {
-                    '$nin': puntuadosUsuario[0].programa
+                '_id':{
+                    '$nin': vistos
                 },
                 'generos': {
                     '$in': generosUsuario[0].generos

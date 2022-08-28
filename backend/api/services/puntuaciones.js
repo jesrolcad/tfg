@@ -32,7 +32,7 @@ module.exports.createOrUpdatePuntuacion = async (req, res) => {
         });
     }
 
-    let lista = await Lista.findOne({ user: req.user._id, nombre: "Programas vistos" });
+    let lista = await Lista.findOne({ usuario: req.user._id, nombre: "Programas vistos" });
 
     if (lista.programas.includes(programa._id)) {
 
