@@ -1,26 +1,26 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div id="app">
+        <router-view :key="$route.path"> </router-view>
+    </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
-
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@font-face {
+    font-family: 'montserratbold';
+    src: url('../public/assets/fonts/montserrat-bold-webfont.woff2') format('woff2'),
+         url('../public/assets/fonts/montserrat-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'abeezeeregular';
+    src: url('../public/assets/fonts/abeezee-regular-webfont.woff2') format('woff2'),
+         url('../public/assets/fonts/abeezee-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
 }
 </style>
+
+
