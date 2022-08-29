@@ -257,6 +257,11 @@ const mockPieActores = {
 }
 
 describe('TESTS ESTADISTICAS', () => {
+
+    beforeEach(() => {
+        fetch.resetMocks();
+        jest.restoreAllMocks();
+    })
     describe('TESTS ESTADISTICAS CREADAS TRAS CREATED', () => {
 
         it('CASO GENERAL', async () => {
