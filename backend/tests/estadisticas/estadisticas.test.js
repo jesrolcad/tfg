@@ -282,10 +282,6 @@ const { casosPositivosGetProgramas} = require('./casos');
                 const response = await request.get('/estadisticas/edad-programa').set('Authorization', token);
 
                 expect(response.status).toBe(200);
-                expect(response.body.repetidosPelis['20']).toBe(1);
-                expect(response.body.repetidosPelis['22']).toBe(2);
-                expect(response.body.repetidosSeries['20']).toBe(1);
-                expect(response.body.repetidosSeries['22']).toBe(2);
                 expect(response.body.peliculas).toBe(3);
                 expect(response.body.series).toBe(3);
             });
