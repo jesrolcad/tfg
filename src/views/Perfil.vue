@@ -56,8 +56,14 @@ export default {
       fetch(this.baseURL + "/usuarios/perfil", { headers: { 'Authorization': sessionStorage.getItem("token") } })
         .then(res => res.json())
         .then(data => {
+          console.log("DATA DEL USUARIO");
+          console.log(data);
           this.perfil = data;
-        })
+          console.log("VARIABLE PERFIL");
+          console.log(this.perfil);
+        }).catch(err => {
+          console.log(err);
+        });
     },
     moment
 
