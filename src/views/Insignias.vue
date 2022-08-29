@@ -31,6 +31,20 @@ export default{
         },
     },
     methods: {
+
+        showNotification(message){
+
+            const toast = useToast();
+
+            toast.info(message,
+                    {
+                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
+                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
+                        icon: true, rtl: false
+                    });
+
+        },
+
         async getProgramasVistos() {
             await fetch(this.baseURL+'/insignias/programas',
             {method: 'PUT',
@@ -42,14 +56,7 @@ export default{
                 });
 
             if(this.programasVistos.insignia){
-                const toast = useToast();
-
-                toast.info("Ha obtenido la insignia: "+ this.programasVistos.insignia,
-                    {
-                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                        icon: true, rtl: false
-                    });
+                this.showNotification("Ha obtenido la insignia: "+ this.programasVistos.insignia);
             }
         },
         async getGenerosProgramasVistos() {
@@ -63,30 +70,20 @@ export default{
                 });
 
             if(!this.generosVistos.mensaje){
-                const toast = useToast();
                 if(this.generosVistos.Amateur){
-                    toast.info("Ha obtenido la insignia: Amateur Genre Watcher",
-                    {
-                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                        icon: true, rtl: false
-                    });
+
+                    this.showNotification("Ha obtenido la insignia: Amateur Genre Watcher");
+                    
                 }
                 if(this.generosVistos.Intermediate){
-                    toast.info("Ha obtenido la insignia: Intermediate Genre Watcher",
-                    {
-                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                        icon: true, rtl: false
-                    });
+
+                    this.showNotification("Ha obtenido la insignia: Intermediate Genre Watcher");
+                    
                 }
                 if(this.generosVistos.Professional){
-                    toast.info("Ha obtenido la insignia: Professional Genre Watcher",
-                    {
-                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                        icon: true, rtl: false
-                    });
+
+                    this.showNotification("Ha obtenido la insignia: Professional Genre Watcher");
+                    
                 }
             }
         },
@@ -100,30 +97,20 @@ export default{
                     this.actoresVistos = data;
                 });
             if(!this.actoresVistos.mensaje){
-                const toast = useToast();
                 if(this.actoresVistos.Fan){
-                    toast.info("Ha obtenido la insignia: Actor/Actress Fan",
-                    {
-                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                        icon: true, rtl: false
-                    });
+
+                    this.showNotification("Ha obtenido la insignia: Actor/Actress Fan");
+                    
                 }
                 if(this.actoresVistos.Lover){
-                    toast.info("Ha obtenido la insignia: Actor/Actress Lover",
-                    {
-                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                        icon: true, rtl: false
-                    });
+
+                    this.showNotification("Ha obtenido la insignia: Actor/Actress Lover");
+                    
                 }
                 if(this.actoresVistos.Addict){
-                    toast.info("Ha obtenido la insignia: Actor/Actress Addict",
-                    {
-                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                        icon: true, rtl: false
-                    });
+
+                    this.showNotification("Ha obtenido la insignia: Actor/Actress Addict");
+                    
                 }
             }
             //this.$emit('escucharSugerencias',this.sugeridos)
@@ -137,16 +124,9 @@ export default{
                 .then(data => {
                     this.listas = data;
                 });
-            console.log(JSON.stringify(this.listas))
             if(this.listas.insignia){
-                const toast = useToast();
 
-                toast.info("Ha obtenido la insignia: "+ this.listas.insignia,
-                    {
-                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                        icon: true, rtl: false
-                    });
+                this.showNotification("Ha obtenido la insignia: "+ this.listas.insignia);
             }
         },
         async getProgramasListasPropias() {
@@ -158,32 +138,20 @@ export default{
                 .then(data => {
                     this.programasListas = data;
                 });
-            console.log(JSON.stringify(this.programasListas))
             if(!this.programasListas.mensaje){
-                const toast = useToast();
                 if(this.programasListas.Bronce){
-                    toast.info("Ha obtenido la insignia: Bronce List",
-                    {
-                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                        icon: true, rtl: false
-                    });
+
+                    this.showNotification("Ha obtenido la insignia: Bronce List");
                 }
                 if(this.programasListas.Silver){
-                    toast.info("Ha obtenido la insignia: Silver List",
-                    {
-                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                        icon: true, rtl: false
-                    });
+
+                    this.showNotification("Ha obtenido la insignia: Silver List");
+                    
                 }
                 if(this.programasListas.Gold){
-                    toast.info("Ha obtenido la insignia: Gold List",
-                    {
-                        position: "bottom-right", timeout: 3000, closeOnClick: true, pauseOnFocusLoss: true, pauseOnHover: true,
-                        draggable: true, draggablePercent: 0.6, showCloseButtonOnHover: true, hideProgressBar: true, closeButton: "button",
-                        icon: true, rtl: false
-                    });
+
+                    this.showNotification("Ha obtenido la insignia: Gold List");
+                    
                 }
             }
         }
