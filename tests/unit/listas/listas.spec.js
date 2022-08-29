@@ -235,74 +235,84 @@ describe('TESTS DE LISTAS', () => {
             })
         })
 
-        describe('MÉTODO BORRARPROGRAMALISTA', () => {
-            describe('CASOS POSITIVOS', () => {
+        
+    })
+    
+    describe('MÉTODO BORRARPROGRAMALISTA', () => {
+        describe('CASOS POSITIVOS', () => {
 
-                it('RESPUESTA STATUS 204', async () => {
+            it('RESPUESTA STATUS 204', async () => {
 
-                    const mockResponseBorrarPrograma = {
-                        status: 204,
-                        msg: 'Programa borrado con éxito'
-                    }
+                const mockResponseBorrarPrograma = {
+                    status: 204,
+                    msg: 'Programa borrado con éxito'
+                }
 
-                    fetch.once(JSON.stringify(mockResponse)).once(JSON.stringify(mockResponseBorrarPrograma)).once(JSON.stringify(mockResponse));
+                fetch.once(JSON.stringify(mockResponse)).once(JSON.stringify(mockResponseBorrarPrograma)).once(JSON.stringify(mockResponse));
 
-                    const wrapper = shallowMount(Listas, {
-                        global: {
-                            plugins: [router],
-                            stubs: {
-                                'font-awesome-icon': {
-                                    template: '<i />'
-                                }
+                const wrapper = shallowMount(Listas, {
+                    global: {
+                        plugins: [router],
+                        stubs: {
+                            'font-awesome-icon': {
+                                template: '<i />'
                             }
                         }
-                    });
+                    }, 
 
-                    const mockGetListas = jest.spyOn(wrapper.vm, 'getListas');
-
-                    await flushPromises();
-                    wrapper.vm.borrarProgramaLista(1,1);
-                    await flushPromises();
-
-                    expect(mockGetListas).toHaveBeenCalledTimes(1);
-                    expect(wrapper.vm.showModalProgramas).toBe(false);
-                })
-
-            })
-
-            describe('CASOS NEGATIVOS', () => {
-
-                it('RESPUESTA STATUS 400', async () => {
-
-                    const mockResponseBorrarPrograma = {
-                        status: 400,
-                        msg: 'Error al borrar el programa'
-                    }
-
-                    fetch.once(JSON.stringify(mockResponse)).once(JSON.stringify(mockResponseBorrarPrograma));
-
-                    const wrapper = shallowMount(Listas, {
-                        global: {
-                            plugins: [router],
-                            stubs: {
-                                'font-awesome-icon': {
-                                    template: '<i />'
-                                }
+                    data() {
+                        return {
+                            lista: {
+                                nombre: '',
+                                programas: [1,2,3,4,5]
                             }
                         }
-                    });
+                    }
+                });
 
-                    const mockGetListas = jest.spyOn(wrapper.vm, 'getListas');
+                const mockGetListas = jest.spyOn(wrapper.vm, 'getListas');
 
-                    await flushPromises();
-                    wrapper.vm.borrarProgramaLista(1,1);
-                    await flushPromises();
+                await flushPromises();
+                wrapper.vm.borrarProgramaLista(1,1);
+                await flushPromises();
 
-                    expect(mockGetListas).toHaveBeenCalledTimes(0);
-                })
+                expect(mockGetListas).toHaveBeenCalledTimes(1);
             })
 
         })
+
+        describe('CASOS NEGATIVOS', () => {
+
+            it('RESPUESTA STATUS 400', async () => {
+
+                const mockResponseBorrarPrograma = {
+                    status: 400,
+                    msg: 'Error al borrar el programa'
+                }
+
+                fetch.once(JSON.stringify(mockResponse)).once(JSON.stringify(mockResponseBorrarPrograma));
+
+                const wrapper = shallowMount(Listas, {
+                    global: {
+                        plugins: [router],
+                        stubs: {
+                            'font-awesome-icon': {
+                                template: '<i />'
+                            }
+                        }
+                    }
+                });
+
+                const mockGetListas = jest.spyOn(wrapper.vm, 'getListas');
+
+                await flushPromises();
+                wrapper.vm.borrarProgramaLista(1,1);
+                await flushPromises();
+
+                expect(mockGetListas).toHaveBeenCalledTimes(0);
+            })
+        })
+
     })
 
 

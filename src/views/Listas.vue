@@ -127,11 +127,9 @@ export default {
 
     methods: {
         getListas() {
-            console.log("ENTRA EN EL GETLISTAS");
             fetch(this.baseURL + "/listas", { headers: { 'Authorization': sessionStorage.getItem("token") } })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
                     this.listas = data;
                 }).catch(err => console.log(err));
         },
